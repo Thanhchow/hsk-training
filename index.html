@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSK Master</title>
+    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --primary: #00bfa5; --blue-accent: #2196F3; --bg: #f4f6f8; --white: #fff; --text: #333; }
+        body { font-family: 'Roboto', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 20px; }
+
+        /* NAVIGATION */
+        .nav-bar { background: var(--white); padding: 15px; display: flex; justify-content: center; gap: 15px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .nav-item { cursor: pointer; padding: 8px 16px; border-radius: 20px; font-weight: bold; color: #666; font-size: 0.95rem; }
+        .nav-item.active { background: var(--primary); color: white; }
+
+        /* LAYOUT */
+        .view-section { display: none; max-width: 800px; margin: 20px auto; padding: 0 15px; box-sizing: border-box; }
+        .view-section.active { display: flex; flex-direction: column; min-height: 80vh; }
+
+        /* HEADER CARD */
+        .header-card { background: white; padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--primary); margin-bottom: 20px; margin-top: 10px; }
+        .word-title h1 { margin: 0; font-size: 2.5rem; }
+        .word-meaning { text-align: right; max-width: 60%; }
+        .word-meaning h2 { margin: 0; font-size: 1.1rem; color: #008ba3; }
+        
+        /* SUB-NAVIGATION */
+        .sub-nav { background: white; border-radius: 50px; padding: 6px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .sub-nav-item { flex: 1; text-align: center; padding: 10px; border-radius: 30px; cursor: pointer; color: #666; font-weight: 500; transition: all 0.3s ease; font-size: 0.9rem; }
+        .sub-nav-item:hover { background: #f5f5f5; }
+        .sub-nav-item.active { background: var(--blue-accent); color: white; box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3); font-weight: bold; }
+
+        /* TABS */
+        .tab-content { display: none; animation: fadeIn 0.3s ease; flex: 1; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* INFO GRID */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .info-box { background: white; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
+
+        /* WRITING STAGE & SPEED CONTROL */
+        .speed-control {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-bottom: 15px; color: #666; font-size: 0.9rem;
+        }
+        input[type=range] {
+            accent-color: var(--primary); cursor: pointer;
+        }
+        .writing-stage { display: flex; justify-content: center; background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; min-height: 150px; align-items: center; }
+        .char-box { width: 120px; height: 120px; border: 1px dashed #ccc; cursor: pointer; }
+
+        /* EXAMPLES & AUDIO BUTTONS */
+        .example-card { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; display: flex; gap: 15px; align-items: center; }
+        .ex-number { background: var(--blue-accent); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; font-weight: bold; flex-shrink: 0; }
+        .btn-audio-small { background: #fff; border: 1px solid #eee; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 1.2rem; color: #666; transition: 0.2s; flex-shrink: 0; }
+        .btn-audio-small:hover { background: #f0f8ff; color: var(--primary); border-color: var(--primary); transform: scale(1.1); }
+
+        /* CONTROLS */
+        .study-controls { 
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; padding-top: 20px;
+            margin-top: auto; position: sticky; bottom: 20px;
+            background: linear-gradient(to top, var(--bg) 80%, transparent); z-index: 50;
+        }
+        button.btn { padding: 12px 25px; border-radius: 8px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.1s; }
+        button.btn:active { transform: translateY(2px); box-shadow: none; }
+        button.btn-primary { background: var(--primary); color: white; border: none; }
+        .keyboard-hint { text-align: center; font-size: 0.8rem; color: #999; margin-bottom: 10px; }
+
+        /* QUIZ */
+        .quiz-card { background: white; padding: 30px; border-radius: 12px; text-align: center; margin-top: auto; margin-bottom: auto; }
+        .option-btn { width: 100%; padding: 15px; margin-top: 10px; border: 2px solid #eee; background: #fff; border-radius: 8px; cursor: pointer; text-align: left; font-size: 1rem; }
+        .option-btn.correct { background: #e8f5e9; border-color: #66bb6a; color: #2e7d32; }
+        .option-btn.wrong { background: #ffebee; border-color: #ef5350; color: #c62828; }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-bar">
+        <div class="nav-item active" onclick="switchTab('study')">📖 Study</div>
+        <div class="nav-item" onclick="switchTab('quiz')">⚡ Quiz</div>
+    </nav>
+
+    <div id="view-study" class="view-section active">
+        
+        <div style="text-align: center; margin-bottom: 10px;">
+            <select id="study-level-select" onchange="loadStudyLevel()" style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; width: 100%; max-width: 200px; font-size: 1rem;">
+                <option value="1">HSK 1</option>
+                <option value="2">HSK 2</option>
+                <option value="3">HSK 3</option>
+                <option value="4">HSK 4</option>
+                <option value="5">HSK 5</option>
+            </select>
+        </div>
+
+        <div class="header-card">
+            <div class="word-title">
+                <h1 id="main-char">...</h1>
+                <div id="main-pinyin" style="color:#666">...</div>
+            </div>
+            <div class="word-meaning">
+                <h2 id="main-def">...</h2>
+            </div>
+        </div>
+
+        <div class="sub-nav">
+            <div class="sub-nav-item active" onclick="switchStudyTab('details', this)">
+                ℹ️ Chi tiết (Details)
+            </div>
+            <div class="sub-nav-item" onclick="switchStudyTab('writing', this)">
+                ✍️ Luyện viết (Write)
+            </div>
+        </div>
+
+        <div id="tab-details" class="tab-content active">
+            <div class="info-grid">
+                <div class="info-box"><strong>Hán Việt:</strong> <span id="meta-hanviet">...</span></div>
+                <div class="info-box"><strong>Type:</strong> <span id="meta-pos">...</span></div>
+            </div>
+            <div id="examples-list"></div>
+        </div>
+
+        <div id="tab-writing" class="tab-content">
+            
+            <div class="speed-control">
+                <span>Chậm (Slow)</span>
+                <input type="range" id="writing-speed" min="0.2" max="2" step="0.2" value="1" oninput="updateWriting()">
+                <span>Nhanh (Fast)</span>
+            </div>
+
+            <div class="writing-stage" id="writing-stage"></div>
+            <div style="text-align: center; color: #888; margin-bottom: 20px;">Click character to animate</div>
+        </div>
+
+        <div class="study-controls">
+            <button class="btn" onclick="prevWord()">⬅️ Prev</button>
+            <button class="btn btn-primary" onclick="playAudio()">🔊 Listen</button>
+            <button class="btn" onclick="nextWord()">Random 🎲</button>
+        </div>
+        <div class="keyboard-hint">Shortcuts: ⬅️ Left | Space (Audio) | Right ➡️</div>
+    </div>
+
+    <div id="view-quiz" class="view-section">
+        <div class="quiz-card">
+            <h2 id="quiz-question" style="font-size: 2.5rem; margin: 10px 0;">Start Quiz?</h2>
+            <div id="quiz-options">
+                <button class="btn-primary btn" onclick="startQuiz()">Start Random Quiz</button>
+            </div>
+            <div id="quiz-feedback" style="margin-top:15px; font-weight:bold; height:20px;"></div>
+            <div style="margin-top:20px; color:#888;">Score: <span id="quiz-score">0</span></div>
+        </div>
+    </div>
+
+    <script>
+        // --- STATE ---
+        let allData = [];
+        let studyList = [];
+        let historyStack = [];
+        let currentIndex = 0;
+        let writers = [];
+        let quizScore = 0;
+        let currentQuizItem = null;
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('vocabulary.json')
+                .then(res => res.json())
+                .then(data => {
+                    allData = data;
+                    loadStudyLevel(); 
+                })
+                .catch(err => {
+                    console.log("Error loading data", err);
+                    allData = [{id:1, char:"你好", pinyin:"nǐhǎo", definition_vn:"Xin chào", hsk_level:1, examples:[{zh:"你好", vn:"Hello"}]}];
+                    loadStudyLevel();
+                });
+        });
+
+        // --- KEYBOARD SHORTCUTS ---
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('view-study').classList.contains('active')) return;
+            switch(e.key) {
+                case 'ArrowLeft': prevWord(); break;
+                case 'ArrowRight': nextWord(); break;
+                case ' ': case 'Enter': e.preventDefault(); playAudio(); break;
+            }
+        });
+
+        // --- NAVIGATION ---
+        function switchTab(tab) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(`view-${tab}`).classList.add('active');
+            const idx = ['study', 'quiz'].indexOf(tab);
+            if(idx > -1) document.querySelectorAll('.nav-item')[idx].classList.add('active');
+        }
+
+        function switchStudyTab(tabName, element) {
+            document.querySelectorAll('.sub-nav-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            
+            // Re-render writing if tab is switched, to ensure proper loading
+            if(tabName === 'writing') renderWritingStage();
+        }
+
+        // --- STUDY LOGIC ---
+        function loadStudyLevel() {
+            const level = document.getElementById('study-level-select').value;
+            studyList = allData.filter(w => w.hsk_level == level);
+            historyStack = [];
+            
+            if (studyList.length > 0) {
+                currentIndex = Math.floor(Math.random() * studyList.length);
+                renderCard();
+            } else {
+                document.getElementById('main-char').innerText = "Empty";
+                document.getElementById('main-def').innerText = "No words found.";
+            }
+        }
+
+        function renderCard() {
+            if (studyList.length === 0) return;
+            const item = studyList[currentIndex];
+
+            // 1. Text Content
+            document.getElementById('main-char').innerText = item.char;
+            document.getElementById('main-pinyin').innerText = item.pinyin;
+            document.getElementById('main-def').innerText = cleanText(item.definition_vn);
+            document.getElementById('meta-hanviet').innerText = item.han_viet || "-";
+            document.getElementById('meta-pos').innerText = item.part_of_speech || "-";
+
+            // 2. Writing (Called separate function for reuse)
+            renderWritingStage();
+
+            // 3. Examples
+            const exDiv = document.getElementById('examples-list');
+            if (item.examples && item.examples.length) {
+                exDiv.innerHTML = item.examples.map((e, idx) => `
+                    <div class="example-card">
+                        <div class="ex-number">${idx + 1}</div>
+                        <div style="flex:1;">
+                            <div style="font-size:1.1rem; margin-bottom:4px; color:#333;">${e.zh}</div>
+                            <div style="font-size:0.9rem; color:#888;">${e.pinyin || ''}</div>
+                            <div style="font-size:0.95rem; color:#555; margin-top:4px;">${e.vn}</div>
+                        </div>
+                        <button class="btn-audio-small" onclick="playText('${e.zh.replace(/'/g, "\\'")}')">🔊</button>
+                    </div>
+                `).join('');
+            } else {
+                exDiv.innerHTML = "<div style='text-align:center; padding:20px; color:#999;'>No examples yet.</div>";
+            }
+        }
+
+        // NEW: Separate writing render to support speed updates
+        function renderWritingStage() {
+            const item = studyList[currentIndex];
+            const stage = document.getElementById('writing-stage');
+            stage.innerHTML = "";
+            writers = [];
+
+            // Get Speed from Slider
+            const speed = parseFloat(document.getElementById('writing-speed').value);
+
+            for (let char of item.char) {
+                let div = document.createElement('div');
+                div.className = 'char-box';
+                div.id = 'char-' + Math.random().toString(36).substr(2, 9);
+                stage.appendChild(div);
+                
+                let w = HanziWriter.create(div.id, char, { 
+                    width: 120, height: 120, padding: 5, 
+                    strokeColor: '#333', 
+                    radicalColor: '#00bfa5',
+                    strokeAnimationSpeed: speed, // Use slider value
+                    delayBetweenStrokes: 100
+                });
+                writers.push(w);
+                div.onclick = () => w.animateCharacter();
+            }
+        }
+
+        // Called when slider moves
+        function updateWriting() {
+            renderWritingStage(); // Re-draws the writers with new speed immediately
+        }
+
+        function nextWord() { 
+            if(studyList.length === 0) return;
+            historyStack.push(currentIndex);
+            let newIndex = currentIndex;
+            if (studyList.length > 1) {
+                while (newIndex === currentIndex) newIndex = Math.floor(Math.random() * studyList.length);
+            }
+            currentIndex = newIndex;
+            renderCard(); 
+        }
+
+        function prevWord() { 
+            if(historyStack.length === 0) return;
+            currentIndex = historyStack.pop();
+            renderCard();
+        }
+        
+        function playText(text) {
+            if(!text || text === "---") return;
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'zh-CN';
+            window.speechSynthesis.speak(u);
+        }
+        function playAudio() { playText(document.getElementById('main-char').innerText); }
+        function cleanText(t) { return t ? t.split(/[,;]/).slice(0,4).join(", ") : ""; }
+
+        // --- QUIZ LOGIC ---
+        function startQuiz() {
+            const pool = studyList.length > 0 ? studyList : allData;
+            if(pool.length < 4) return alert("Need more words!");
+            currentQuizItem = pool[Math.floor(Math.random() * pool.length)];
+            let opts = [currentQuizItem];
+            while(opts.length < 4) {
+                let r = pool[Math.floor(Math.random() * pool.length)];
+                if(!opts.includes(r)) opts.push(r);
+            }
+            opts.sort(() => Math.random() - 0.5);
+            document.getElementById('quiz-question').innerText = currentQuizItem.char;
+            const div = document.getElementById('quiz-options');
+            div.innerHTML = "";
+            opts.forEach(o => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = o.definition_vn;
+                btn.onclick = () => {
+                    if(o.id === currentQuizItem.id) {
+                        btn.classList.add('correct');
+                        quizScore += 10;
+                        document.getElementById('quiz-feedback').innerText = "Correct!";
+                        document.getElementById('quiz-feedback').style.color = "green";
+                        setTimeout(startQuiz, 1000);
+                    } else {
+                        btn.classList.add('wrong');
+                        document.getElementById('quiz-feedback').innerText = "Wrong!";
+                        document.getElementById('quiz-feedback').style.color = "red";
+                    }
+                    document.getElementById('quiz-score').innerText = quizScore;
+                };
+                div.appendChild(btn);
+            });
+        }
+    </script>
+</body>
+</html>
