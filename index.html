@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Comm Chinese Master (Hán Việt)</title>
+    <title>E-Comm Chinese (1688 & Taobao)</title>
     <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     
@@ -17,21 +17,23 @@
         .mode-selector { margin-top: 10px; padding: 5px; border-radius: 4px; border: none; font-weight: bold; }
 
         /* CARD STYLE */
-        .card { background: var(--white); border-radius: 12px; padding: 20px; margin: 15px auto; max-width: 400px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; position: relative; }
+        .card { background: var(--white); border-radius: 12px; padding: 25px; margin: 20px auto; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; position: relative; }
         
         /* CHARACTER DISPLAY */
-        #char-display { font-size: 4rem; color: var(--text); margin: 10px 0; min-height: 80px; }
-        .han-viet { font-size: 1.2rem; color: var(--danger); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
-        .pinyin { font-size: 1.1rem; color: #666; margin-bottom: 15px; }
+        #char-display { font-size: 4.5rem; color: var(--text); margin: 15px 0; min-height: 80px; font-weight: bold; }
+        
+        /* PINYIN (Cách đọc) */
+        .pinyin { font-size: 1.4rem; color: var(--accent); margin-bottom: 20px; font-weight: 500; }
         
         /* AUDIO BTN */
-        .audio-btn { background: none; border: 1px solid #ddd; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 1.2rem; margin-top: -10px; }
+        .audio-btn { background: #E0F2F1; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 1.5rem; color: var(--primary); margin-top: -10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s; }
+        .audio-btn:active { transform: scale(0.95); }
         
         /* QUIZ SECTION */
-        .quiz-area { display: grid; gap: 10px; margin-top: 20px; }
-        .option-btn { padding: 12px; border: 1px solid #ddd; background: white; border-radius: 8px; cursor: pointer; font-size: 1rem; transition: 0.2s; text-align: left; }
-        .option-btn:hover { background: #f9f9f9; }
-        .option-btn.correct { background: #E8F5E9; border-color: #4CAF50; color: #2E7D32; }
+        .quiz-area { display: grid; gap: 12px; margin-top: 25px; }
+        .option-btn { padding: 15px; border: 1px solid #eee; background: white; border-radius: 8px; cursor: pointer; font-size: 1.1rem; transition: 0.2s; text-align: left; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .option-btn:hover { background: #f9f9f9; border-color: #ddd; }
+        .option-btn.correct { background: #E8F5E9; border-color: #4CAF50; color: #2E7D32; font-weight: bold; }
         .option-btn.wrong { background: #FFEBEE; border-color: #EF5350; color: #C62828; }
 
         /* WRITING AREA */
@@ -39,48 +41,47 @@
 
         /* FOOTER STATS */
         .stats { display: flex; justify-content: space-around; font-size: 0.9rem; color: #666; margin-top: 20px; }
-        .tag { background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
+        .tag { background: #eee; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; color: #555; }
 
-        button.action-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        button.secondary { background: white; color: var(--primary); border: 1px solid var(--primary); }
+        button.action-btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 1rem; width: 100%; }
+        button.secondary { background: white; color: var(--primary); border: 1px solid var(--primary); margin-top: 10px; }
 
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🇨🇳 Chinese for Commerce</h1>
+        <h1>📦 1688 & Import Chinese</h1>
         <select id="category-select" class="mode-selector" onchange="loadCategory()">
-            <option value="all">Mix All Topics</option>
-            <option value="business" selected>📦 1688 Import / Business</option>
-            <option value="general">📖 General HSK</option>
+            <option value="business" selected>Chuyên ngành: Nhập hàng 1688</option>
+            <option value="general">HSK Cơ bản (Đời sống)</option>
+            <option value="all">Tất cả</option>
         </select>
     </div>
 
     <div class="card" id="study-card">
-        <div class="tag" id="level-tag">HSK ?</div>
+        <div class="tag" id="level-tag">Category</div>
         
         <div id="writer-container"></div>
         
         <div id="char-display">?</div>
 
-        <button class="audio-btn" onclick="speak()" title="Listen">🔊</button>
+        <button class="audio-btn" onclick="speak()" title="Nghe phát âm">🔊</button>
         
         <div class="pinyin" id="pinyin">...</div>
-        <div class="han-viet" id="han-viet">HAN VIET</div>
 
         <div class="quiz-area" id="quiz-options">
             </div>
 
-        <div id="feedback" style="height: 20px; margin-top: 10px; font-weight: bold;"></div>
+        <div id="feedback" style="height: 25px; margin-top: 15px; font-weight: bold; font-size: 1.1rem;"></div>
 
-        <button class="action-btn secondary" onclick="toggleWriting()">✍️ Practice Writing</button>
-        <button class="action-btn" onclick="nextCard()">Next Word ➔</button>
+        <button class="action-btn" onclick="nextCard()">Từ tiếp theo ➔</button>
+        <button class="action-btn secondary" onclick="toggleWriting()">✍️ Tập viết chữ này</button>
     </div>
 
     <div class="stats">
-        <span>✅ Score: <b id="score">0</b></span>
-        <span>🧠 Weak Words: <b id="weak-count">0</b></span>
+        <span>✅ Điểm: <b id="score">0</b></span>
+        <span>🧠 Cần ôn lại: <b id="weak-count">0</b></span>
     </div>
 
     <script>
@@ -96,9 +97,9 @@
             .then(r => r.json())
             .then(data => {
                 allData = data;
-                loadCategory(); // Start app
+                loadCategory(); 
             })
-            .catch(err => alert("Could not load vocabulary.json. Make sure it's in the same folder!"));
+            .catch(err => alert("Không tìm thấy file vocabulary.json!"));
 
         // 2. FILTER BY NICHE
         function loadCategory() {
@@ -106,29 +107,25 @@
             if (cat === 'all') {
                 activeData = allData;
             } else {
-                // Filter by category OR default to all if category missing
                 activeData = allData.filter(item => item.category === cat || (!item.category && cat === 'general'));
             }
-            // If no data found for category, fallback
             if(activeData.length === 0) activeData = allData;
             
             document.getElementById('weak-count').innerText = weakWords.size;
             nextCard();
         }
 
-        // 3. SRS ALGORITHM (Simplified)
+        // 3. LOGIC CHỌN TỪ
         function nextCard() {
             resetUI();
             
-            // 30% chance to show a "Weak Word" if one exists
             let pool = activeData;
+            // Ưu tiên từ yếu (30% cơ hội)
             if (weakWords.size > 0 && Math.random() < 0.3) {
-                // Find objects that match weak IDs
                 const weakPool = activeData.filter(d => weakWords.has(d.id));
                 if(weakPool.length > 0) pool = weakPool;
             }
 
-            // Pick random word
             currentWord = pool[Math.floor(Math.random() * pool.length)];
             renderCard(currentWord);
         }
@@ -136,10 +133,10 @@
         function renderCard(word) {
             document.getElementById('char-display').innerText = word.char;
             document.getElementById('pinyin').innerText = word.pinyin;
-            document.getElementById('han-viet').innerText = `[ ${word.han_viet.toUpperCase()} ]`;
-            document.getElementById('level-tag').innerText = word.category === 'business' ? "💼 Business" : `HSK ${word.hsk_level}`;
             
-            // Prepare Quiz Options
+            // XÓA PHẦN HÁN VIỆT, CHỈ HIỂN THỊ TAG
+            document.getElementById('level-tag').innerText = word.category === 'business' ? "💼 Buôn bán / 1688" : `HSK ${word.hsk_level}`;
+            
             generateQuiz(word);
         }
 
@@ -147,19 +144,18 @@
             const container = document.getElementById('quiz-options');
             container.innerHTML = "";
 
-            // Get 3 wrong answers
             let options = [correctWord];
             while(options.length < 4) {
                 let random = activeData[Math.floor(Math.random() * activeData.length)];
                 if (!options.includes(random)) options.push(random);
             }
-            // Shuffle
             options.sort(() => Math.random() - 0.5);
 
             options.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerText = opt.definition_vn;
+                // Chỉ hiện nghĩa tiếng Việt thực tế
+                btn.innerText = opt.definition_vn; 
                 btn.onclick = () => checkAnswer(btn, opt.id === correctWord.id);
                 container.appendChild(btn);
             });
@@ -167,28 +163,25 @@
 
         function checkAnswer(btn, isCorrect) {
             const feedback = document.getElementById('feedback');
-            
-            // Disable all buttons
             document.querySelectorAll('.option-btn').forEach(b => b.onclick = null);
 
             if (isCorrect) {
                 btn.classList.add('correct');
-                feedback.innerText = "Correct! " + (currentWord.han_viet || "");
+                feedback.innerText = "Chính xác! 🎉";
                 feedback.style.color = "green";
                 score += 10;
                 
-                // Remove from weak list if correct
                 if(weakWords.has(currentWord.id)) {
                     weakWords.delete(currentWord.id);
                     localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
                 }
-                setTimeout(nextCard, 1500); // Auto next
+                setTimeout(nextCard, 1200); 
             } else {
                 btn.classList.add('wrong');
-                feedback.innerText = `Sai rồi! Nghĩa đúng: ${currentWord.definition_vn}`;
-                feedback.style.color = "red";
+                // Hiện đáp án đúng rõ ràng hơn
+                feedback.innerText = `Sai rồi! Nghĩa là: ${currentWord.definition_vn}`;
+                feedback.style.color = "#d32f2f";
                 
-                // Add to weak list
                 weakWords.add(currentWord.id);
                 localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
                 document.getElementById('weak-count').innerText = weakWords.size;
@@ -196,36 +189,32 @@
             document.getElementById('score').innerText = score;
         }
 
-        // 4. AUDIO (Browser TTS)
         function speak() {
             if (!currentWord) return;
             const u = new SpeechSynthesisUtterance(currentWord.char);
             u.lang = 'zh-CN';
-            u.rate = 0.8; // Slightly slower for learning
+            u.rate = 0.8; 
             window.speechSynthesis.speak(u);
         }
 
-        // 5. WRITING (Hanzi Writer)
         function toggleWriting() {
             const container = document.getElementById('writer-container');
             const display = document.getElementById('char-display');
             
             if (display.style.display !== 'none') {
-                // Switch to Writing Mode
                 display.style.display = 'none';
                 container.style.display = 'block';
-                container.innerHTML = ""; // Clear old
+                container.innerHTML = ""; 
                 writer = HanziWriter.create('writer-container', currentWord.char, {
                     width: 200,
                     height: 200,
                     padding: 5,
                     showOutline: true,
-                    strokeAnimationSpeed: 1, // 1x speed
+                    strokeAnimationSpeed: 1,
                     delayBetweenStrokes: 1000,
                 });
                 writer.quiz();
             } else {
-                // Switch back to Reading Mode
                 display.style.display = 'block';
                 container.style.display = 'none';
             }
