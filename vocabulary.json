@@ -4,7 +4,7 @@
     "char": "阿姨",
     "pinyin": "ā yí",
     "definition_en": "maternal aunt, step-mother, childcare worker, nursemaid, woman of similar age to one's parents (term of address used by child)",
-    "definition_vn": "dì, mẹ kế, người bảo mẫu",
+    "definition_vn": "Cô, dì",
     "hsk_level": 3,
     "han_viet": "a ý",
     "examples": [
@@ -26,7 +26,7 @@
     "char": "啊",
     "pinyin": "ā",
     "definition_en": "interjection of surprise, Ah!, Oh!",
-    "definition_vn": "sự ngạc nhiên",
+    "definition_vn": "A, hả (thán từ)",
     "hsk_level": 3,
     "han_viet": "a",
     "examples": [
@@ -48,7 +48,7 @@
     "char": "唉",
     "pinyin": "āi",
     "definition_en": "interjection or grunt of agreement or recognition (e.g. yes, it's me!), to sigh",
-    "definition_vn": "than thở, đồng ý",
+    "definition_vn": "Ôi, than ôi (thán từ)",
     "hsk_level": 5,
     "han_viet": "ai",
     "examples": [
@@ -70,7 +70,7 @@
     "char": "矮",
     "pinyin": "ǎi",
     "definition_en": "low, short (in length)",
-    "definition_vn": "thấp",
+    "definition_vn": "Lùn, thấp",
     "hsk_level": 3,
     "han_viet": "ải",
     "examples": [
@@ -92,7 +92,7 @@
     "char": "爱",
     "pinyin": "ài",
     "definition_en": "to love; to be fond of; to like, affection, to be inclined (to do sth); to tend to (happen)",
-    "definition_vn": "yêu, thích",
+    "definition_vn": "Yêu, thích, yêu thích",
     "hsk_level": 1,
     "han_viet": "ái",
     "examples": [
@@ -114,7 +114,7 @@
     "char": "爱好",
     "pinyin": "ài hào",
     "definition_en": "to like; to be fond of; to take pleasure in; to be keen on, interest; hobby",
-    "definition_vn": "sở thích, thích",
+    "definition_vn": "Sở thích, hứng thú",
     "hsk_level": 3,
     "han_viet": "ái hảo",
     "examples": [
@@ -136,7 +136,7 @@
     "char": "爱护",
     "pinyin": "ài hù",
     "definition_en": "to cherish, to treasure, to take care of, to love and protect",
-    "definition_vn": "trân trọng, chăm sóc",
+    "definition_vn": "Bảo vệ, giữ gìn, chăm sóc",
     "hsk_level": 5,
     "han_viet": "ái hộ",
     "examples": [
@@ -158,7 +158,7 @@
     "char": "爱情",
     "pinyin": "ài qíng",
     "definition_en": "romance; love (romantic)",
-    "definition_vn": "tình yêu",
+    "definition_vn": "Tình yêu, ái tình",
     "hsk_level": 4,
     "han_viet": "ái tình",
     "examples": [
@@ -180,7 +180,7 @@
     "char": "爱惜",
     "pinyin": "ài xī",
     "definition_en": "to cherish, to treasure, to use sparingly",
-    "definition_vn": "quý trọng, tiết kiệm",
+    "definition_vn": "Tiếc, quý trọng",
     "hsk_level": 5,
     "han_viet": "ái tích",
     "examples": [
@@ -202,7 +202,7 @@
     "char": "爱心",
     "pinyin": "ài xīn",
     "definition_en": "compassion, kindness, care for others, love, charity (bazaar, golf day etc), heart (the symbol ♥)",
-    "definition_vn": "lòng tốt, tình yêu",
+    "definition_vn": "Lòng yêu thương, tấm lòng",
     "hsk_level": 5,
     "han_viet": "ái tâm",
     "examples": [
@@ -224,7 +224,7 @@
     "char": "安静",
     "pinyin": "ān jìng",
     "definition_en": "quiet, peaceful, calm",
-    "definition_vn": "yên tĩnh, bình tĩnh",
+    "definition_vn": "Yên tĩnh, tĩnh lặng",
     "hsk_level": 3,
     "han_viet": "an tĩnh",
     "examples": [
@@ -246,7 +246,7 @@
     "char": "安排",
     "pinyin": "ān pái",
     "definition_en": "to arrange, to plan, to set up, arrangements, plans",
-    "definition_vn": "sắp xếp, lên kế hoạch",
+    "definition_vn": "Sắp xếp, bố trí, an bài",
     "hsk_level": 4,
     "han_viet": "an bài",
     "examples": [
@@ -268,7 +268,7 @@
     "char": "安全",
     "pinyin": "ān quán",
     "definition_en": "safe; secure, safety; security",
-    "definition_vn": "an toàn",
+    "definition_vn": "An toàn, an ninh",
     "hsk_level": 4,
     "han_viet": "an toàn",
     "examples": [
@@ -290,7 +290,7 @@
     "char": "安慰",
     "pinyin": "ān wèi",
     "definition_en": "to comfort, to console",
-    "definition_vn": "an ủi",
+    "definition_vn": "An ủi, động viên",
     "hsk_level": 5,
     "han_viet": "an ủi",
     "examples": [
@@ -312,7 +312,7 @@
     "char": "安装",
     "pinyin": "ān zhuāng",
     "definition_en": "to install, to erect, to fix, to mount, installation",
-    "definition_vn": "lắp đặt",
+    "definition_vn": "Lắp đặt, cài đặt",
     "hsk_level": 5,
     "han_viet": "an裝",
     "examples": [
@@ -334,7 +334,7 @@
     "char": "岸",
     "pinyin": "àn",
     "definition_en": "variant of 岸",
-    "definition_vn": "bờ, bãi",
+    "definition_vn": "Bờ (sông, biển)",
     "hsk_level": 5,
     "han_viet": "ngạn",
     "examples": [
@@ -356,7 +356,7 @@
     "char": "按时",
     "pinyin": "àn shí",
     "definition_en": "on time, before deadline, on schedule",
-    "definition_vn": "đúng hạn",
+    "definition_vn": "Đúng giờ, đúng hẹn",
     "hsk_level": 4,
     "han_viet": "án thì",
     "examples": [
@@ -378,7 +378,7 @@
     "char": "按照",
     "pinyin": "àn zhào",
     "definition_en": "according to, in accordance with, in the light of, on the basis of",
-    "definition_vn": "theo, dựa trên",
+    "definition_vn": "Theo, dựa theo, chiếu theo",
     "hsk_level": 4,
     "han_viet": "án theo",
     "examples": [
@@ -400,7 +400,7 @@
     "char": "暗",
     "pinyin": "àn",
     "definition_en": "variant of 暗",
-    "definition_vn": "tối, âm u",
+    "definition_vn": "Tối, tối tăm, mờ ám",
     "hsk_level": 4,
     "han_viet": "ám",
     "examples": [
@@ -422,7 +422,7 @@
     "char": "八",
     "pinyin": "bā",
     "definition_en": "eight; 8",
-    "definition_vn": "tám",
+    "definition_vn": "Tám (số 8)",
     "hsk_level": 1,
     "han_viet": "bát",
     "examples": [
@@ -54818,6 +54818,76 @@
         "pinyin": "tā zuò shēng yì hěn chéng gōng",
         "vn": "anh ta làm ăn rất thành công"
       }
+    ],
+    "part_of_speech": "Động từ"
+  },
+  {
+    "id": 2492,
+    "char": "批发",
+    "pinyin": "pī fā",
+    "definition_en": "Wholesale",
+    "definition_vn": "Bán sỉ, bán buôn (Từ khóa quan trọng khi mua 1688)",
+    "hsk_level": 4,
+    "han_viet": "phê phát",
+    "category": "business",
+    "examples": [
+      { "zh": "你们支持小额批发吗？", "pinyin": "Nǐmen zhīchí xiǎo é pīfā ma?", "vn": "Bên bạn có hỗ trợ bán sỉ số lượng nhỏ không?" }
+    ],
+    "part_of_speech": "Động từ"
+  },
+  {
+    "id": 2493,
+    "char": "发货",
+    "pinyin": "fā huò",
+    "definition_en": "To ship goods",
+    "definition_vn": "Phát hàng, gửi hàng đi",
+    "hsk_level": 3,
+    "han_viet": "phát hóa",
+    "category": "business",
+    "examples": [
+      { "zh": "什么时候发货？", "pinyin": "Shénme shíhou fāhuò?", "vn": "Khi nào thì phát hàng?" }
+    ],
+    "part_of_speech": "Động từ"
+  },
+  {
+    "id": 2494,
+    "char": "客服",
+    "pinyin": "kè fú",
+    "definition_en": "Customer service",
+    "definition_vn": "Chăm sóc khách hàng (CSKH)",
+    "hsk_level": 4,
+    "han_viet": "khách phục",
+    "category": "business",
+    "examples": [
+      { "zh": "请联系客服。", "pinyin": "Qǐng liánxì kèfú.", "vn": "Vui lòng liên hệ CSKH." }
+    ],
+    "part_of_speech": "Danh từ"
+  },
+  {
+    "id": 2495,
+    "char": "退款",
+    "pinyin": "tuì kuǎn",
+    "definition_en": "Refund",
+    "definition_vn": "Hoàn tiền (Quan trọng khi khiếu nại)",
+    "hsk_level": 4,
+    "han_viet": "thoái khoản",
+    "category": "business",
+    "examples": [
+      { "zh": "我要申请退款。", "pinyin": "Wǒ yào shēnqǐng tuìkuǎn.", "vn": "Tôi muốn yêu cầu hoàn tiền." }
+    ],
+    "part_of_speech": "Động từ"
+  },
+  {
+    "id": 2496,
+    "char": "包邮",
+    "pinyin": "bāo yóu",
+    "definition_en": "Free shipping",
+    "definition_vn": "Bao ship, miễn phí vận chuyển",
+    "hsk_level": 3,
+    "han_viet": "bao bưu",
+    "category": "business",
+    "examples": [
+      { "zh": "两件包邮吗？", "pinyin": "Liǎng jiàn bāoyóu ma?", "vn": "Mua 2 cái có được bao ship không?" }
     ],
     "part_of_speech": "Động từ"
   }
