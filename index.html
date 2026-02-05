@@ -11,6 +11,7 @@
     <link rel="manifest" href="site.webmanifest">
     <link rel="shortcut icon" href="favicon.ico">
     <meta name="theme-color" content="#ffffff">
+
     <meta name="description" content="Web học từ vựng tiếng Trung nhập hàng 1688, Taobao miễn phí. Tổng hợp mẫu câu đàm phán, mặc cả, khiếu nại dành cho dân buôn.">
     <meta property="og:title" content="HSK Plus - Từ điển Tiếng Trung Nhập Hàng 1688">
     
@@ -35,6 +36,8 @@
             color: var(--primary); 
             margin: 0; 
             padding-bottom: 100px; 
+            /* Ngăn kéo trang trên mobile để cảm giác giống App hơn */
+            overscroll-behavior-y: none;
         }
 
         /* HEADER */
@@ -53,23 +56,85 @@
             margin: 0 auto 10px auto;
         }
 
-        .mode-selector { 
-            padding: 8px 15px; 
-            border-radius: 20px; 
-            border: 2px solid #eee; 
-            font-weight: 600; 
-            color: var(--primary);
-            width: 100%; 
-            max-width: 350px; 
-            background: #fff;
-            outline: none;
-            cursor: pointer;
+        /* === NEW CUSTOM DROPDOWN CSS === */
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+            font-family: 'Montserrat', sans-serif;
         }
+
+        .dropdown-trigger {
+            background: #fff;
+            border: 2px solid #eee;
+            border-radius: 50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .dropdown-trigger:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.1);
+        }
+
+        .dropdown-trigger .arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+            color: var(--accent);
+        }
+
+        .dropdown-trigger.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-options {
+            position: absolute;
+            top: 115%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .dropdown-options.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .option-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #f5f5f5;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-item:last-child { border-bottom: none; }
+        .option-item:hover { background: #FFF0F0; color: var(--accent); }
+        .option-item.selected { background: #FFF0F0; color: var(--accent); font-weight: 700; }
+        /* ============================== */
 
         /* CARD STYLE */
         .card { 
             background: var(--white); 
-            border-radius: 20px; 
+            border-radius: 24px; 
             padding: 30px 25px; 
             margin: 25px auto; 
             max-width: 400px; 
@@ -163,12 +228,25 @@
 
     <div class="header">
         <img src="HSKPlus-Logo.png" alt="HSK Plus Logo" class="logo-img" onerror="this.style.display='none';">
-        <select id="category-select" class="mode-selector" onchange="loadCategory()">
-            <option value="business" selected>Chuyên ngành: 1688 / Taobao</option>
-            <option value="general">HSK Cơ bản (Đời sống)</option>
-            <option value="all">Tất cả từ vựng</option>
-        </select>
-    </div>
+        
+        <div class="custom-dropdown">
+            <div class="dropdown-trigger" onclick="toggleDropdown()">
+                <span id="selected-text">💼 Chuyên ngành: 1688 / Taobao</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="dropdown-options" id="dropdown-options">
+                <div class="option-item selected" onclick="selectCategory('business', '💼 Chuyên ngành: 1688 / Taobao')">
+                    <span>💼</span> Chuyên ngành: 1688 / Taobao
+                </div>
+                <div class="option-item" onclick="selectCategory('general', '🏠 HSK Cơ bản (Đời sống)')">
+                    <span>🏠</span> HSK Cơ bản (Đời sống)
+                </div>
+                <div class="option-item" onclick="selectCategory('all', '📚 Tất cả từ vựng')">
+                    <span>📚</span> Tất cả từ vựng
+                </div>
+            </div>
+        </div>
+        </div>
 
     <div class="card" id="study-card">
         <div class="tag" id="level-tag">Category</div>
@@ -232,11 +310,55 @@
         let currentWord = null;
         let score = 0;
         let weakWords = new Set(JSON.parse(localStorage.getItem('weakWords')) || []);
+        
+        // BIẾN LƯU CATEGORY HIỆN TẠI (MẶC ĐỊNH LÀ BUSINESS)
+        let currentCategory = 'business';
 
         fetch('vocabulary.json').then(r => r.json()).then(data => { allData = data; loadCategory(); }).catch(err => alert("Lỗi vocabulary.json"));
 
+        // --- NEW DROPDOWN LOGIC ---
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown-options');
+            const trigger = document.querySelector('.dropdown-trigger');
+            dropdown.classList.toggle('show');
+            trigger.classList.toggle('active');
+        }
+
+        function selectCategory(value, text) {
+            // Cập nhật text hiển thị
+            document.getElementById('selected-text').innerText = text;
+            
+            // Cập nhật biến currentCategory
+            currentCategory = value;
+            
+            // Đóng dropdown
+            toggleDropdown();
+            
+            // Đánh dấu mục đang chọn
+            document.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+
+            // Gọi hàm load dữ liệu
+            loadCategory();
+        }
+
+        // Đóng dropdown khi click ra ngoài
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-trigger') && !event.target.matches('.dropdown-trigger *')) {
+                const dropdown = document.getElementById('dropdown-options');
+                const trigger = document.querySelector('.dropdown-trigger');
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                    trigger.classList.remove('active');
+                }
+            }
+        }
+        // --------------------------
+
         function loadCategory() {
-            const cat = document.getElementById('category-select').value;
+            // SỬA: Lấy từ biến currentCategory thay vì thẻ select cũ
+            const cat = currentCategory;
+            
             activeData = cat === 'all' ? allData : allData.filter(item => item.category === cat || (!item.category && cat === 'general'));
             if(activeData.length === 0) activeData = allData;
             document.getElementById('weak-count').innerText = weakWords.size;
