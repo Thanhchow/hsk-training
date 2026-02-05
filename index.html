@@ -3,92 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiếng Trung Nhập Hàng 1688 & Taobao</title>
+    <title>HSK Plus - Từ Vựng Nhập Hàng 1688</title>
     <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --primary: #00897B; --accent: #FF6F00; --bg: #f0f2f5; --white: #fff; --text: #333; --danger: #d32f2f; }
-        body { font-family: 'Roboto', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; }
+        /* --- BẢNG MÀU MỚI THEO LOGO HSK PLUS --- */
+        :root { 
+            --primary: #2C3E50; /* Màu Đen Than (Mực tàu) - Dùng cho Text chính */
+            --accent: #FF4757;  /* Màu Đỏ Cam (Nét gạch chéo) - Dùng cho Nút bấm/Điểm nhấn */
+            --bg: #F7F9FC;      /* Màu nền xám nhạt hiện đại */
+            --white: #ffffff; 
+            --success: #2ED573; /* Màu xanh lá tươi hơn */
+            --wrong: #FF6B81;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
 
-        /* HEADER */
-        .header { background: var(--primary); color: white; padding: 15px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .header h1 { margin: 0; font-size: 1.3rem; margin-bottom: 8px; }
-        .mode-selector { padding: 8px; border-radius: 4px; border: none; font-weight: bold; width: 90%; max-width: 300px; }
+        body { 
+            font-family: 'Montserrat', 'Noto Sans SC', sans-serif; 
+            background: var(--bg); 
+            color: var(--primary); 
+            margin: 0; 
+            padding-bottom: 100px; 
+        }
 
-        /* MAIN LEARNING CARD */
-        .card { background: var(--white); border-radius: 12px; padding: 25px; margin: 20px auto; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; position: relative; }
+        /* HEADER MỚI: NỀN TRẮNG, LOGO Ở GIỮA */
+        .header { 
+            background: var(--white); 
+            padding: 15px 20px; 
+            text-align: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            position: sticky; top: 0; z-index: 100;
+        }
+        
+        .logo-img {
+            height: 50px; /* Chiều cao logo */
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+
+        .mode-selector { 
+            padding: 8px 15px; 
+            border-radius: 20px; 
+            border: 2px solid #eee; 
+            font-weight: 600; 
+            color: var(--primary);
+            width: 100%; 
+            max-width: 350px; 
+            background: #fff;
+            outline: none;
+            cursor: pointer;
+        }
+        .mode-selector:focus { border-color: var(--accent); }
+
+        /* MAIN CARD STYLE */
+        .card { 
+            background: var(--white); 
+            border-radius: 20px; /* Bo góc tròn hơn */
+            padding: 30px 25px; 
+            margin: 25px auto; 
+            max-width: 400px; 
+            box-shadow: var(--shadow); 
+            text-align: center; 
+            position: relative;
+            border-top: 5px solid var(--accent); /* Điểm nhấn màu đỏ trên đầu card */
+        }
         
         /* CHARACTER DISPLAY */
-        #char-display { font-size: 4.5rem; color: var(--text); margin: 15px 0; min-height: 80px; font-weight: bold; }
-        .pinyin { font-size: 1.4rem; color: var(--accent); margin-bottom: 20px; font-weight: 500; }
+        #char-display { font-size: 5rem; color: var(--primary); margin: 10px 0; min-height: 90px; font-weight: 700; }
+        .pinyin { font-size: 1.5rem; color: var(--accent); margin-bottom: 25px; font-weight: 600; letter-spacing: 1px; }
         
         /* AUDIO BTN */
-        .audio-btn { background: #E0F2F1; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 1.5rem; color: var(--primary); margin-top: -10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s; }
-        .audio-btn:active { transform: scale(0.95); }
+        .audio-btn { 
+            background: #FFF0F0; /* Màu nền đỏ nhạt */
+            border: none; border-radius: 50%; width: 50px; height: 50px; 
+            cursor: pointer; font-size: 1.4rem; color: var(--accent); 
+            margin-top: -15px; transition: 0.3s; 
+        }
+        .audio-btn:hover { background: var(--accent); color: white; transform: rotate(15deg); }
         
         /* QUIZ SECTION */
         .quiz-area { display: grid; gap: 12px; margin-top: 25px; }
-        .option-btn { padding: 15px; border: 1px solid #eee; background: white; border-radius: 8px; cursor: pointer; font-size: 1.1rem; transition: 0.2s; text-align: left; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .option-btn:hover { background: #f9f9f9; border-color: #ddd; }
-        .option-btn.correct { background: #E8F5E9; border-color: #4CAF50; color: #2E7D32; font-weight: bold; }
-        .option-btn.wrong { background: #FFEBEE; border-color: #EF5350; color: #C62828; }
-        #feedback { height: 25px; margin-top: 15px; font-weight: bold; font-size: 1.1rem; }
+        .option-btn { 
+            padding: 16px; 
+            border: 2px solid #f1f2f6; 
+            background: white; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-size: 1rem; 
+            font-weight: 500;
+            text-align: left; 
+            transition: 0.2s; 
+            color: var(--primary);
+        }
+        .option-btn:hover { border-color: var(--accent); background: #FFF5F5; }
+        .option-btn.correct { background: var(--success); border-color: var(--success); color: white; }
+        .option-btn.wrong { background: var(--wrong); border-color: var(--wrong); color: white; }
+        
+        #feedback { height: 25px; margin-top: 15px; font-weight: 700; font-size: 1.1rem; }
 
         /* WRITING AREA */
-        #writer-container { width: 200px; height: 200px; margin: 0 auto; display: none; border: 1px dashed #ccc; }
+        #writer-container { width: 200px; height: 200px; margin: 0 auto; display: none; border: 2px dashed #ccc; border-radius: 10px; }
 
-        /* FOOTER STATS */
-        .stats { display: flex; justify-content: space-around; font-size: 0.9rem; color: #666; margin-top: 20px; }
-        .tag { background: #eee; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; color: #555; }
+        /* BUTTONS */
+        button.action-btn { 
+            background: var(--accent); /* Màu đỏ cam chủ đạo */
+            color: white; border: none; 
+            padding: 14px 24px; border-radius: 50px; 
+            font-weight: 700; cursor: pointer; 
+            margin-top: 20px; font-size: 1rem; width: 100%; 
+            box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
+            transition: transform 0.2s;
+        }
+        button.action-btn:active { transform: scale(0.98); }
+        
+        button.secondary { 
+            background: transparent; 
+            color: var(--primary); 
+            border: 2px solid #eee; 
+            box-shadow: none;
+            margin-top: 10px;
+        }
+        button.secondary:hover { border-color: var(--primary); }
 
-        button.action-btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 1rem; width: 100%; }
-        button.secondary { background: white; color: var(--primary); border: 1px solid var(--primary); margin-top: 10px; }
+        /* STATS */
+        .stats { display: flex; justify-content: center; gap: 20px; font-size: 0.95rem; color: #7f8c8d; margin-top: 20px; }
+        .tag { 
+            position: absolute; top: 15px; right: 15px;
+            background: #f1f2f6; padding: 4px 10px; 
+            border-radius: 6px; font-size: 0.75rem; 
+            font-weight: 700; color: #95a5a6; 
+            text-transform: uppercase;
+        }
 
         /* --- AFFILIATE PRODUCT CARD --- */
-        .affiliate-container { max-width: 400px; margin: 30px auto; padding: 0 15px; }
+        .affiliate-container { max-width: 400px; margin: 35px auto; padding: 0 15px; }
         .product-card {
             display: flex; align-items: center; text-align: left;
-            background: #fff; border: 1px solid #e0e0e0;
-            border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            background: #fff; border: 1px solid #f1f2f6;
+            border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);
             padding: 15px; gap: 15px; transition: transform 0.2s; margin-bottom: 15px;
+            position: relative; overflow: hidden;
         }
-        .product-card:hover { transform: translateY(-2px); }
+        /* Dải màu trang trí bên trái thẻ sản phẩm */
+        .product-card::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent);
+        }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        
         .product-img {
             width: 80px; height: 80px; object-fit: cover;
-            border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex-shrink: 0;
+            border-radius: 8px; flex-shrink: 0;
         }
-        .product-info h4 { margin: 0 0 5px 0; color: #333; font-size: 0.95rem; }
-        .product-info p { margin: 0 0 8px 0; font-size: 0.8rem; color: #666; line-height: 1.3; }
+        .product-info h4 { margin: 0 0 5px 0; color: var(--primary); font-size: 0.95rem; font-weight: 700; }
+        .product-info p { margin: 0 0 10px 0; font-size: 0.8rem; color: #7f8c8d; line-height: 1.3; }
+        
         .partner-btn.shopee-btn {
             background: #EE4D2D; color: white; border-radius: 4px;
-            padding: 6px 12px; font-size: 0.8rem; font-weight: bold;
-            box-shadow: 0 2px 4px rgba(238, 77, 45, 0.3);
+            padding: 6px 15px; font-size: 0.8rem; font-weight: bold;
+            box-shadow: 0 2px 5px rgba(238, 77, 45, 0.2);
             text-decoration: none; display: inline-block;
         }
-        .partner-btn.shopee-btn:hover { background: #d73211; }
 
         /* --- DONATE BUTTON & MODAL --- */
         .donate-btn {
-            position: fixed; bottom: 20px; left: 20px;
-            background: #795548; color: white; padding: 10px 20px;
+            position: fixed; bottom: 25px; left: 25px;
+            background: var(--primary); /* Màu đen than sang trọng */
+            color: white; padding: 12px 25px;
             border-radius: 50px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 998;
-            display: flex; align-items: center; gap: 8px; font-size: 1rem;
-            transition: transform 0.2s;
+            box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3); z-index: 998;
+            display: flex; align-items: center; gap: 8px; font-size: 0.95rem;
+            transition: transform 0.2s; border: 2px solid white;
         }
-        .donate-btn:hover { transform: scale(1.05); background: #5D4037; }
+        .donate-btn:hover { transform: scale(1.05); background: #1a252f; }
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; animation: fadeIn 0.3s; }
-        .modal-content { background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 350px; text-align: center; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .qr-img { width: 100%; max-width: 250px; margin: 15px 0; border-radius: 10px; border: 1px solid #eee; }
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 2rem; cursor: pointer; color: #999; line-height: 20px; }
-        .close-btn:hover { color: #333; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; animation: fadeIn 0.3s; backdrop-filter: blur(2px); }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .qr-img { width: 100%; max-width: 250px; margin: 20px 0; border-radius: 12px; border: 1px solid #eee; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #999; line-height: 20px; }
+        .bank-info { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-top: 10px; }
         .bank-info p { margin: 5px 0; font-size: 0.9rem; color: #555; }
-        .bank-info strong { color: #333; }
-        .note { font-style: italic; color: #888; font-size: 0.8rem; margin-top: 10px; }
+        .bank-info strong { color: var(--primary); font-weight: 700; }
 
         @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
     </style>
@@ -96,7 +194,9 @@
 <body>
 
     <div class="header">
-        <h1>📦 Từ Vựng Nhập Hàng 1688</h1>
+        <img src="HSKPlus-Logo.png" alt="HSK Plus Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('backup-title').style.display='block';">
+        <h1 id="backup-title" style="display:none; margin:0; font-size:1.5rem; color:var(--primary);">HSK PLUS</h1>
+        
         <select id="category-select" class="mode-selector" onchange="loadCategory()">
             <option value="business" selected>Chuyên ngành: 1688 / Taobao</option>
             <option value="general">HSK Cơ bản (Đời sống)</option>
@@ -120,13 +220,13 @@
     </div>
 
     <div class="stats">
-        <span>✅ Điểm: <b id="score">0</b></span>
-        <span>🧠 Cần ôn lại: <b id="weak-count">0</b></span>
+        <span>✅ Điểm: <b id="score" style="color:var(--success)">0</b></span>
+        <span>🧠 Cần ôn: <b id="weak-count" style="color:var(--accent)">0</b></span>
     </div>
 
     <div class="affiliate-container">
-        <div class="section-title" style="text-align: center; margin-bottom: 15px; color: #555; font-size: 0.9rem; font-weight: bold;">
-            🔥 GÓC HỌC TẬP (ADMIN GỢI Ý)
+        <div class="section-title" style="text-align: center; margin-bottom: 20px; color: #95a5a6; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;">
+            GÓC HỌC TẬP (ADMIN GỢI Ý)
         </div>
 
         <div class="product-card">
@@ -146,13 +246,14 @@
                  alt="Vở tập viết" class="product-img">
             <div class="product-info">
                 <h4>✍️ Combo Vở + Bút Bay Màu</h4>
-                <p>Mực tự bay sau 10 phút, viết đi viết lại mãi mãi.</p>
+                <p>Mực tự bay sau 10 phút, viết lại mãi mãi.</p>
                 <a href="https://shorten.asia/gBEhbg4Z" target="_blank" class="partner-btn shopee-btn">
                     Mua ngay (~80k) ➔
                 </a>
             </div>
         </div>
     </div>
+
     <div class="donate-btn" onclick="openDonateModal()">
         ☕ Mời Cà Phê
     </div>
@@ -160,8 +261,8 @@
     <div id="donateModal" class="modal-overlay" onclick="closeDonateModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <span class="close-btn" onclick="closeDonateModal()">&times;</span>
-            <h3>☕ Cảm ơn bạn!</h3>
-            <p>Mời tác giả 1 ly cà phê để duy trì Server nhé!</p>
+            <h3 style="color: var(--primary);">☕ Cảm ơn bạn!</h3>
+            <p style="color: #666;">Mời tác giả 1 ly cà phê để duy trì Server nhé!</p>
             
             <img src="https://img.vietqr.io/image/VIB-933493882-compact.jpg?amount=20000&addInfo=Donate HSK Web" 
                  alt="QR Chuyen khoan" 
@@ -171,7 +272,7 @@
                 <p><strong>Ngân hàng:</strong> VIB (Quốc Tế)</p>
                 <p><strong>STK:</strong> 933493882</p>
                 <p><strong>Tên:</strong> CHU CHI THANH</p>
-                <p class="note">Nội dung: Donate HSK Web</p>
+                <p style="font-size: 0.8rem; color: #999; margin-top:5px;">Nội dung: Donate HSK Web</p>
             </div>
         </div>
     </div>
@@ -242,7 +343,6 @@
             });
         }
 
-        // --- HÀM KIỂM TRA ĐIỂM + BẮN PHÁO HOA ---
         function checkAnswer(btn, isCorrect) {
             const feedback = document.getElementById('feedback');
             document.querySelectorAll('.option-btn').forEach(b => b.onclick = null);
@@ -250,15 +350,14 @@
             if (isCorrect) {
                 btn.classList.add('correct');
                 feedback.innerText = "Chính xác! 🎉";
-                feedback.style.color = "green";
+                feedback.style.color = "var(--success)";
                 score += 10;
                 document.getElementById('score').innerText = score;
 
                 // LOGIC PHÁO HOA & MỜI DONATE (Mỗi 50 điểm)
                 if (score > 0 && score % 50 === 0) {
-                    triggerConfetti(); // Bắn pháo hoa
+                    triggerConfetti();
                     setTimeout(() => {
-                        // Hiện thông báo xin Donate
                         if(confirm("Wow! Bạn đã đạt " + score + " điểm! 🏆\n\nỨng dụng có giúp ích cho bạn không? Mời Admin 1 ly cà phê để duy trì Server nhé?")) {
                             openDonateModal();
                         }
@@ -273,7 +372,7 @@
             } else {
                 btn.classList.add('wrong');
                 feedback.innerText = `Sai rồi! Nghĩa là: ${currentWord.definition_vn}`;
-                feedback.style.color = "#d32f2f";
+                feedback.style.color = "var(--wrong)";
                 weakWords.add(currentWord.id);
                 localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
                 document.getElementById('weak-count').innerText = weakWords.size;
@@ -298,6 +397,7 @@
                 writer = HanziWriter.create('writer-container', currentWord.char, {
                     width: 200, height: 200, padding: 5, showOutline: true,
                     strokeAnimationSpeed: 1, delayBetweenStrokes: 1000,
+                    strokeColor: '#2C3E50' // Màu mực viết trùng màu logo
                 });
                 writer.quiz();
             } else {
@@ -312,7 +412,6 @@
             document.getElementById('char-display').style.display = 'block';
         }
 
-        // --- MODAL & CONFETTI HELPERS ---
         function openDonateModal() {
             document.getElementById('donateModal').style.display = 'flex';
         }
@@ -320,19 +419,15 @@
             document.getElementById('donateModal').style.display = 'none';
         }
 
-        // Hàm hiệu ứng pháo hoa
         function triggerConfetti() {
             var duration = 2 * 1000;
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
-
             function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-
             var interval = setInterval(function() {
                 var timeLeft = animationEnd - Date.now();
                 if (timeLeft <= 0) { return clearInterval(interval); }
                 var particleCount = 50 * (timeLeft / duration);
-                // Bắn từ 2 góc dưới lên
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
             }, 250);
