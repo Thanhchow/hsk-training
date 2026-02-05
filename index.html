@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HSK Plus - Từ Vựng Nhập Hàng 1688</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Web học từ vựng tiếng Trung nhập hàng 1688, Taobao miễn phí. Tổng hợp mẫu câu đàm phán, mặc cả, khiếu nại dành cho dân buôn.">
+    <meta property="og:title" content="HSK Plus - Từ điển Tiếng Trung Nhập Hàng 1688">
+    
     <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -82,21 +91,11 @@
         }
         .audio-btn:hover { background: var(--accent); color: white; transform: rotate(15deg); }
         
-        /* WRITING AREA (ĐÃ SỬA CSS ĐỂ HỖ TRỢ TỪ GHÉP) */
+        /* WRITING AREA (FLEXBOX FIX) */
         #writer-container { 
-            /* Xóa width/height cố định cũ */
-            min-height: 200px; 
-            margin: 0 auto; 
-            display: none; /* Mặc định ẩn */
-            border: 2px dashed #ccc; 
-            border-radius: 10px; 
-            
-            /* Thêm Flexbox để dàn hàng ngang các chữ */
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 5px;
-            padding: 10px;
+            min-height: 200px; margin: 0 auto; display: none; 
+            border: 2px dashed #ccc; border-radius: 10px; 
+            justify-content: center; align-items: center; flex-wrap: wrap; gap: 5px; padding: 10px;
         }
 
         /* QUIZ SECTION */
@@ -312,41 +311,28 @@
             window.speechSynthesis.speak(u);
         }
 
-        // --- HÀM TẬP VIẾT ĐÃ ĐƯỢC FIX LỖI ---
         function toggleWriting() {
             const container = document.getElementById('writer-container');
             const display = document.getElementById('char-display');
             
             if (display.style.display !== 'none') {
-                // Chuyển sang chế độ Viết
                 display.style.display = 'none';
-                container.style.display = 'flex'; // Dùng Flexbox để xếp ngang
-                container.innerHTML = ""; // Xóa nội dung cũ
-                
-                // Tách từ ghép thành từng chữ cái (Ví dụ: "人员" -> ['人', '员'])
+                container.style.display = 'flex'; 
+                container.innerHTML = ""; 
                 const chars = currentWord.char.split('');
-                
-                // Tính toán kích thước: Nếu 1 chữ thì to, 2 chữ trở lên thì nhỏ lại để vừa màn hình điện thoại
                 const size = chars.length > 1 ? 130 : 200;
 
                 chars.forEach(char => {
                     const div = document.createElement('div');
                     container.appendChild(div);
-                    
                     const writer = HanziWriter.create(div, char, {
-                        width: size,
-                        height: size,
-                        padding: 5,
-                        showOutline: true,
-                        strokeAnimationSpeed: 1,
-                        delayBetweenStrokes: 1000,
-                        strokeColor: '#2C3E50' // Màu mực trùng màu Logo
+                        width: size, height: size, padding: 5, showOutline: true,
+                        strokeAnimationSpeed: 1, delayBetweenStrokes: 1000,
+                        strokeColor: '#2C3E50'
                     });
                     writer.quiz();
                 });
-                
             } else {
-                // Quay lại chế độ Đọc
                 display.style.display = 'block';
                 container.style.display = 'none';
                 container.innerHTML = "";
