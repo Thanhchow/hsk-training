@@ -10,13 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- BẢNG MÀU MỚI THEO LOGO HSK PLUS --- */
         :root { 
-            --primary: #2C3E50; /* Màu Đen Than (Mực tàu) - Dùng cho Text chính */
-            --accent: #FF4757;  /* Màu Đỏ Cam (Nét gạch chéo) - Dùng cho Nút bấm/Điểm nhấn */
-            --bg: #F7F9FC;      /* Màu nền xám nhạt hiện đại */
+            --primary: #2C3E50; 
+            --accent: #FF4757;  
+            --bg: #F7F9FC;      
             --white: #ffffff; 
-            --success: #2ED573; /* Màu xanh lá tươi hơn */
+            --success: #2ED573; 
             --wrong: #FF6B81;
             --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
@@ -29,7 +28,7 @@
             padding-bottom: 100px; 
         }
 
-        /* HEADER MỚI: NỀN TRẮNG, LOGO Ở GIỮA */
+        /* HEADER */
         .header { 
             background: var(--white); 
             padding: 15px 20px; 
@@ -39,7 +38,7 @@
         }
         
         .logo-img {
-            height: 50px; /* Chiều cao logo */
+            height: 50px; 
             object-fit: contain;
             display: block;
             margin: 0 auto 10px auto;
@@ -57,19 +56,18 @@
             outline: none;
             cursor: pointer;
         }
-        .mode-selector:focus { border-color: var(--accent); }
 
-        /* MAIN CARD STYLE */
+        /* CARD STYLE */
         .card { 
             background: var(--white); 
-            border-radius: 20px; /* Bo góc tròn hơn */
+            border-radius: 20px; 
             padding: 30px 25px; 
             margin: 25px auto; 
             max-width: 400px; 
             box-shadow: var(--shadow); 
             text-align: center; 
             position: relative;
-            border-top: 5px solid var(--accent); /* Điểm nhấn màu đỏ trên đầu card */
+            border-top: 5px solid var(--accent); 
         }
         
         /* CHARACTER DISPLAY */
@@ -78,26 +76,35 @@
         
         /* AUDIO BTN */
         .audio-btn { 
-            background: #FFF0F0; /* Màu nền đỏ nhạt */
-            border: none; border-radius: 50%; width: 50px; height: 50px; 
+            background: #FFF0F0; border: none; border-radius: 50%; width: 50px; height: 50px; 
             cursor: pointer; font-size: 1.4rem; color: var(--accent); 
             margin-top: -15px; transition: 0.3s; 
         }
         .audio-btn:hover { background: var(--accent); color: white; transform: rotate(15deg); }
         
+        /* WRITING AREA (ĐÃ SỬA CSS ĐỂ HỖ TRỢ TỪ GHÉP) */
+        #writer-container { 
+            /* Xóa width/height cố định cũ */
+            min-height: 200px; 
+            margin: 0 auto; 
+            display: none; /* Mặc định ẩn */
+            border: 2px dashed #ccc; 
+            border-radius: 10px; 
+            
+            /* Thêm Flexbox để dàn hàng ngang các chữ */
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 10px;
+        }
+
         /* QUIZ SECTION */
         .quiz-area { display: grid; gap: 12px; margin-top: 25px; }
         .option-btn { 
-            padding: 16px; 
-            border: 2px solid #f1f2f6; 
-            background: white; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-size: 1rem; 
-            font-weight: 500;
-            text-align: left; 
-            transition: 0.2s; 
-            color: var(--primary);
+            padding: 16px; border: 2px solid #f1f2f6; background: white; border-radius: 12px; 
+            cursor: pointer; font-size: 1rem; font-weight: 500; text-align: left; 
+            transition: 0.2s; color: var(--primary);
         }
         .option-btn:hover { border-color: var(--accent); background: #FFF5F5; }
         .option-btn.correct { background: var(--success); border-color: var(--success); color: white; }
@@ -105,41 +112,23 @@
         
         #feedback { height: 25px; margin-top: 15px; font-weight: 700; font-size: 1.1rem; }
 
-        /* WRITING AREA */
-        #writer-container { width: 200px; height: 200px; margin: 0 auto; display: none; border: 2px dashed #ccc; border-radius: 10px; }
-
-        /* BUTTONS */
         button.action-btn { 
-            background: var(--accent); /* Màu đỏ cam chủ đạo */
-            color: white; border: none; 
-            padding: 14px 24px; border-radius: 50px; 
-            font-weight: 700; cursor: pointer; 
+            background: var(--accent); color: white; border: none; 
+            padding: 14px 24px; border-radius: 50px; font-weight: 700; cursor: pointer; 
             margin-top: 20px; font-size: 1rem; width: 100%; 
-            box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
-            transition: transform 0.2s;
+            box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); transition: transform 0.2s;
         }
         button.action-btn:active { transform: scale(0.98); }
         
         button.secondary { 
-            background: transparent; 
-            color: var(--primary); 
-            border: 2px solid #eee; 
-            box-shadow: none;
-            margin-top: 10px;
+            background: transparent; color: var(--primary); 
+            border: 2px solid #eee; box-shadow: none; margin-top: 10px;
         }
-        button.secondary:hover { border-color: var(--primary); }
 
-        /* STATS */
         .stats { display: flex; justify-content: center; gap: 20px; font-size: 0.95rem; color: #7f8c8d; margin-top: 20px; }
-        .tag { 
-            position: absolute; top: 15px; right: 15px;
-            background: #f1f2f6; padding: 4px 10px; 
-            border-radius: 6px; font-size: 0.75rem; 
-            font-weight: 700; color: #95a5a6; 
-            text-transform: uppercase;
-        }
+        .tag { position: absolute; top: 15px; right: 15px; background: #f1f2f6; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #95a5a6; text-transform: uppercase; }
 
-        /* --- AFFILIATE PRODUCT CARD --- */
+        /* AFFILIATE CARD */
         .affiliate-container { max-width: 400px; margin: 35px auto; padding: 0 15px; }
         .product-card {
             display: flex; align-items: center; text-align: left;
@@ -148,55 +137,33 @@
             padding: 15px; gap: 15px; transition: transform 0.2s; margin-bottom: 15px;
             position: relative; overflow: hidden;
         }
-        /* Dải màu trang trí bên trái thẻ sản phẩm */
-        .product-card::before {
-            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent);
-        }
-        .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-        
-        .product-img {
-            width: 80px; height: 80px; object-fit: cover;
-            border-radius: 8px; flex-shrink: 0;
-        }
+        .product-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent); }
+        .product-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
         .product-info h4 { margin: 0 0 5px 0; color: var(--primary); font-size: 0.95rem; font-weight: 700; }
         .product-info p { margin: 0 0 10px 0; font-size: 0.8rem; color: #7f8c8d; line-height: 1.3; }
-        
-        .partner-btn.shopee-btn {
-            background: #EE4D2D; color: white; border-radius: 4px;
-            padding: 6px 15px; font-size: 0.8rem; font-weight: bold;
-            box-shadow: 0 2px 5px rgba(238, 77, 45, 0.2);
-            text-decoration: none; display: inline-block;
-        }
+        .partner-btn.shopee-btn { background: #EE4D2D; color: white; border-radius: 4px; padding: 6px 15px; font-size: 0.8rem; font-weight: bold; text-decoration: none; display: inline-block; }
 
-        /* --- DONATE BUTTON & MODAL --- */
+        /* DONATE BUTTON */
         .donate-btn {
             position: fixed; bottom: 25px; left: 25px;
-            background: var(--primary); /* Màu đen than sang trọng */
-            color: white; padding: 12px 25px;
+            background: var(--primary); color: white; padding: 12px 25px;
             border-radius: 50px; font-weight: bold; cursor: pointer;
             box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3); z-index: 998;
-            display: flex; align-items: center; gap: 8px; font-size: 0.95rem;
-            transition: transform 0.2s; border: 2px solid white;
+            display: flex; align-items: center; gap: 8px; font-size: 0.95rem; border: 2px solid white;
         }
-        .donate-btn:hover { transform: scale(1.05); background: #1a252f; }
-
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; animation: fadeIn 0.3s; backdrop-filter: blur(2px); }
-        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; position: relative; }
         .qr-img { width: 100%; max-width: 250px; margin: 20px 0; border-radius: 12px; border: 1px solid #eee; }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #999; line-height: 20px; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #999; }
         .bank-info { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-top: 10px; }
         .bank-info p { margin: 5px 0; font-size: 0.9rem; color: #555; }
         .bank-info strong { color: var(--primary); font-weight: 700; }
-
-        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <img src="HSKPlus-Logo.png" alt="HSK Plus Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('backup-title').style.display='block';">
-        <h1 id="backup-title" style="display:none; margin:0; font-size:1.5rem; color:var(--primary);">HSK PLUS</h1>
-        
+        <img src="HSKPlus-Logo.png" alt="HSK Plus Logo" class="logo-img" onerror="this.style.display='none';">
         <select id="category-select" class="mode-selector" onchange="loadCategory()">
             <option value="business" selected>Chuyên ngành: 1688 / Taobao</option>
             <option value="general">HSK Cơ bản (Đời sống)</option>
@@ -206,8 +173,7 @@
 
     <div class="card" id="study-card">
         <div class="tag" id="level-tag">Category</div>
-        <div id="writer-container"></div>
-        <div id="char-display">?</div>
+        <div id="writer-container"></div> <div id="char-display">?</div>
         
         <button class="audio-btn" onclick="speak()" title="Nghe phát âm">🔊</button>
         <div class="pinyin" id="pinyin">...</div>
@@ -228,79 +194,51 @@
         <div class="section-title" style="text-align: center; margin-bottom: 20px; color: #95a5a6; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;">
             GÓC HỌC TẬP (ADMIN GỢI Ý)
         </div>
-
         <div class="product-card">
-            <img src="https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mb4p6gmyl5nb11.webp" 
-                 alt="Sách Tiếng Trung" class="product-img">
+            <img src="https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mb4p6gmyl5nb11.webp" alt="Sách Tiếng Trung" class="product-img">
             <div class="product-info">
                 <h4>📘 Sách: Tiếng Trung Buôn Bán</h4>
                 <p>Mẫu câu đàm phán giá & khiếu nại shop Trung.</p>
-                <a href="https://shorten.asia/S87EH2YR" target="_blank" class="partner-btn shopee-btn">
-                    Xem giá ưu đãi ➔
-                </a>
+                <a href="https://shorten.asia/S87EH2YR" target="_blank" class="partner-btn shopee-btn">Xem giá ưu đãi ➔</a>
             </div>
         </div>
-
         <div class="product-card">
-            <img src="https://down-vn.img.susercontent.com/file/4c3541f540b02c1a8e3b575f3a9ccc7a.webp" 
-                 alt="Vở tập viết" class="product-img">
+            <img src="https://down-vn.img.susercontent.com/file/4c3541f540b02c1a8e3b575f3a9ccc7a.webp" alt="Vở tập viết" class="product-img">
             <div class="product-info">
                 <h4>✍️ Combo Vở + Bút Bay Màu</h4>
                 <p>Mực tự bay sau 10 phút, viết lại mãi mãi.</p>
-                <a href="https://shorten.asia/gBEhbg4Z" target="_blank" class="partner-btn shopee-btn">
-                    Mua ngay (~80k) ➔
-                </a>
+                <a href="https://shorten.asia/gBEhbg4Z" target="_blank" class="partner-btn shopee-btn">Mua ngay (~80k) ➔</a>
             </div>
         </div>
     </div>
 
-    <div class="donate-btn" onclick="openDonateModal()">
-        ☕ Mời Cà Phê
-    </div>
-
+    <div class="donate-btn" onclick="openDonateModal()">☕ Mời Cà Phê</div>
     <div id="donateModal" class="modal-overlay" onclick="closeDonateModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <span class="close-btn" onclick="closeDonateModal()">&times;</span>
             <h3 style="color: var(--primary);">☕ Cảm ơn bạn!</h3>
             <p style="color: #666;">Mời tác giả 1 ly cà phê để duy trì Server nhé!</p>
-            
-            <img src="https://img.vietqr.io/image/VIB-933493882-compact.jpg?amount=20000&addInfo=Donate HSK Web" 
-                 alt="QR Chuyen khoan" 
-                 class="qr-img">
-            
+            <img src="https://img.vietqr.io/image/VIB-933493882-compact.jpg?amount=20000&addInfo=Donate HSK Web" alt="QR Chuyen khoan" class="qr-img">
             <div class="bank-info">
                 <p><strong>Ngân hàng:</strong> VIB (Quốc Tế)</p>
                 <p><strong>STK:</strong> 933493882</p>
                 <p><strong>Tên:</strong> CHU CHI THANH</p>
-                <p style="font-size: 0.8rem; color: #999; margin-top:5px;">Nội dung: Donate HSK Web</p>
             </div>
         </div>
     </div>
 
     <script>
-        // === LOGIC HỌC TỪ VỰNG ===
         let allData = [];
         let activeData = [];
         let currentWord = null;
         let score = 0;
-        let writer = null;
         let weakWords = new Set(JSON.parse(localStorage.getItem('weakWords')) || []);
 
-        fetch('vocabulary.json')
-            .then(r => r.json())
-            .then(data => {
-                allData = data;
-                loadCategory(); 
-            })
-            .catch(err => alert("Lỗi: Chưa có file vocabulary.json!"));
+        fetch('vocabulary.json').then(r => r.json()).then(data => { allData = data; loadCategory(); }).catch(err => alert("Lỗi vocabulary.json"));
 
         function loadCategory() {
             const cat = document.getElementById('category-select').value;
-            if (cat === 'all') {
-                activeData = allData;
-            } else {
-                activeData = allData.filter(item => item.category === cat || (!item.category && cat === 'general'));
-            }
+            activeData = cat === 'all' ? allData : allData.filter(item => item.category === cat || (!item.category && cat === 'general'));
             if(activeData.length === 0) activeData = allData;
             document.getElementById('weak-count').innerText = weakWords.size;
             nextCard();
@@ -308,11 +246,8 @@
 
         function nextCard() {
             resetUI();
-            let pool = activeData;
-            if (weakWords.size > 0 && Math.random() < 0.3) {
-                const weakPool = activeData.filter(d => weakWords.has(d.id));
-                if(weakPool.length > 0) pool = weakPool;
-            }
+            let pool = (weakWords.size > 0 && Math.random() < 0.3) ? activeData.filter(d => weakWords.has(d.id)) : activeData;
+            if(pool.length === 0) pool = activeData;
             currentWord = pool[Math.floor(Math.random() * pool.length)];
             renderCard(currentWord);
         }
@@ -333,7 +268,6 @@
                 if (!options.includes(random)) options.push(random);
             }
             options.sort(() => Math.random() - 0.5);
-
             options.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
@@ -346,24 +280,16 @@
         function checkAnswer(btn, isCorrect) {
             const feedback = document.getElementById('feedback');
             document.querySelectorAll('.option-btn').forEach(b => b.onclick = null);
-
             if (isCorrect) {
                 btn.classList.add('correct');
                 feedback.innerText = "Chính xác! 🎉";
                 feedback.style.color = "var(--success)";
                 score += 10;
                 document.getElementById('score').innerText = score;
-
-                // LOGIC PHÁO HOA & MỜI DONATE (Mỗi 50 điểm)
                 if (score > 0 && score % 50 === 0) {
                     triggerConfetti();
-                    setTimeout(() => {
-                        if(confirm("Wow! Bạn đã đạt " + score + " điểm! 🏆\n\nỨng dụng có giúp ích cho bạn không? Mời Admin 1 ly cà phê để duy trì Server nhé?")) {
-                            openDonateModal();
-                        }
-                    }, 1500); 
+                    setTimeout(() => { if(confirm("Wow! Bạn đạt " + score + " điểm! 🏆\nMời Admin 1 ly cà phê nhé?")) openDonateModal(); }, 1500);
                 }
-
                 if(weakWords.has(currentWord.id)) {
                     weakWords.delete(currentWord.id);
                     localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
@@ -371,7 +297,7 @@
                 setTimeout(nextCard, 1200); 
             } else {
                 btn.classList.add('wrong');
-                feedback.innerText = `Sai rồi! Nghĩa là: ${currentWord.definition_vn}`;
+                feedback.innerText = `Sai rồi! Là: ${currentWord.definition_vn}`;
                 feedback.style.color = "var(--wrong)";
                 weakWords.add(currentWord.id);
                 localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
@@ -382,27 +308,48 @@
         function speak() {
             if (!currentWord) return;
             const u = new SpeechSynthesisUtterance(currentWord.char);
-            u.lang = 'zh-CN';
-            u.rate = 0.8; 
+            u.lang = 'zh-CN'; u.rate = 0.8; 
             window.speechSynthesis.speak(u);
         }
 
+        // --- HÀM TẬP VIẾT ĐÃ ĐƯỢC FIX LỖI ---
         function toggleWriting() {
             const container = document.getElementById('writer-container');
             const display = document.getElementById('char-display');
+            
             if (display.style.display !== 'none') {
+                // Chuyển sang chế độ Viết
                 display.style.display = 'none';
-                container.style.display = 'block';
-                container.innerHTML = ""; 
-                writer = HanziWriter.create('writer-container', currentWord.char, {
-                    width: 200, height: 200, padding: 5, showOutline: true,
-                    strokeAnimationSpeed: 1, delayBetweenStrokes: 1000,
-                    strokeColor: '#2C3E50' // Màu mực viết trùng màu logo
+                container.style.display = 'flex'; // Dùng Flexbox để xếp ngang
+                container.innerHTML = ""; // Xóa nội dung cũ
+                
+                // Tách từ ghép thành từng chữ cái (Ví dụ: "人员" -> ['人', '员'])
+                const chars = currentWord.char.split('');
+                
+                // Tính toán kích thước: Nếu 1 chữ thì to, 2 chữ trở lên thì nhỏ lại để vừa màn hình điện thoại
+                const size = chars.length > 1 ? 130 : 200;
+
+                chars.forEach(char => {
+                    const div = document.createElement('div');
+                    container.appendChild(div);
+                    
+                    const writer = HanziWriter.create(div, char, {
+                        width: size,
+                        height: size,
+                        padding: 5,
+                        showOutline: true,
+                        strokeAnimationSpeed: 1,
+                        delayBetweenStrokes: 1000,
+                        strokeColor: '#2C3E50' // Màu mực trùng màu Logo
+                    });
+                    writer.quiz();
                 });
-                writer.quiz();
+                
             } else {
+                // Quay lại chế độ Đọc
                 display.style.display = 'block';
                 container.style.display = 'none';
+                container.innerHTML = "";
             }
         }
 
@@ -412,25 +359,16 @@
             document.getElementById('char-display').style.display = 'block';
         }
 
-        function openDonateModal() {
-            document.getElementById('donateModal').style.display = 'flex';
-        }
-        function closeDonateModal() {
-            document.getElementById('donateModal').style.display = 'none';
-        }
+        function openDonateModal() { document.getElementById('donateModal').style.display = 'flex'; }
+        function closeDonateModal() { document.getElementById('donateModal').style.display = 'none'; }
 
         function triggerConfetti() {
-            var duration = 2 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
-            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-            var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) { return clearInterval(interval); }
-                var particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
+            var duration = 2000; var end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
         }
     </script>
 </body>
