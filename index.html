@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiếng Trung Nhập Hàng 1688 & Taobao</title>
     <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     
@@ -129,7 +130,7 @@
         </div>
 
         <div class="product-card">
-            <img src="https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-mb4p6gmyl5nb11.webp" 
+            <img src="https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-llzhq0q5q5qv3e" 
                  alt="Sách Tiếng Trung" class="product-img">
             <div class="product-info">
                 <h4>📘 Sách: Tiếng Trung Buôn Bán</h4>
@@ -141,13 +142,13 @@
         </div>
 
         <div class="product-card">
-            <img src="https://down-vn.img.susercontent.com/file/4c3541f540b02c1a8e3b575f3a9ccc7a.webp" 
+            <img src="https://down-vn.img.susercontent.com/file/sg-11134201-22100-2jd2j5j2jivb2f" 
                  alt="Vở tập viết" class="product-img">
             <div class="product-info">
                 <h4>✍️ Combo Vở + Bút Bay Màu</h4>
                 <p>Mực tự bay sau 10 phút, viết đi viết lại mãi mãi.</p>
                 <a href="https://shorten.asia/gBEhbg4Z" target="_blank" class="partner-btn shopee-btn">
-                    Mua ngay (~80k) ➔
+                    Mua ngay (~30k) ➔
                 </a>
             </div>
         </div>
@@ -241,6 +242,7 @@
             });
         }
 
+        // --- HÀM KIỂM TRA ĐIỂM + BẮN PHÁO HOA ---
         function checkAnswer(btn, isCorrect) {
             const feedback = document.getElementById('feedback');
             document.querySelectorAll('.option-btn').forEach(b => b.onclick = null);
@@ -250,6 +252,19 @@
                 feedback.innerText = "Chính xác! 🎉";
                 feedback.style.color = "green";
                 score += 10;
+                document.getElementById('score').innerText = score;
+
+                // LOGIC PHÁO HOA & MỜI DONATE (Mỗi 50 điểm)
+                if (score > 0 && score % 50 === 0) {
+                    triggerConfetti(); // Bắn pháo hoa
+                    setTimeout(() => {
+                        // Hiện thông báo xin Donate
+                        if(confirm("Wow! Bạn đã đạt " + score + " điểm! 🏆\n\nỨng dụng có giúp ích cho bạn không? Mời Admin 1 ly cà phê để duy trì Server nhé?")) {
+                            openDonateModal();
+                        }
+                    }, 1500); 
+                }
+
                 if(weakWords.has(currentWord.id)) {
                     weakWords.delete(currentWord.id);
                     localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
@@ -263,7 +278,6 @@
                 localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
                 document.getElementById('weak-count').innerText = weakWords.size;
             }
-            document.getElementById('score').innerText = score;
         }
 
         function speak() {
@@ -298,11 +312,30 @@
             document.getElementById('char-display').style.display = 'block';
         }
 
+        // --- MODAL & CONFETTI HELPERS ---
         function openDonateModal() {
             document.getElementById('donateModal').style.display = 'flex';
         }
         function closeDonateModal() {
             document.getElementById('donateModal').style.display = 'none';
+        }
+
+        // Hàm hiệu ứng pháo hoa
+        function triggerConfetti() {
+            var duration = 2 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                var particleCount = 50 * (timeLeft / duration);
+                // Bắn từ 2 góc dưới lên
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
         }
     </script>
 </body>
