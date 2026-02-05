@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Comm Chinese (1688 & Taobao)</title>
+    <title>Tiếng Trung Nhập Hàng 1688 & Taobao</title>
     <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root { --primary: #00897B; --accent: #FF6F00; --bg: #f0f2f5; --white: #fff; --text: #333; --danger: #d32f2f; }
-        body { font-family: 'Roboto', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 20px; }
+        body { font-family: 'Roboto', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
 
         /* HEADER */
         .header { background: var(--primary); color: white; padding: 15px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .header h1 { margin: 0; font-size: 1.2rem; }
-        .mode-selector { margin-top: 10px; padding: 5px; border-radius: 4px; border: none; font-weight: bold; }
+        .header h1 { margin: 0; font-size: 1.3rem; margin-bottom: 8px; }
+        .mode-selector { padding: 8px; border-radius: 4px; border: none; font-weight: bold; width: 90%; max-width: 300px; }
 
-        /* CARD STYLE */
+        /* MAIN CARD STYLE */
         .card { background: var(--white); border-radius: 12px; padding: 25px; margin: 20px auto; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; position: relative; }
         
         /* CHARACTER DISPLAY */
         #char-display { font-size: 4.5rem; color: var(--text); margin: 15px 0; min-height: 80px; font-weight: bold; }
-        
-        /* PINYIN (Cách đọc) */
         .pinyin { font-size: 1.4rem; color: var(--accent); margin-bottom: 20px; font-weight: 500; }
         
         /* AUDIO BTN */
@@ -35,6 +34,7 @@
         .option-btn:hover { background: #f9f9f9; border-color: #ddd; }
         .option-btn.correct { background: #E8F5E9; border-color: #4CAF50; color: #2E7D32; font-weight: bold; }
         .option-btn.wrong { background: #FFEBEE; border-color: #EF5350; color: #C62828; }
+        #feedback { height: 25px; margin-top: 15px; font-weight: bold; font-size: 1.1rem; }
 
         /* WRITING AREA */
         #writer-container { width: 200px; height: 200px; margin: 0 auto; display: none; border: 1px dashed #ccc; }
@@ -46,16 +46,54 @@
         button.action-btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 1rem; width: 100%; }
         button.secondary { background: white; color: var(--primary); border: 1px solid var(--primary); margin-top: 10px; }
 
+        /* --- MONETIZATION STYLES --- */
+
+        /* 1. Nút Donate (Góc Trái) */
+        .donate-btn {
+            position: fixed; bottom: 20px; left: 20px;
+            background: #795548; color: white; /* Màu nâu cà phê */
+            padding: 10px 20px; border-radius: 50px;
+            font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 998; display: flex; align-items: center; gap: 8px; font-size: 1rem;
+            transition: transform 0.2s;
+        }
+        .donate-btn:hover { transform: scale(1.05); background: #5D4037; }
+
+        /* 2. Affiliate Section (Cuối trang) */
+        .partner-section {
+            text-align: center; margin: 30px auto; padding: 20px;
+            background: #E3F2FD; border-radius: 12px; max-width: 400px;
+            border: 1px dashed #2196F3;
+        }
+        .partner-section p { margin: 0 0 10px 0; color: #1565C0; font-weight: bold; }
+        .partner-btn { 
+            display: inline-block; background: #1976D2; color: white; 
+            text-decoration: none; padding: 10px 20px; border-radius: 25px; 
+            font-size: 0.95rem; font-weight: 500; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* 3. Modal Donate Overlay */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; animation: fadeIn 0.3s; }
+        .modal-content { background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 350px; text-align: center; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .qr-img { width: 100%; max-width: 250px; margin: 15px 0; border-radius: 10px; border: 1px solid #eee; }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 2rem; cursor: pointer; color: #999; line-height: 20px; }
+        .close-btn:hover { color: #333; }
+        .bank-info p { margin: 5px 0; font-size: 0.9rem; color: #555; }
+        .bank-info strong { color: #333; }
+        .note { font-style: italic; color: #888; font-size: 0.8rem; margin-top: 10px; }
+
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>📦 1688 & Import Chinese</h1>
+        <h1>📦 Từ Vựng Nhập Hàng 1688</h1>
         <select id="category-select" class="mode-selector" onchange="loadCategory()">
-            <option value="business" selected>Chuyên ngành: Nhập hàng 1688</option>
+            <option value="business" selected>Chuyên ngành: 1688 / Taobao</option>
             <option value="general">HSK Cơ bản (Đời sống)</option>
-            <option value="all">Tất cả</option>
+            <option value="all">Tất cả từ vựng</option>
         </select>
     </div>
 
@@ -73,7 +111,7 @@
         <div class="quiz-area" id="quiz-options">
             </div>
 
-        <div id="feedback" style="height: 25px; margin-top: 15px; font-weight: bold; font-size: 1.1rem;"></div>
+        <div id="feedback"></div>
 
         <button class="action-btn" onclick="nextCard()">Từ tiếp theo ➔</button>
         <button class="action-btn secondary" onclick="toggleWriting()">✍️ Tập viết chữ này</button>
@@ -82,6 +120,36 @@
     <div class="stats">
         <span>✅ Điểm: <b id="score">0</b></span>
         <span>🧠 Cần ôn lại: <b id="weak-count">0</b></span>
+    </div>
+
+    <div class="partner-section">
+        <p>🚚 Bạn chưa có kho nhận hàng tại Trung Quốc?</p>
+        <a href="https://example.com/affiliate-link" target="_blank" class="partner-btn">
+            Đăng ký Kho Chính Ngạch (Giảm 10% phí)
+        </a>
+    </div>
+
+    <div class="donate-btn" onclick="openDonateModal()">
+        ☕ Mời Cà Phê
+    </div>
+
+    <div id="donateModal" class="modal-overlay" onclick="closeDonateModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeDonateModal()">&times;</span>
+            <h3>☕ Cảm ơn bạn!</h3>
+            <p>Nếu web giúp bạn chốt được đơn hàng, hãy mời mình 1 ly cà phê nhé!</p>
+            
+            <img src="https://img.vietqr.io/image/MB-0987654321-compact.jpg?amount=20000&addInfo=Donate HSK Web" 
+                 alt="QR Chuyen khoan" 
+                 class="qr-img">
+            
+            <div class="bank-info">
+                <p><strong>Ngân hàng:</strong> VIB Bank</p>
+                <p><strong>STK:</strong> 933493882</p>
+                <p><strong>Tên:</strong> CHU CHI THANH</p>
+                <p class="note">Nội dung: Donate HSK Web</p>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -118,14 +186,11 @@
         // 3. LOGIC CHỌN TỪ
         function nextCard() {
             resetUI();
-            
             let pool = activeData;
-            // Ưu tiên từ yếu (30% cơ hội)
             if (weakWords.size > 0 && Math.random() < 0.3) {
                 const weakPool = activeData.filter(d => weakWords.has(d.id));
                 if(weakPool.length > 0) pool = weakPool;
             }
-
             currentWord = pool[Math.floor(Math.random() * pool.length)];
             renderCard(currentWord);
         }
@@ -133,17 +198,13 @@
         function renderCard(word) {
             document.getElementById('char-display').innerText = word.char;
             document.getElementById('pinyin').innerText = word.pinyin;
-            
-            // XÓA PHẦN HÁN VIỆT, CHỈ HIỂN THỊ TAG
             document.getElementById('level-tag').innerText = word.category === 'business' ? "💼 Buôn bán / 1688" : `HSK ${word.hsk_level}`;
-            
             generateQuiz(word);
         }
 
         function generateQuiz(correctWord) {
             const container = document.getElementById('quiz-options');
             container.innerHTML = "";
-
             let options = [correctWord];
             while(options.length < 4) {
                 let random = activeData[Math.floor(Math.random() * activeData.length)];
@@ -154,7 +215,6 @@
             options.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                // Chỉ hiện nghĩa tiếng Việt thực tế
                 btn.innerText = opt.definition_vn; 
                 btn.onclick = () => checkAnswer(btn, opt.id === correctWord.id);
                 container.appendChild(btn);
@@ -170,7 +230,6 @@
                 feedback.innerText = "Chính xác! 🎉";
                 feedback.style.color = "green";
                 score += 10;
-                
                 if(weakWords.has(currentWord.id)) {
                     weakWords.delete(currentWord.id);
                     localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
@@ -178,10 +237,8 @@
                 setTimeout(nextCard, 1200); 
             } else {
                 btn.classList.add('wrong');
-                // Hiện đáp án đúng rõ ràng hơn
                 feedback.innerText = `Sai rồi! Nghĩa là: ${currentWord.definition_vn}`;
                 feedback.style.color = "#d32f2f";
-                
                 weakWords.add(currentWord.id);
                 localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
                 document.getElementById('weak-count').innerText = weakWords.size;
@@ -200,18 +257,13 @@
         function toggleWriting() {
             const container = document.getElementById('writer-container');
             const display = document.getElementById('char-display');
-            
             if (display.style.display !== 'none') {
                 display.style.display = 'none';
                 container.style.display = 'block';
                 container.innerHTML = ""; 
                 writer = HanziWriter.create('writer-container', currentWord.char, {
-                    width: 200,
-                    height: 200,
-                    padding: 5,
-                    showOutline: true,
-                    strokeAnimationSpeed: 1,
-                    delayBetweenStrokes: 1000,
+                    width: 200, height: 200, padding: 5, showOutline: true,
+                    strokeAnimationSpeed: 1, delayBetweenStrokes: 1000,
                 });
                 writer.quiz();
             } else {
@@ -224,6 +276,14 @@
             document.getElementById('feedback').innerText = "";
             document.getElementById('writer-container').style.display = 'none';
             document.getElementById('char-display').style.display = 'block';
+        }
+
+        // JS CHO DONATE MODAL
+        function openDonateModal() {
+            document.getElementById('donateModal').style.display = 'flex';
+        }
+        function closeDonateModal() {
+            document.getElementById('donateModal').style.display = 'none';
         }
     </script>
 </body>
