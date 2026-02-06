@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thi thử HSK 1 - HSK Plus</title>
+    
+    <link rel="icon" type="image/png" href="favicon-32x32.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --primary: #2C3E50; --accent: #FF4757; --bg: #F0F2F5; --white: #fff; --success: #2ED573; }
+        body { font-family: 'Montserrat', 'Noto Sans SC', sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+        /* HEADER */
+        .header { background: var(--primary); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .logo { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .timer-box { background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 5px; font-variant-numeric: tabular-nums; font-weight: bold; font-size: 1.1rem; }
+        
+        /* LAYOUT */
+        .main-container { display: flex; flex: 1; overflow: hidden; }
+        
+        /* CỘT TRÁI: CÂU HỎI */
+        .question-area { flex: 7; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+        .question-card { background: white; width: 100%; max-width: 800px; border-radius: 10px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .section-title { color: var(--accent); font-weight: bold; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        
+        /* AUDIO PLAYER GIẢ LẬP */
+        .audio-player { background: #f1f3f4; padding: 15px; border-radius: 50px; display: flex; align-items: center; gap: 10px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; }
+        .audio-player:hover { background: #e0e0e0; }
+        
+        /* CONTENT */
+        .q-content { font-size: 1.2rem; margin-bottom: 20px; }
+        .q-image { max-width: 200px; max-height: 200px; border-radius: 8px; margin: 10px 0; border: 1px solid #eee; }
+        
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 100%; }
+        .option-btn { padding: 15px; border: 2px solid #eee; border-radius: 8px; background: white; cursor: pointer; text-align: left; transition: 0.2s; font-size: 1rem; }
+        .option-btn:hover { border-color: var(--primary); background: #f9f9f9; }
+        .option-btn.selected { border-color: var(--accent); background: #FFF0F0; color: var(--accent); font-weight: bold; }
+
+        /* CỘT PHẢI: NAVIGATION */
+        .sidebar { flex: 3; background: white; border-left: 1px solid #ddd; display: flex; flex-direction: column; max-width: 300px; }
+        .nav-header { padding: 15px; border-bottom: 1px solid #eee; font-weight: bold; }
+        .question-grid { padding: 15px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; overflow-y: auto; flex: 1; }
+        .q-dot { width: 35px; height: 35px; border-radius: 5px; border: 1px solid #ccc; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 0.9rem; }
+        .q-dot.active { border-color: var(--primary); background: #eee; }
+        .q-dot.answered { background: var(--primary); color: white; border-color: var(--primary); }
+        .q-dot.flagged { border-color: orange; color: orange; }
+
+        .sidebar-footer { padding: 20px; border-top: 1px solid #eee; text-align: center; }
+        .submit-btn { background: var(--accent); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; transition: 0.2s; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3); }
+
+        /* NAVIGATION BUTTONS */
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; width: 100%; max-width: 800px; }
+        .nav-btn { background: white; border: 1px solid #ccc; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        
+        /* MODAL KẾT QUẢ */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; border: 5px solid var(--accent); margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; font-weight: bold; color: var(--accent); }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .main-container { flex-direction: column; }
+            .sidebar { display: none; /* Ẩn sidebar trên mobile cho gọn, có thể làm nút toggle sau */ }
+            .header { font-size: 0.9rem; }
+            .timer-box { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">
+            <span style="cursor:pointer" onclick="window.location.href='index.html'">⬅ Quay lại</span>
+            <span> | HSK 1 Mock Test</span>
+        </div>
+        <div class="timer-box">⏳ <span id="timer">40:00</span></div>
+    </div>
+
+    <div class="main-container">
+        <div class="question-area">
+            <div class="question-card">
+                <div class="section-title" id="section-title">Phần Nghe - Phần 1</div>
+                
+                <div class="audio-player" id="audio-control" onclick="playAudio()">
+                    <span>🔊</span> <span id="audio-text">Bấm để nghe câu hỏi</span>
+                </div>
+
+                <div id="question-content">
+                    </div>
+
+                <div class="options-grid" id="options-container">
+                    </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="prevQuestion()">Previous</button>
+                <button class="nav-btn" onclick="nextQuestion()" style="background:var(--primary); color:white; border:none;">Next</button>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="nav-header">Danh sách câu hỏi</div>
+            <div class="question-grid" id="question-grid">
+                </div>
+            <div class="sidebar-footer">
+                <button class="submit-btn" onclick="submitTest()">NỘP BÀI</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <h2>Kết Quả Thi HSK 1</h2>
+            <div class="score-circle" id="final-score">0</div>
+            <p id="pass-fail-text">Đang tính...</p>
+            <p style="color:#666; font-size:0.9rem;">Kết quả đã được lưu vào hồ sơ.</p>
+            <button class="submit-btn" onclick="window.location.href='index.html'">Về trang chủ</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+        import { getFirestore, doc, updateDoc, arrayUnion, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+        // --- CẤU HÌNH FIREBASE CỦA BẠN (Dán y hệt bên index.html) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyBgc-OYf_lq9bTu_lQv46XbYtnEp4SBynY",
+            authDomain: "hsk-plus-web.firebaseapp.com",
+            projectId: "hsk-plus-web",
+            storageBucket: "hsk-plus-web.firebasestorage.app",
+            messagingSenderId: "757004452643",
+            appId: "1:757004452643:web:cbef488f9d7699ac034296",
+            measurementId: "G-8XVEFW19DQ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let currentUser = null;
+
+        // Kiểm tra đăng nhập
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                alert("Bạn cần đăng nhập để làm bài thi!");
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Hàm lưu kết quả thi
+        window.saveTestResult = async function(score, total) {
+            if (!currentUser) return;
+            const userRef = doc(db, "users", currentUser.uid);
+            
+            // Tạo object kết quả
+            const resultData = {
+                testName: "HSK 1 Mock Test",
+                score: score,
+                total: total,
+                date: new Date().toISOString(),
+                pass: score >= (total * 0.6) // Đậu nếu trên 60%
+            };
+
+            try {
+                // Kiểm tra xem user doc có tồn tại chưa
+                const docSnap = await getDoc(userRef);
+                if (!docSnap.exists()) {
+                    await setDoc(userRef, { testHistory: [resultData] });
+                } else {
+                    await updateDoc(userRef, {
+                        testHistory: arrayUnion(resultData)
+                    });
+                }
+                console.log("Đã lưu kết quả thi!");
+            } catch (e) {
+                console.error("Lỗi lưu kết quả:", e);
+            }
+        }
+    </script>
+
+    <script>
+        // --- DỮ LIỆU ĐỀ THI MẪU (BẠN CÓ THỂ THÊM SAU) ---
+        // Phần Nghe: Dùng text-to-speech của Google Chrome
+        const examData = [
+            // PART 1: NGHE - ĐÚNG SAI (5 câu)
+            {
+                id: 1, type: "listening", section: "Nghe - Phần 1: Đúng/Sai",
+                audioText: "Māma", // Audio đọc
+                content: "妈妈 (Mẹ)", // Hình ảnh/Chữ hiển thị
+                image: "https://img.freepik.com/free-vector/mother-hugging-her-daughter-illustration_114360-17215.jpg?w=200", // Link ảnh
+                options: ["Đúng (True)", "Sai (False)"],
+                correct: 0
+            },
+            {
+                id: 2, type: "listening", section: "Nghe - Phần 1: Đúng/Sai",
+                audioText: "Hē shuǐ",
+                content: "吃饭 (Ăn cơm)", 
+                image: "https://img.freepik.com/free-vector/boy-drinking-water_1308-33316.jpg?w=200",
+                options: ["Đúng (True)", "Sai (False)"],
+                correct: 1 // Sai vì audio là uống nước
+            },
+            // PART 2: NGHE - CHỌN ẢNH (3 câu demo)
+            {
+                id: 3, type: "listening", section: "Nghe - Phần 2: Chọn hình",
+                audioText: "Tā zài kàn shū", // Cô ấy đang đọc sách
+                content: "Nghe câu và chọn hình đúng:",
+                options: ["A. [Hình người ngủ]", "B. [Hình người đọc sách]", "C. [Hình người ăn]"],
+                correct: 1
+            },
+            // PART 3: ĐỌC HIỂU (Demo)
+            {
+                id: 4, type: "reading", section: "Đọc - Phần 1: Nối từ",
+                content: "Chọn nghĩa đúng của từ: 飞机 (Fēijī)",
+                options: ["A. Xe đạp", "B. Máy bay", "C. Tàu hỏa"],
+                correct: 1
+            },
+            {
+                id: 5, type: "reading", section: "Đọc - Phần 2: Điền từ",
+                content: "Wǒ ___ xuéxiao. (Tôi đi trường học)",
+                options: ["A. qù (去)", "B. zài (在)", "C. shì (是)"],
+                correct: 0
+            }
+            // ... Bạn có thể thêm đủ 40 câu ở đây ...
+        ];
+
+        // --- LOGIC BÀI THI ---
+        let currentIdx = 0;
+        let userAnswers = new Array(examData.length).fill(null);
+        let timeLeft = 40 * 60; // 40 phút tính bằng giây
+        let timerInterval;
+
+        function init() {
+            renderSidebar();
+            loadQuestion(0);
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                const s = (timeLeft % 60).toString().padStart(2, '0');
+                document.getElementById('timer').innerText = `${m}:${s}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Hết giờ! Hệ thống sẽ tự nộp bài.");
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function renderSidebar() {
+            const grid = document.getElementById('question-grid');
+            grid.innerHTML = "";
+            examData.forEach((q, idx) => {
+                const div = document.createElement('div');
+                div.className = `q-dot ${idx === currentIdx ? 'active' : ''}`;
+                div.innerText = idx + 1;
+                div.onclick = () => loadQuestion(idx);
+                div.id = `dot-${idx}`;
+                grid.appendChild(div);
+            });
+        }
+
+        function loadQuestion(idx) {
+            currentIdx = idx;
+            const q = examData[idx];
+            
+            // Update UI
+            document.getElementById('section-title').innerText = q.section;
+            document.getElementById('audio-control').style.display = q.type === 'listening' ? 'flex' : 'none';
+            document.getElementById('audio-text').innerText = q.type === 'listening' ? "Bấm để nghe" : "";
+            
+            // Update Sidebar Active state
+            document.querySelectorAll('.q-dot').forEach(d => d.classList.remove('active'));
+            document.getElementById(`dot-${idx}`).classList.add('active');
+
+            // Render Content
+            let html = `<div class="q-content">${q.content}</div>`;
+            if (q.image) {
+                html += `<img src="${q.image}" class="q-image" alt="Question Image">`;
+            }
+            document.getElementById('question-content').innerHTML = html;
+
+            // Render Options
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = "";
+            q.options.forEach((opt, optIdx) => {
+                const btn = document.createElement('div');
+                btn.className = `option-btn ${userAnswers[idx] === optIdx ? 'selected' : ''}`;
+                btn.innerText = opt;
+                btn.onclick = () => selectAnswer(idx, optIdx);
+                optsContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(qIdx, ansIdx) {
+            userAnswers[qIdx] = ansIdx;
+            // Update UI tại chỗ
+            loadQuestion(qIdx);
+            // Update Sidebar đã làm
+            document.getElementById(`dot-${qIdx}`).classList.add('answered');
+        }
+
+        function nextQuestion() {
+            if (currentIdx < examData.length - 1) loadQuestion(currentIdx + 1);
+        }
+
+        function prevQuestion() {
+            if (currentIdx > 0) loadQuestion(currentIdx - 1);
+        }
+
+        // --- AUDIO GIẢ LẬP (TEXT TO SPEECH) ---
+        function playAudio() {
+            const text = examData[currentIdx].audioText;
+            if (!text) return;
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'zh-CN';
+            u.rate = 0.8;
+            window.speechSynthesis.speak(u);
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            
+            // Tính điểm
+            let score = 0;
+            let correctCount = 0;
+            // Giả sử mỗi câu 5 điểm (Tổng 200 điểm cho 40 câu)
+            // Ở đây demo 5 câu -> mỗi câu 40 điểm cho dễ hình dung
+            const pointsPerQ = 200 / examData.length; 
+
+            examData.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            score = Math.round(correctCount * pointsPerQ);
+
+            // Hiển thị kết quả
+            document.getElementById('resultModal').style.display = 'flex';
+            document.getElementById('final-score').innerText = score;
+            
+            const pass = score >= 120; // HSK pass là 120/200
+            const msg = document.getElementById('pass-fail-text');
+            if (pass) {
+                msg.innerText = "CHÚC MỪNG! BẠN ĐÃ ĐẬU HSK 1 🎉";
+                msg.style.color = "green";
+                triggerConfetti();
+            } else {
+                msg.innerText = "Chia buồn! Bạn cần ôn thêm (Cần > 120 điểm).";
+                msg.style.color = "red";
+            }
+
+            // Lưu vào Firebase
+            if (window.saveTestResult) {
+                window.saveTestResult(score, 200);
+            }
+        }
+
+        function triggerConfetti() {
+            // Hiệu ứng pháo hoa giống index.html
+            const confettiScript = document.createElement('script');
+            confettiScript.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
+            confettiScript.onload = () => {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            };
+            document.body.appendChild(confettiScript);
+        }
+
+        // Khởi chạy
+        init();
+    </script>
+</body>
+</html>
