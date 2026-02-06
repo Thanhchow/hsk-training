@@ -36,7 +36,6 @@
             color: var(--primary); 
             margin: 0; 
             padding-bottom: 100px; 
-            /* Ngăn kéo trang trên mobile để cảm giác giống App hơn */
             overscroll-behavior-y: none;
         }
 
@@ -50,207 +49,145 @@
         }
         
         .logo-img {
-            height: 50px; 
+            height: 40px; 
             object-fit: contain;
             display: block;
             margin: 0 auto 10px auto;
         }
 
-        /* === NEW CUSTOM DROPDOWN CSS === */
-        .custom-dropdown {
-            position: relative;
-            width: 100%;
-            max-width: 350px;
-            margin: 0 auto;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .dropdown-trigger {
-            background: #fff;
-            border: 2px solid #eee;
-            border-radius: 50px;
-            padding: 10px 20px;
-            cursor: pointer;
+        /* USER BAR (LOGIN AREA) */
+        .user-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 600;
-            color: var(--primary);
-            transition: all 0.3s;
+            margin-bottom: 15px;
+            padding: 0 5px;
         }
 
-        .dropdown-trigger:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.1);
-        }
-
-        .dropdown-trigger .arrow {
-            font-size: 0.8rem;
-            transition: transform 0.3s;
-            color: var(--accent);
-        }
-
-        .dropdown-trigger.active .arrow {
-            transform: rotate(180deg);
-        }
-
-        .dropdown-options {
-            position: absolute;
-            top: 115%;
-            left: 0;
-            right: 0;
+        .login-btn {
             background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            overflow: hidden;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
-
-        .dropdown-options.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .option-item {
-            padding: 12px 20px;
+            color: #555;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
             cursor: pointer;
-            border-bottom: 1px solid #f5f5f5;
-            transition: background 0.2s;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s;
         }
+        .login-btn:hover { background: #f8f9fa; border-color: #ccc; }
 
+        .user-info {
+            display: none; /* Ẩn khi chưa login */
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--accent); }
+        .logout-btn { background: #eee; color: #555; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; margin-left: 5px; }
+
+        /* DROPDOWN */
+        .custom-dropdown { position: relative; width: 100%; max-width: 350px; margin: 0 auto; font-family: 'Montserrat', sans-serif; }
+        .dropdown-trigger { background: #fff; border: 2px solid #eee; border-radius: 50px; padding: 10px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: var(--primary); transition: all 0.3s; }
+        .dropdown-trigger:hover { border-color: var(--accent); }
+        .dropdown-trigger .arrow { font-size: 0.8rem; transition: transform 0.3s; color: var(--accent); }
+        .dropdown-trigger.active .arrow { transform: rotate(180deg); }
+        .dropdown-options { position: absolute; top: 115%; left: 0; right: 0; background: #fff; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 999; }
+        .dropdown-options.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        .option-item { padding: 12px 20px; cursor: pointer; border-bottom: 1px solid #f5f5f5; transition: background 0.2s; display: flex; align-items: center; gap: 10px; }
         .option-item:last-child { border-bottom: none; }
         .option-item:hover { background: #FFF0F0; color: var(--accent); }
         .option-item.selected { background: #FFF0F0; color: var(--accent); font-weight: 700; }
-        /* ============================== */
 
-        /* CARD STYLE */
-        .card { 
-            background: var(--white); 
-            border-radius: 24px; 
-            padding: 30px 25px; 
-            margin: 25px auto; 
-            max-width: 400px; 
-            box-shadow: var(--shadow); 
-            text-align: center; 
-            position: relative;
-            border-top: 5px solid var(--accent); 
-        }
-        
-        /* CHARACTER DISPLAY */
+        /* MAIN CARD */
+        .card { background: var(--white); border-radius: 24px; padding: 30px 25px; margin: 25px auto; max-width: 400px; box-shadow: var(--shadow); text-align: center; position: relative; border-top: 5px solid var(--accent); }
         #char-display { font-size: 5rem; color: var(--primary); margin: 10px 0; min-height: 90px; font-weight: 700; }
         .pinyin { font-size: 1.5rem; color: var(--accent); margin-bottom: 25px; font-weight: 600; letter-spacing: 1px; }
-        
-        /* AUDIO BTN */
-        .audio-btn { 
-            background: #FFF0F0; border: none; border-radius: 50%; width: 50px; height: 50px; 
-            cursor: pointer; font-size: 1.4rem; color: var(--accent); 
-            margin-top: -15px; transition: 0.3s; 
-        }
+        .audio-btn { background: #FFF0F0; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 1.4rem; color: var(--accent); margin-top: -15px; transition: 0.3s; }
         .audio-btn:hover { background: var(--accent); color: white; transform: rotate(15deg); }
         
-        /* WRITING AREA (FLEXBOX FIX) */
-        #writer-container { 
-            min-height: 200px; margin: 0 auto; display: none; 
-            border: 2px dashed #ccc; border-radius: 10px; 
-            justify-content: center; align-items: center; flex-wrap: wrap; gap: 5px; padding: 10px;
-        }
+        #writer-container { min-height: 200px; margin: 0 auto; display: none; border: 2px dashed #ccc; border-radius: 10px; justify-content: center; align-items: center; flex-wrap: wrap; gap: 5px; padding: 10px; }
 
-        /* QUIZ SECTION */
+        /* QUIZ */
         .quiz-area { display: grid; gap: 12px; margin-top: 25px; }
-        .option-btn { 
-            padding: 16px; border: 2px solid #f1f2f6; background: white; border-radius: 12px; 
-            cursor: pointer; font-size: 1rem; font-weight: 500; text-align: left; 
-            transition: 0.2s; color: var(--primary);
-        }
+        .option-btn { padding: 16px; border: 2px solid #f1f2f6; background: white; border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: 500; text-align: left; transition: 0.2s; color: var(--primary); }
         .option-btn:hover { border-color: var(--accent); background: #FFF5F5; }
         .option-btn.correct { background: var(--success); border-color: var(--success); color: white; }
         .option-btn.wrong { background: var(--wrong); border-color: var(--wrong); color: white; }
-        
         #feedback { height: 25px; margin-top: 15px; font-weight: 700; font-size: 1.1rem; }
 
-        button.action-btn { 
-            background: var(--accent); color: white; border: none; 
-            padding: 14px 24px; border-radius: 50px; font-weight: 700; cursor: pointer; 
-            margin-top: 20px; font-size: 1rem; width: 100%; 
-            box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); transition: transform 0.2s;
-        }
+        button.action-btn { background: var(--accent); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 20px; font-size: 1rem; width: 100%; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); transition: transform 0.2s; }
         button.action-btn:active { transform: scale(0.98); }
-        
-        button.secondary { 
-            background: transparent; color: var(--primary); 
-            border: 2px solid #eee; box-shadow: none; margin-top: 10px;
-        }
+        button.secondary { background: transparent; color: var(--primary); border: 2px solid #eee; box-shadow: none; margin-top: 10px; }
 
         .stats { display: flex; justify-content: center; gap: 20px; font-size: 0.95rem; color: #7f8c8d; margin-top: 20px; }
-        .tag { position: absolute; top: 15px; right: 15px; background: #f1f2f6; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #95a5a6; text-transform: uppercase; }
 
-        /* AFFILIATE CARD */
+        /* AFFILIATE */
         .affiliate-container { max-width: 400px; margin: 35px auto; padding: 0 15px; }
-        .product-card {
-            display: flex; align-items: center; text-align: left;
-            background: #fff; border: 1px solid #f1f2f6;
-            border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-            padding: 15px; gap: 15px; transition: transform 0.2s; margin-bottom: 15px;
-            position: relative; overflow: hidden;
-        }
+        .product-card { display: flex; align-items: center; text-align: left; background: #fff; border: 1px solid #f1f2f6; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); padding: 15px; gap: 15px; transition: transform 0.2s; margin-bottom: 15px; position: relative; overflow: hidden; }
         .product-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent); }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
         .product-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
         .product-info h4 { margin: 0 0 5px 0; color: var(--primary); font-size: 0.95rem; font-weight: 700; }
         .product-info p { margin: 0 0 10px 0; font-size: 0.8rem; color: #7f8c8d; line-height: 1.3; }
-        .partner-btn.shopee-btn { background: #EE4D2D; color: white; border-radius: 4px; padding: 6px 15px; font-size: 0.8rem; font-weight: bold; text-decoration: none; display: inline-block; }
+        .partner-btn.shopee-btn { background: #EE4D2D; color: white; border-radius: 4px; padding: 6px 15px; font-size: 0.8rem; font-weight: bold; text-decoration: none; display: inline-block; box-shadow: 0 2px 5px rgba(238, 77, 45, 0.2); }
 
-        /* DONATE BUTTON */
-        .donate-btn {
-            position: fixed; bottom: 25px; left: 25px;
-            background: var(--primary); color: white; padding: 12px 25px;
-            border-radius: 50px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3); z-index: 998;
-            display: flex; align-items: center; gap: 8px; font-size: 0.95rem; border: 2px solid white;
-        }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
-        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; position: relative; }
+        /* DONATE */
+        .donate-btn { position: fixed; bottom: 25px; left: 25px; background: var(--primary); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3); z-index: 998; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; border: 2px solid white; }
+        .donate-btn:hover { transform: scale(1.05); background: #1a252f; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; animation: fadeIn 0.3s; backdrop-filter: blur(2px); }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
         .qr-img { width: 100%; max-width: 250px; margin: 20px 0; border-radius: 12px; border: 1px solid #eee; }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #999; }
         .bank-info { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-top: 10px; }
         .bank-info p { margin: 5px 0; font-size: 0.9rem; color: #555; }
         .bank-info strong { color: var(--primary); font-weight: 700; }
+
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <img src="HSKPlus-Logo.png" alt="HSK Plus Logo" class="logo-img" onerror="this.style.display='none';">
-        
+        <div class="user-bar">
+            <img src="HSKPlus-Logo.png" alt="HSK Plus Logo" class="logo-img" onerror="this.style.display='none';">
+
+            <button id="login-btn" class="login-btn" onclick="loginGoogle()">
+                <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.637-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.715H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.346l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.159 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+                Lưu tiến độ
+            </button>
+
+            <div id="user-info" class="user-info">
+                <img id="user-avatar" src="" class="user-avatar">
+                <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                    <span id="user-name">User</span>
+                    <button class="logout-btn" onclick="logoutGoogle()">Thoát</button>
+                </div>
+            </div>
+        </div>
+
         <div class="custom-dropdown">
             <div class="dropdown-trigger" onclick="toggleDropdown()">
                 <span id="selected-text">💼 Chuyên ngành: 1688 / Taobao</span>
                 <span class="arrow">▼</span>
             </div>
             <div class="dropdown-options" id="dropdown-options">
-                <div class="option-item selected" onclick="selectCategory('business', '💼 Chuyên ngành: 1688 / Taobao')">
-                    <span>💼</span> Chuyên ngành: 1688 / Taobao
-                </div>
-                <div class="option-item" onclick="selectCategory('general', '🏠 HSK Cơ bản (Đời sống)')">
-                    <span>🏠</span> HSK Cơ bản (Đời sống)
-                </div>
-                <div class="option-item" onclick="selectCategory('all', '📚 Tất cả từ vựng')">
-                    <span>📚</span> Tất cả từ vựng
-                </div>
+                <div class="option-item selected" onclick="selectCategory('business', '💼 Chuyên ngành: 1688 / Taobao')"><span>💼</span> 1688 / Taobao</div>
+                <div class="option-item" onclick="selectCategory('general', '🏠 HSK Cơ bản (Đời sống)')"><span>🏠</span> HSK Cơ bản</div>
+                <div class="option-item" onclick="selectCategory('all', '📚 Tất cả từ vựng')"><span>📚</span> Tất cả</div>
             </div>
         </div>
-        </div>
+    </div>
 
     <div class="card" id="study-card">
         <div class="tag" id="level-tag">Category</div>
-        <div id="writer-container"></div> <div id="char-display">?</div>
+        <div id="writer-container"></div>
+        <div id="char-display">?</div>
         
         <button class="audio-btn" onclick="speak()" title="Nghe phát âm">🔊</button>
         <div class="pinyin" id="pinyin">...</div>
@@ -300,74 +237,150 @@
                 <p><strong>Ngân hàng:</strong> VIB (Quốc Tế)</p>
                 <p><strong>STK:</strong> 933493882</p>
                 <p><strong>Tên:</strong> CHU CHI THANH</p>
+                <p style="font-size: 0.8rem; color: #999; margin-top:5px;">Nội dung: Donate HSK Web</p>
             </div>
         </div>
     </div>
 
+    <script type="module">
+        // Import phiên bản mới nhất (12.9.0) để khớp với code bạn gửi
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+        // CONFIG CỦA BẠN
+        const firebaseConfig = {
+            apiKey: "AIzaSyBgc-OYf_lq9bTu_lQv46XbYtnEp4SBynY",
+            authDomain: "hsk-plus-web.firebaseapp.com",
+            projectId: "hsk-plus-web",
+            storageBucket: "hsk-plus-web.firebasestorage.app",
+            messagingSenderId: "757004452643",
+            appId: "1:757004452643:web:cbef488f9d7699ac034296",
+            measurementId: "G-8XVEFW19DQ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app); // Analytics tự chạy
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        let currentUser = null;
+
+        // 1. LOGIN
+        window.loginGoogle = function() {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    console.log("Login success:", result.user);
+                    // Sau khi login, onAuthStateChanged sẽ tự chạy
+                })
+                .catch((error) => {
+                    alert("Lỗi đăng nhập: " + error.message);
+                });
+        }
+
+        // 2. LOGOUT
+        window.logoutGoogle = function() {
+            signOut(auth).then(() => {
+                location.reload(); // Reload để xóa state cũ
+            });
+        }
+
+        // 3. THEO DÕI TRẠNG THÁI USER
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Đã đăng nhập
+                currentUser = user;
+                document.getElementById('login-btn').style.display = 'none';
+                document.getElementById('user-info').style.display = 'flex';
+                document.getElementById('user-avatar').src = user.photoURL;
+                document.getElementById('user-name').innerText = user.displayName.split(' ')[0]; // Lấy tên
+
+                // Tải dữ liệu từ Firestore về
+                await loadUserData(user.uid);
+            } else {
+                // Chưa đăng nhập -> Dùng LocalStorage tạm
+                currentUser = null;
+                document.getElementById('login-btn').style.display = 'flex';
+                document.getElementById('user-info').style.display = 'none';
+            }
+        });
+
+        // 4. LOAD DATA TỪ FIRESTORE
+        async function loadUserData(uid) {
+            const docRef = doc(db, "users", uid);
+            try {
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    window.score = data.score || 0;
+                    // Chuyển mảng weakWords từ DB thành Set
+                    window.weakWords = new Set(data.weakWords || []);
+                    
+                    updateStatsUI(); // Cập nhật giao diện điểm
+                    console.log("Loaded data from Firebase:", data);
+                } else {
+                    // User mới tinh chưa có data -> Tạo mới
+                    await setDoc(docRef, { score: 0, weakWords: [] });
+                }
+            } catch (e) {
+                console.error("Lỗi tải data:", e);
+            }
+        }
+
+        // 5. LƯU DATA LÊN FIRESTORE
+        window.saveUserData = async function() {
+            if (!currentUser) return; // Chưa login thì thôi
+            const userRef = doc(db, "users", currentUser.uid);
+            try {
+                await updateDoc(userRef, {
+                    score: window.score,
+                    weakWords: Array.from(window.weakWords) // Chuyển Set -> Array để lưu
+                });
+            } catch (e) {
+                console.error("Lỗi lưu data:", e);
+            }
+        }
+
+        // Đánh dấu Firebase đã sẵn sàng để logic game gọi
+        window.isFirebaseReady = true;
+    </script>
+
     <script>
+        // === LOGIC GAME (ĐÃ KẾT NỐI VỚI MODULE FIREBASE Ở TRÊN) ===
+        
         let allData = [];
         let activeData = [];
         let currentWord = null;
-        let score = 0;
-        let weakWords = new Set(JSON.parse(localStorage.getItem('weakWords')) || []);
         
-        // BIẾN LƯU CATEGORY HIỆN TẠI (MẶC ĐỊNH LÀ BUSINESS)
+        // Mặc định lấy từ LocalStorage (nếu chưa login)
+        window.score = parseInt(localStorage.getItem('score')) || 0;
+        window.weakWords = new Set(JSON.parse(localStorage.getItem('weakWords')) || []);
+        
         let currentCategory = 'business';
 
         fetch('vocabulary.json').then(r => r.json()).then(data => { allData = data; loadCategory(); }).catch(err => alert("Lỗi vocabulary.json"));
 
-        // --- NEW DROPDOWN LOGIC ---
-        function toggleDropdown() {
-            const dropdown = document.getElementById('dropdown-options');
-            const trigger = document.querySelector('.dropdown-trigger');
-            dropdown.classList.toggle('show');
-            trigger.classList.toggle('active');
-        }
+        // ... CÁC HÀM UI CŨ ...
 
-        function selectCategory(value, text) {
-            // Cập nhật text hiển thị
-            document.getElementById('selected-text').innerText = text;
-            
-            // Cập nhật biến currentCategory
-            currentCategory = value;
-            
-            // Đóng dropdown
-            toggleDropdown();
-            
-            // Đánh dấu mục đang chọn
-            document.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-
-            // Gọi hàm load dữ liệu
-            loadCategory();
-        }
-
-        // Đóng dropdown khi click ra ngoài
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropdown-trigger') && !event.target.matches('.dropdown-trigger *')) {
-                const dropdown = document.getElementById('dropdown-options');
-                const trigger = document.querySelector('.dropdown-trigger');
-                if (dropdown.classList.contains('show')) {
-                    dropdown.classList.remove('show');
-                    trigger.classList.remove('active');
-                }
-            }
-        }
-        // --------------------------
+        function toggleDropdown() { document.getElementById('dropdown-options').classList.toggle('show'); document.querySelector('.dropdown-trigger').classList.toggle('active'); }
+        function selectCategory(value, text) { document.getElementById('selected-text').innerText = text; currentCategory = value; toggleDropdown(); document.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected')); event.currentTarget.classList.add('selected'); loadCategory(); }
+        window.onclick = function(event) { if (!event.target.matches('.dropdown-trigger') && !event.target.matches('.dropdown-trigger *')) { document.getElementById('dropdown-options').classList.remove('show'); document.querySelector('.dropdown-trigger').classList.remove('active'); }}
 
         function loadCategory() {
-            // SỬA: Lấy từ biến currentCategory thay vì thẻ select cũ
             const cat = currentCategory;
-            
             activeData = cat === 'all' ? allData : allData.filter(item => item.category === cat || (!item.category && cat === 'general'));
             if(activeData.length === 0) activeData = allData;
-            document.getElementById('weak-count').innerText = weakWords.size;
+            document.getElementById('weak-count').innerText = window.weakWords.size;
+            updateStatsUI();
             nextCard();
         }
 
         function nextCard() {
             resetUI();
-            let pool = (weakWords.size > 0 && Math.random() < 0.3) ? activeData.filter(d => weakWords.has(d.id)) : activeData;
+            let pool = (window.weakWords.size > 0 && Math.random() < 0.3) ? activeData.filter(d => window.weakWords.has(d.id)) : activeData;
             if(pool.length === 0) pool = activeData;
             currentWord = pool[Math.floor(Math.random() * pool.length)];
             renderCard(currentWord);
@@ -401,83 +414,73 @@
         function checkAnswer(btn, isCorrect) {
             const feedback = document.getElementById('feedback');
             document.querySelectorAll('.option-btn').forEach(b => b.onclick = null);
+            
             if (isCorrect) {
                 btn.classList.add('correct');
                 feedback.innerText = "Chính xác! 🎉";
                 feedback.style.color = "var(--success)";
-                score += 10;
-                document.getElementById('score').innerText = score;
-                if (score > 0 && score % 50 === 0) {
+                window.score += 10;
+                
+                if (window.score > 0 && window.score % 50 === 0) {
                     triggerConfetti();
-                    setTimeout(() => { if(confirm("Wow! Bạn đạt " + score + " điểm! 🏆\nMời Admin 1 ly cà phê nhé?")) openDonateModal(); }, 1500);
+                    setTimeout(() => { if(confirm("Wow! Bạn đạt " + window.score + " điểm! 🏆\nMời Admin 1 ly cà phê nhé?")) openDonateModal(); }, 1500);
                 }
-                if(weakWords.has(currentWord.id)) {
-                    weakWords.delete(currentWord.id);
-                    localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
+                
+                if(window.weakWords.has(currentWord.id)) {
+                    window.weakWords.delete(currentWord.id);
                 }
                 setTimeout(nextCard, 1200); 
             } else {
                 btn.classList.add('wrong');
                 feedback.innerText = `Sai rồi! Là: ${currentWord.definition_vn}`;
                 feedback.style.color = "var(--wrong)";
-                weakWords.add(currentWord.id);
-                localStorage.setItem('weakWords', JSON.stringify([...weakWords]));
-                document.getElementById('weak-count').innerText = weakWords.size;
+                window.weakWords.add(currentWord.id);
+            }
+            
+            // LƯU DATA (QUAN TRỌNG)
+            saveToStorage();
+            updateStatsUI();
+        }
+
+        // HÀM LƯU TRỮ TRUNG TÂM
+        function saveToStorage() {
+            // 1. Luôn lưu LocalStorage (backup)
+            localStorage.setItem('score', window.score);
+            localStorage.setItem('weakWords', JSON.stringify([...window.weakWords]));
+            
+            // 2. Gọi hàm Firebase (nếu đã login)
+            if (window.saveUserData) {
+                window.saveUserData();
             }
         }
 
-        function speak() {
-            if (!currentWord) return;
-            const u = new SpeechSynthesisUtterance(currentWord.char);
-            u.lang = 'zh-CN'; u.rate = 0.8; 
-            window.speechSynthesis.speak(u);
+        function updateStatsUI() {
+            document.getElementById('score').innerText = window.score;
+            document.getElementById('weak-count').innerText = window.weakWords.size;
         }
 
+        function speak() { if (!currentWord) return; const u = new SpeechSynthesisUtterance(currentWord.char); u.lang = 'zh-CN'; u.rate = 0.8; window.speechSynthesis.speak(u); }
+        
         function toggleWriting() {
             const container = document.getElementById('writer-container');
             const display = document.getElementById('char-display');
-            
             if (display.style.display !== 'none') {
-                display.style.display = 'none';
-                container.style.display = 'flex'; 
-                container.innerHTML = ""; 
+                display.style.display = 'none'; container.style.display = 'flex'; container.innerHTML = ""; 
                 const chars = currentWord.char.split('');
                 const size = chars.length > 1 ? 130 : 200;
-
                 chars.forEach(char => {
-                    const div = document.createElement('div');
-                    container.appendChild(div);
-                    const writer = HanziWriter.create(div, char, {
-                        width: size, height: size, padding: 5, showOutline: true,
-                        strokeAnimationSpeed: 1, delayBetweenStrokes: 1000,
-                        strokeColor: '#2C3E50'
-                    });
+                    const div = document.createElement('div'); container.appendChild(div);
+                    const writer = HanziWriter.create(div, char, { width: size, height: size, padding: 5, showOutline: true, strokeAnimationSpeed: 1, delayBetweenStrokes: 1000, strokeColor: '#2C3E50' });
                     writer.quiz();
                 });
-            } else {
-                display.style.display = 'block';
-                container.style.display = 'none';
-                container.innerHTML = "";
-            }
+            } else { display.style.display = 'block'; container.style.display = 'none'; container.innerHTML = ""; }
         }
 
-        function resetUI() {
-            document.getElementById('feedback').innerText = "";
-            document.getElementById('writer-container').style.display = 'none';
-            document.getElementById('char-display').style.display = 'block';
-        }
-
+        function resetUI() { document.getElementById('feedback').innerText = ""; document.getElementById('writer-container').style.display = 'none'; document.getElementById('char-display').style.display = 'block'; }
+        
         function openDonateModal() { document.getElementById('donateModal').style.display = 'flex'; }
         function closeDonateModal() { document.getElementById('donateModal').style.display = 'none'; }
-
-        function triggerConfetti() {
-            var duration = 2000; var end = Date.now() + duration;
-            (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
-                if (Date.now() < end) requestAnimationFrame(frame);
-            }());
-        }
+        function triggerConfetti() { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); }
     </script>
 </body>
 </html>
