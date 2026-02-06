@@ -11,103 +11,143 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --primary: #2C3E50; --accent: #FF4757; --bg: #F0F2F5; --white: #fff; --success: #2ED573; }
-        body { font-family: 'Montserrat', 'Noto Sans SC', sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        :root { --primary: #2C3E50; --accent: #FF4757; --bg: #F0F2F5; --white: #fff; --success: #2ED573; --warning: #FFA502; }
+        body { font-family: 'Montserrat', 'Noto Sans SC', sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; color: #333; }
 
         /* HEADER */
-        .header { background: var(--primary); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .logo { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-        .timer-box { background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 5px; font-variant-numeric: tabular-nums; font-weight: bold; font-size: 1.1rem; }
+        .header { background: var(--white); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 10; }
+        .logo { font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--primary); }
+        .logo:hover { color: var(--accent); }
+        
+        .timer-box { 
+            background: var(--primary); color: white; padding: 8px 15px; border-radius: 50px; 
+            font-variant-numeric: tabular-nums; font-weight: bold; font-size: 1rem; 
+            box-shadow: 0 4px 10px rgba(44, 62, 80, 0.2); display: flex; align-items: center; gap: 5px;
+        }
         
         /* LAYOUT */
         .main-container { display: flex; flex: 1; overflow: hidden; }
         
-        /* CỘT TRÁI: CÂU HỎI */
-        .question-area { flex: 7; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
-        .question-card { background: white; width: 100%; max-width: 800px; border-radius: 10px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .section-title { color: var(--accent); font-weight: bold; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        /* CỘT TRÁI: NỘI DUNG CÂU HỎI */
+        .question-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; position: relative; }
+        .question-card { background: white; width: 100%; max-width: 700px; border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); }
         
-        /* AUDIO PLAYER GIẢ LẬP */
-        .audio-player { background: #f1f3f4; padding: 15px; border-radius: 50px; display: flex; align-items: center; gap: 10px; width: fit-content; margin-bottom: 20px; cursor: pointer; transition: 0.2s; }
-        .audio-player:hover { background: #e0e0e0; }
+        .section-badge { display: inline-block; background: #FFEBEE; color: var(--accent); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 15px; }
+        .q-text { font-size: 1.3rem; font-weight: 600; margin-bottom: 15px; line-height: 1.4; color: var(--primary); }
         
-        /* CONTENT */
-        .q-content { font-size: 1.2rem; margin-bottom: 20px; }
-        .q-image { max-width: 200px; max-height: 200px; border-radius: 8px; margin: 10px 0; border: 1px solid #eee; }
-        
-        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 100%; }
-        .option-btn { padding: 15px; border: 2px solid #eee; border-radius: 8px; background: white; cursor: pointer; text-align: left; transition: 0.2s; font-size: 1rem; }
-        .option-btn:hover { border-color: var(--primary); background: #f9f9f9; }
-        .option-btn.selected { border-color: var(--accent); background: #FFF0F0; color: var(--accent); font-weight: bold; }
+        /* HÌNH ẢNH */
+        .q-image-container { text-align: center; margin: 15px 0; }
+        .q-image { max-width: 100%; height: auto; max-height: 250px; border-radius: 8px; border: 2px solid #eee; }
 
-        /* CỘT PHẢI: NAVIGATION */
-        .sidebar { flex: 3; background: white; border-left: 1px solid #ddd; display: flex; flex-direction: column; max-width: 300px; }
-        .nav-header { padding: 15px; border-bottom: 1px solid #eee; font-weight: bold; }
-        .question-grid { padding: 15px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; overflow-y: auto; flex: 1; }
-        .q-dot { width: 35px; height: 35px; border-radius: 5px; border: 1px solid #ccc; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 0.9rem; }
-        .q-dot.active { border-color: var(--primary); background: #eee; }
-        .q-dot.answered { background: var(--primary); color: white; border-color: var(--primary); }
-        .q-dot.flagged { border-color: orange; color: orange; }
+        /* AUDIO PLAYER */
+        .audio-control { 
+            background: #f8f9fa; padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; 
+            cursor: pointer; transition: 0.2s; border: 1px solid #eee; margin-bottom: 20px; width: fit-content;
+        }
+        .audio-control:hover { background: #eef2f5; border-color: #cbd5e0; }
+        .audio-icon { font-size: 1.5rem; }
+        .audio-label { font-size: 0.9rem; font-weight: 600; color: #555; }
 
-        .sidebar-footer { padding: 20px; border-top: 1px solid #eee; text-align: center; }
-        .submit-btn { background: var(--accent); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; transition: 0.2s; }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3); }
+        /* ĐÁP ÁN */
+        .options-grid { display: grid; gap: 12px; margin-top: 20px; }
+        .option-btn { 
+            padding: 15px 20px; border: 2px solid #f0f0f0; border-radius: 10px; background: white; 
+            cursor: pointer; text-align: left; transition: 0.2s; font-size: 1rem; display: flex; align-items: center; gap: 10px;
+        }
+        .option-btn:hover { border-color: var(--primary); background: #f8fbff; }
+        .option-btn.selected { border-color: var(--accent); background: #FFF0F0; color: var(--accent); font-weight: 700; }
+        .option-key { width: 25px; height: 25px; border-radius: 50%; background: #eee; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; color: #666; }
+        .option-btn.selected .option-key { background: var(--accent); color: white; }
+
+        /* CỘT PHẢI: ĐIỀU HƯỚNG */
+        .sidebar { width: 280px; background: white; border-left: 1px solid #eee; display: flex; flex-direction: column; z-index: 5; }
+        .sidebar-header { padding: 15px; border-bottom: 1px solid #eee; font-weight: 700; color: var(--primary); text-align: center; }
+        
+        .grid-scroll { flex: 1; overflow-y: auto; padding: 15px; }
+        .q-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .q-dot { 
+            aspect-ratio: 1; border-radius: 8px; background: #f5f5f5; color: #666; font-size: 0.85rem; font-weight: 600;
+            display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; border: 1px solid transparent;
+        }
+        .q-dot:hover { background: #e0e0e0; }
+        .q-dot.active { border-color: var(--accent); color: var(--accent); background: #fff; box-shadow: 0 0 0 2px rgba(255, 71, 87, 0.2); }
+        .q-dot.answered { background: var(--primary); color: white; }
 
         /* NAVIGATION BUTTONS */
-        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; width: 100%; max-width: 800px; }
-        .nav-btn { background: white; border: 1px solid #ccc; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; max-width: 700px; width: 100%; }
+        .nav-btn { padding: 10px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .btn-prev { background: #eee; color: #555; }
+        .btn-prev:hover { background: #ddd; }
+        .btn-next { background: var(--primary); color: white; }
+        .btn-next:hover { background: #1a252f; }
+
+        .submit-area { padding: 20px; border-top: 1px solid #eee; }
+        .submit-btn { width: 100%; background: var(--accent); color: white; padding: 12px; border-radius: 50px; font-weight: bold; border: none; cursor: pointer; font-size: 1rem; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255, 71, 87, 0.4); }
+
+        /* MODAL */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; animation: slideUp 0.3s ease; }
+        .score-display { font-size: 3rem; font-weight: 800; color: var(--accent); margin: 10px 0; }
         
-        /* MODAL KẾT QUẢ */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; }
-        .score-circle { width: 120px; height: 120px; border-radius: 50%; border: 5px solid var(--accent); margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; font-weight: bold; color: var(--accent); }
+        @keyframes slideUp { from {transform: translateY(20px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .main-container { flex-direction: column; }
-            .sidebar { display: none; /* Ẩn sidebar trên mobile cho gọn, có thể làm nút toggle sau */ }
+            .sidebar { display: none; position: fixed; top: 0; right: 0; height: 100%; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
+            .sidebar.open { display: flex; }
             .header { font-size: 0.9rem; }
-            .timer-box { font-size: 1rem; }
+            .mobile-menu-btn { display: block; font-size: 1.5rem; cursor: pointer; }
         }
+        @media (min-width: 769px) { .mobile-menu-btn { display: none; } }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo">
-            <span style="cursor:pointer" onclick="window.location.href='index.html'">⬅ Quay lại</span>
-            <span> | HSK 1 Mock Test</span>
+        <div class="logo" onclick="window.location.href='index.html'">
+            <span>⬅ Quay lại</span>
         </div>
-        <div class="timer-box">⏳ <span id="timer">40:00</span></div>
+        <div class="timer-box">
+            <span>⏱</span> <span id="timer">40:00</span>
+        </div>
+        <div class="mobile-menu-btn" onclick="toggleSidebar()">☰</div>
     </div>
 
     <div class="main-container">
         <div class="question-area">
             <div class="question-card">
-                <div class="section-title" id="section-title">Phần Nghe - Phần 1</div>
+                <div class="section-badge" id="section-badge">Phần 1</div>
                 
-                <div class="audio-player" id="audio-control" onclick="playAudio()">
-                    <span>🔊</span> <span id="audio-text">Bấm để nghe câu hỏi</span>
+                <div class="audio-control" id="audio-control" onclick="playAudio()">
+                    <span class="audio-icon">🔊</span>
+                    <div class="audio-label" id="audio-text">Bấm vào đây để nghe</div>
                 </div>
 
-                <div id="question-content">
-                    </div>
+                <div id="question-content"></div>
 
-                <div class="options-grid" id="options-container">
-                    </div>
+                <div class="options-grid" id="options-container"></div>
             </div>
 
             <div class="nav-buttons">
-                <button class="nav-btn" onclick="prevQuestion()">Previous</button>
-                <button class="nav-btn" onclick="nextQuestion()" style="background:var(--primary); color:white; border:none;">Next</button>
+                <button class="nav-btn btn-prev" onclick="prevQuestion()">Câu trước</button>
+                <button class="nav-btn btn-next" onclick="nextQuestion()">Câu tiếp theo</button>
             </div>
         </div>
 
-        <div class="sidebar">
-            <div class="nav-header">Danh sách câu hỏi</div>
-            <div class="question-grid" id="question-grid">
-                </div>
-            <div class="sidebar-footer">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                Bảng Câu Hỏi (40)
+                <span style="float:right; cursor:pointer; font-size:1.2rem" class="mobile-menu-btn" onclick="toggleSidebar()">×</span>
+            </div>
+            <div class="grid-scroll">
+                <div style="margin-bottom:10px; font-weight:bold; font-size:0.8rem; color:#999;">PHẦN NGHE (1-20)</div>
+                <div class="q-grid" id="grid-listening"></div>
+                
+                <div style="margin-top:20px; margin-bottom:10px; font-weight:bold; font-size:0.8rem; color:#999;">PHẦN ĐỌC (21-40)</div>
+                <div class="q-grid" id="grid-reading"></div>
+            </div>
+            <div class="submit-area">
                 <button class="submit-btn" onclick="submitTest()">NỘP BÀI</button>
             </div>
         </div>
@@ -115,10 +155,14 @@
 
     <div id="resultModal" class="modal">
         <div class="modal-content">
-            <h2>Kết Quả Thi HSK 1</h2>
-            <div class="score-circle" id="final-score">0</div>
-            <p id="pass-fail-text">Đang tính...</p>
-            <p style="color:#666; font-size:0.9rem;">Kết quả đã được lưu vào hồ sơ.</p>
+            <h2 style="margin:0; color:var(--primary)">Kết Quả Thi</h2>
+            <div style="font-size:0.9rem; color:#666; margin-top:5px">HSK 1 - Mock Test</div>
+            
+            <div class="score-display" id="final-score">0</div>
+            <div style="font-weight:bold; color:#555">/ 200 Điểm</div>
+            
+            <p id="pass-msg" style="font-weight:600; margin: 20px 0;"></p>
+            
             <button class="submit-btn" onclick="window.location.href='index.html'">Về trang chủ</button>
         </div>
     </div>
@@ -128,7 +172,6 @@
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
         import { getFirestore, doc, updateDoc, arrayUnion, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-        // --- CẤU HÌNH FIREBASE CỦA BẠN (Dán y hệt bên index.html) ---
         const firebaseConfig = {
             apiKey: "AIzaSyBgc-OYf_lq9bTu_lQv46XbYtnEp4SBynY",
             authDomain: "hsk-plus-web.firebaseapp.com",
@@ -144,96 +187,134 @@
         const db = getFirestore(app);
         let currentUser = null;
 
-        // Kiểm tra đăng nhập
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-            } else {
-                alert("Bạn cần đăng nhập để làm bài thi!");
-                window.location.href = 'index.html';
-            }
+            if (user) currentUser = user;
+            else { alert("Vui lòng đăng nhập để lưu kết quả!"); window.location.href = 'index.html'; }
         });
 
-        // Hàm lưu kết quả thi
-        window.saveTestResult = async function(score, total) {
+        window.saveTestResult = async function(score) {
             if (!currentUser) return;
             const userRef = doc(db, "users", currentUser.uid);
-            
-            // Tạo object kết quả
             const resultData = {
                 testName: "HSK 1 Mock Test",
                 score: score,
-                total: total,
+                total: 200,
                 date: new Date().toISOString(),
-                pass: score >= (total * 0.6) // Đậu nếu trên 60%
+                pass: score >= 120
             };
-
             try {
-                // Kiểm tra xem user doc có tồn tại chưa
                 const docSnap = await getDoc(userRef);
-                if (!docSnap.exists()) {
-                    await setDoc(userRef, { testHistory: [resultData] });
-                } else {
-                    await updateDoc(userRef, {
-                        testHistory: arrayUnion(resultData)
-                    });
-                }
-                console.log("Đã lưu kết quả thi!");
-            } catch (e) {
-                console.error("Lỗi lưu kết quả:", e);
-            }
+                if (!docSnap.exists()) await setDoc(userRef, { testHistory: [resultData] });
+                else await updateDoc(userRef, { testHistory: arrayUnion(resultData) });
+            } catch (e) { console.error(e); }
         }
     </script>
 
     <script>
-        // --- DỮ LIỆU ĐỀ THI MẪU (BẠN CÓ THỂ THÊM SAU) ---
-        // Phần Nghe: Dùng text-to-speech của Google Chrome
-        const examData = [
-            // PART 1: NGHE - ĐÚNG SAI (5 câu)
-            {
-                id: 1, type: "listening", section: "Nghe - Phần 1: Đúng/Sai",
-                audioText: "Māma", // Audio đọc
-                content: "妈妈 (Mẹ)", // Hình ảnh/Chữ hiển thị
-                image: "https://img.freepik.com/free-vector/mother-hugging-her-daughter-illustration_114360-17215.jpg?w=200", // Link ảnh
-                options: ["Đúng (True)", "Sai (False)"],
-                correct: 0
-            },
-            {
-                id: 2, type: "listening", section: "Nghe - Phần 1: Đúng/Sai",
-                audioText: "Hē shuǐ",
-                content: "吃饭 (Ăn cơm)", 
-                image: "https://img.freepik.com/free-vector/boy-drinking-water_1308-33316.jpg?w=200",
-                options: ["Đúng (True)", "Sai (False)"],
-                correct: 1 // Sai vì audio là uống nước
-            },
-            // PART 2: NGHE - CHỌN ẢNH (3 câu demo)
-            {
-                id: 3, type: "listening", section: "Nghe - Phần 2: Chọn hình",
-                audioText: "Tā zài kàn shū", // Cô ấy đang đọc sách
-                content: "Nghe câu và chọn hình đúng:",
-                options: ["A. [Hình người ngủ]", "B. [Hình người đọc sách]", "C. [Hình người ăn]"],
-                correct: 1
-            },
-            // PART 3: ĐỌC HIỂU (Demo)
-            {
-                id: 4, type: "reading", section: "Đọc - Phần 1: Nối từ",
-                content: "Chọn nghĩa đúng của từ: 飞机 (Fēijī)",
-                options: ["A. Xe đạp", "B. Máy bay", "C. Tàu hỏa"],
-                correct: 1
-            },
-            {
-                id: 5, type: "reading", section: "Đọc - Phần 2: Điền từ",
-                content: "Wǒ ___ xuéxiao. (Tôi đi trường học)",
-                options: ["A. qù (去)", "B. zài (在)", "C. shì (是)"],
-                correct: 0
-            }
-            // ... Bạn có thể thêm đủ 40 câu ở đây ...
-        ];
+        // --- DỮ LIỆU ĐỀ THI 40 CÂU (CHUẨN CẤU TRÚC HSK 1) ---
+        // Lưu ý: Ảnh đang dùng Placeholder (Ảnh giữ chỗ). Bạn hãy thay bằng link ảnh thật.
+        
+        const examData = [];
 
-        // --- LOGIC BÀI THI ---
+        // HÀM TẠO DỮ LIỆU GIẢ (BẠN SẼ SỬA DỮ LIỆU Ở ĐÂY)
+        function generateData() {
+            // --- PHẦN 1: NGHE HIỂU (20 CÂU) ---
+            
+            // Part 1 (1-5): Đúng/Sai (Hình vs Âm thanh)
+            for(let i=1; i<=5; i++) {
+                examData.push({
+                    id: i, type: "listening", section: "Nghe - Phần 1: Đúng hay Sai?",
+                    audioText: i % 2 === 0 ? "Fēijī" : "Diànnǎo", // Chẵn đọc Máy bay, Lẻ đọc Máy tính
+                    content: i % 2 === 0 ? "飞机 (Fēijī)" : "电脑 (Diànnǎo)",
+                    image: `https://placehold.co/600x400?text=Hinh+Anh+Cau+So+${i}`, // Thay ảnh thật vào đây
+                    options: ["Đúng (True)", "Sai (False)"],
+                    correct: 0 // Mặc định đáp án A (Đúng)
+                });
+            }
+
+            // Part 2 (6-10): Chọn hình đúng (Nghe câu chọn hình)
+            for(let i=6; i<=10; i++) {
+                examData.push({
+                    id: i, type: "listening", section: "Nghe - Phần 2: Chọn hình đúng",
+                    audioText: "Tā zài kàn shū (Cô ấy đang đọc sách)",
+                    content: "Nghe và chọn bức tranh phù hợp:",
+                    // Ở đây option là Text mô tả hình, thực tế bạn có thể để thẻ <img src...> vào option
+                    options: ["A. [Hình người đang ngủ]", "B. [Hình người đọc sách]", "C. [Hình người ăn cơm]"],
+                    correct: 1
+                });
+            }
+
+            // Part 3 (11-15): Chọn hình (Hội thoại)
+            for(let i=11; i<=15; i++) {
+                examData.push({
+                    id: i, type: "listening", section: "Nghe - Phần 3: Hội thoại",
+                    audioText: "Nǐ hǎo! Nǐ hǎo ma? - Wǒ hěn hǎo.",
+                    content: "Chọn hình tương ứng với đoạn hội thoại:",
+                    options: ["A. [Hình bắt tay]", "B. [Hình tạm biệt]", "C. [Hình nghe điện thoại]"],
+                    correct: 0
+                });
+            }
+
+            // Part 4 (16-20): Chọn đáp án (Nghe câu hỏi chọn câu trả lời)
+            for(let i=16; i<=20; i++) {
+                examData.push({
+                    id: i, type: "listening", section: "Nghe - Phần 4: Trả lời câu hỏi",
+                    audioText: "Jīntiān shì jǐ yuè jǐ hào?", // Hôm nay là ngày mấy tháng mấy?
+                    content: "Chọn câu trả lời đúng:",
+                    options: ["A. Xīngqī sān", "B. Sān diǎn", "C. Bā yuè wǔ hào"], // C là ngày tháng
+                    correct: 2
+                });
+            }
+
+            // --- PHẦN 2: ĐỌC HIỂU (20 CÂU) ---
+
+            // Part 1 (21-25): Đúng/Sai (Hình vs Chữ)
+            for(let i=21; i<=25; i++) {
+                examData.push({
+                    id: i, type: "reading", section: "Đọc - Phần 1: Đúng hay Sai?",
+                    content: "Māma (Mẹ)",
+                    image: `https://placehold.co/600x400?text=Anh+Nguoi+Me`,
+                    options: ["Đúng", "Sai"],
+                    correct: 0
+                });
+            }
+
+            // Part 2 (26-30): Nối tranh
+            for(let i=26; i<=30; i++) {
+                examData.push({
+                    id: i, type: "reading", section: "Đọc - Phần 2: Chọn hình",
+                    content: "Wǒ xǐhuan chī píngguǒ (Tôi thích ăn táo).",
+                    options: ["A. [Hình quả táo]", "B. [Hình quả chuối]", "C. [Hình dưa hấu]"],
+                    correct: 0
+                });
+            }
+
+            // Part 3 (31-35): Nối câu hỏi - trả lời (Logic)
+            for(let i=31; i<=35; i++) {
+                examData.push({
+                    id: i, type: "reading", section: "Đọc - Phần 3: Chọn câu trả lời",
+                    content: "Nǐ jiào shénme míngzi? (Bạn tên là gì?)",
+                    options: ["A. Wǒ shì xuéshēng", "B. Wǒ jiào Lǐ Yuè", "C. Xièxie"],
+                    correct: 1
+                });
+            }
+
+            // Part 4 (36-40): Điền từ
+            for(let i=36; i<=40; i++) {
+                examData.push({
+                    id: i, type: "reading", section: "Đọc - Phần 4: Điền từ",
+                    content: "Bàba ___ hē chá. (Bố ___ uống trà)",
+                    options: ["A. xǐhuan (thích)", "B. shì (là)", "C. zài (ở)"],
+                    correct: 0
+                });
+            }
+        }
+        generateData(); // Khởi tạo 40 câu
+
+        // --- CORE LOGIC ---
         let currentIdx = 0;
-        let userAnswers = new Array(examData.length).fill(null);
-        let timeLeft = 40 * 60; // 40 phút tính bằng giây
+        let userAnswers = new Array(40).fill(null);
+        let timeLeft = 40 * 60; // 40 phút
         let timerInterval;
 
         function init() {
@@ -248,25 +329,23 @@
                 const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
                 const s = (timeLeft % 60).toString().padStart(2, '0');
                 document.getElementById('timer').innerText = `${m}:${s}`;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    alert("Hết giờ! Hệ thống sẽ tự nộp bài.");
-                    submitTest();
-                }
+                if (timeLeft <= 0) { clearInterval(timerInterval); alert("Hết giờ!"); submitTest(); }
             }, 1000);
         }
 
         function renderSidebar() {
-            const grid = document.getElementById('question-grid');
-            grid.innerHTML = "";
+            const listGrid = document.getElementById('grid-listening');
+            const readGrid = document.getElementById('grid-reading');
+            
             examData.forEach((q, idx) => {
                 const div = document.createElement('div');
-                div.className = `q-dot ${idx === currentIdx ? 'active' : ''}`;
+                div.className = `q-dot`;
                 div.innerText = idx + 1;
-                div.onclick = () => loadQuestion(idx);
                 div.id = `dot-${idx}`;
-                grid.appendChild(div);
+                div.onclick = () => { loadQuestion(idx); if(window.innerWidth<=768) toggleSidebar(); };
+                
+                if (idx < 20) listGrid.appendChild(div);
+                else readGrid.appendChild(div);
             });
         }
 
@@ -274,29 +353,31 @@
             currentIdx = idx;
             const q = examData[idx];
             
-            // Update UI
-            document.getElementById('section-title').innerText = q.section;
+            // Cập nhật UI
+            document.getElementById('section-badge').innerText = q.section;
             document.getElementById('audio-control').style.display = q.type === 'listening' ? 'flex' : 'none';
-            document.getElementById('audio-text').innerText = q.type === 'listening' ? "Bấm để nghe" : "";
             
-            // Update Sidebar Active state
+            // Highlight sidebar
             document.querySelectorAll('.q-dot').forEach(d => d.classList.remove('active'));
             document.getElementById(`dot-${idx}`).classList.add('active');
 
-            // Render Content
-            let html = `<div class="q-content">${q.content}</div>`;
-            if (q.image) {
-                html += `<img src="${q.image}" class="q-image" alt="Question Image">`;
-            }
-            document.getElementById('question-content').innerHTML = html;
+            // Render Nội dung
+            let contentHtml = `<div class="q-text">${q.content}</div>`;
+            if (q.image) contentHtml += `<div class="q-image-container"><img src="${q.image}" class="q-image" alt="Question Image"></div>`;
+            document.getElementById('question-content').innerHTML = contentHtml;
 
-            // Render Options
+            // Render Đáp án
             const optsContainer = document.getElementById('options-container');
             optsContainer.innerHTML = "";
+            const letters = ['A', 'B', 'C', 'D'];
+            
             q.options.forEach((opt, optIdx) => {
                 const btn = document.createElement('div');
                 btn.className = `option-btn ${userAnswers[idx] === optIdx ? 'selected' : ''}`;
-                btn.innerText = opt;
+                // Nếu option là Đúng/Sai thì không cần A,B,C
+                const key = (q.options.length === 2) ? (optIdx === 0 ? '✔' : '✘') : letters[optIdx];
+                
+                btn.innerHTML = `<div class="option-key">${key}</div> <div>${opt}</div>`;
                 btn.onclick = () => selectAnswer(idx, optIdx);
                 optsContainer.appendChild(btn);
             });
@@ -304,80 +385,58 @@
 
         function selectAnswer(qIdx, ansIdx) {
             userAnswers[qIdx] = ansIdx;
-            // Update UI tại chỗ
-            loadQuestion(qIdx);
-            // Update Sidebar đã làm
+            loadQuestion(qIdx); // Re-render để hiện màu xanh
             document.getElementById(`dot-${qIdx}`).classList.add('answered');
         }
 
-        function nextQuestion() {
-            if (currentIdx < examData.length - 1) loadQuestion(currentIdx + 1);
-        }
+        function nextQuestion() { if (currentIdx < 39) loadQuestion(currentIdx + 1); }
+        function prevQuestion() { if (currentIdx > 0) loadQuestion(currentIdx - 1); }
 
-        function prevQuestion() {
-            if (currentIdx > 0) loadQuestion(currentIdx - 1);
-        }
-
-        // --- AUDIO GIẢ LẬP (TEXT TO SPEECH) ---
         function playAudio() {
             const text = examData[currentIdx].audioText;
             if (!text) return;
             const u = new SpeechSynthesisUtterance(text);
-            u.lang = 'zh-CN';
-            u.rate = 0.8;
+            u.lang = 'zh-CN'; u.rate = 0.8;
             window.speechSynthesis.speak(u);
         }
 
         function submitTest() {
+            if(!confirm("Bạn có chắc chắn muốn nộp bài không?")) return;
             clearInterval(timerInterval);
             
-            // Tính điểm
             let score = 0;
-            let correctCount = 0;
-            // Giả sử mỗi câu 5 điểm (Tổng 200 điểm cho 40 câu)
-            // Ở đây demo 5 câu -> mỗi câu 40 điểm cho dễ hình dung
-            const pointsPerQ = 200 / examData.length; 
-
+            // Mỗi câu 5 điểm (Tổng 200)
             examData.forEach((q, idx) => {
-                if (userAnswers[idx] === q.correct) {
-                    correctCount++;
-                }
+                if (userAnswers[idx] === q.correct) score += 5;
             });
 
-            score = Math.round(correctCount * pointsPerQ);
-
-            // Hiển thị kết quả
             document.getElementById('resultModal').style.display = 'flex';
             document.getElementById('final-score').innerText = score;
             
-            const pass = score >= 120; // HSK pass là 120/200
-            const msg = document.getElementById('pass-fail-text');
-            if (pass) {
-                msg.innerText = "CHÚC MỪNG! BẠN ĐÃ ĐẬU HSK 1 🎉";
-                msg.style.color = "green";
+            const msg = document.getElementById('pass-msg');
+            if (score >= 120) {
+                msg.innerText = "🎉 CHÚC MỪNG! BẠN ĐÃ ĐẬU HSK 1";
+                msg.style.color = "var(--success)";
                 triggerConfetti();
             } else {
-                msg.innerText = "Chia buồn! Bạn cần ôn thêm (Cần > 120 điểm).";
-                msg.style.color = "red";
+                msg.innerText = "Chia buồn! Bạn cần ôn tập thêm (Cần 120đ).";
+                msg.style.color = "var(--warning)";
             }
 
-            // Lưu vào Firebase
-            if (window.saveTestResult) {
-                window.saveTestResult(score, 200);
-            }
+            if (window.saveTestResult) window.saveTestResult(score);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
         }
 
         function triggerConfetti() {
-            // Hiệu ứng pháo hoa giống index.html
-            const confettiScript = document.createElement('script');
-            confettiScript.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
-            confettiScript.onload = () => {
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            };
-            document.body.appendChild(confettiScript);
+            const script = document.createElement('script');
+            script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
+            script.onload = () => confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            document.body.appendChild(script);
         }
 
-        // Khởi chạy
         init();
     </script>
 </body>
