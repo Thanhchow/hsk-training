@@ -214,7 +214,508 @@
         // --- DỮ LIỆU ĐỀ THI 40 CÂU (CHUẨN CẤU TRÚC HSK 1) ---
         // Lưu ý: Ảnh đang dùng Placeholder (Ảnh giữ chỗ). Bạn hãy thay bằng link ảnh thật.
         
-        const examData = [];
+        const examData = [
+		{
+        "id": 1,
+        "type": "listening",
+        "section": "Nghe - Phần 1: Đúng hay Sai?",
+        "audioText": "日",
+        "content": "日 (Day/Sun)",
+        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Day/Sun",
+        "options": [
+            "Đúng (True)",
+            "Sai (False)"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 2,
+        "type": "listening",
+        "section": "Nghe - Phần 1: Đúng hay Sai?",
+        "audioText": "我们",
+        "content": "我们 (We/Us)",
+        "image": "https://placehold.co/600x400/2C3E50/FFF?text=How+many/much",
+        "options": [
+            "Đúng (True)",
+            "Sai (False)"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 3,
+        "type": "listening",
+        "section": "Nghe - Phần 1: Đúng hay Sai?",
+        "audioText": "少",
+        "content": "少 (Few/Little)",
+        "image": "https://placehold.co/600x400/2C3E50/FFF?text=No/Not",
+        "options": [
+            "Đúng (True)",
+            "Sai (False)"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 4,
+        "type": "listening",
+        "section": "Nghe - Phần 1: Đúng hay Sai?",
+        "audioText": "人",
+        "content": "人 (Person)",
+        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Person",
+        "options": [
+            "Đúng (True)",
+            "Sai (False)"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 5,
+        "type": "listening",
+        "section": "Nghe - Phần 1: Đúng hay Sai?",
+        "audioText": "狗",
+        "content": "狗 (Dog)",
+        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Know/Meet",
+        "options": [
+            "Đúng (True)",
+            "Sai (False)"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 6,
+        "type": "listening",
+        "section": "Nghe - Phần 2: Chọn hình đúng",
+        "audioText": "Wǒ huì shuō Hànyǔ (Tôi biết nói tiếng Trung)",
+        "content": "Nghe câu và chọn hình tương ứng:",
+        "options": [
+            "[Dad]",
+            "[Can]",
+            "[Book]"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 7,
+        "type": "listening",
+        "section": "Nghe - Phần 2: Chọn hình đúng",
+        "audioText": "Wǒ qù xuéxiào (Tôi đến trường)",
+        "content": "Nghe câu và chọn hình tương ứng:",
+        "options": [
+            "[Student]",
+            "[School]",
+            "[Beautiful]"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 8,
+        "type": "listening",
+        "section": "Nghe - Phần 2: Chọn hình đúng",
+        "audioText": "Tā hěn piàoliang (Cô ấy rất đẹp)",
+        "content": "Nghe câu và chọn hình tương ứng:",
+        "options": [
+            "[Beautiful]",
+            "[Beijing]",
+            "[This]"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 9,
+        "type": "listening",
+        "section": "Nghe - Phần 2: Chọn hình đúng",
+        "audioText": "Wǒ jiào chūzūchē (Tôi gọi taxi)",
+        "content": "Nghe câu và chọn hình tương ứng:",
+        "options": [
+            "[Taxi]",
+            "[Work]",
+            "[Buy]"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 10,
+        "type": "listening",
+        "section": "Nghe - Phần 2: Chọn hình đúng",
+        "audioText": "Yǐzi xià (Dưới ghế)",
+        "content": "Nghe câu và chọn hình tương ứng:",
+        "options": [
+            "[See (result)]",
+            "[He/Him]",
+            "[Down/Under]"
+        ],
+        "correct": 2
+    },
+    {
+        "id": 11,
+        "type": "listening",
+        "section": "Nghe - Phần 3: Hội thoại",
+        "audioText": "A: Nǐ xǐhuan diǎn ma? B: Hěn xǐhuan!",
+        "content": "Nghe hội thoại và chọn hình:",
+        "options": [
+            "[I/Me]",
+            "[O'clock/Dot]",
+            "[Come]"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 12,
+        "type": "listening",
+        "section": "Nghe - Phần 3: Hội thoại",
+        "audioText": "A: Nǐ xǐhuan kāi ma? B: Hěn xǐhuan!",
+        "content": "Nghe hội thoại và chọn hình:",
+        "options": [
+            "[No (past/have)]",
+            "[Where]",
+            "[Open/Drive]"
+        ],
+        "correct": 2
+    },
+    {
+        "id": 13,
+        "type": "listening",
+        "section": "Nghe - Phần 3: Hội thoại",
+        "audioText": "A: Nǐ xǐhuan péngyou ma? B: Hěn xǐhuan!",
+        "content": "Nghe hội thoại và chọn hình:",
+        "options": [
+            "[Computer]",
+            "[Friend]",
+            "[Read]"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 14,
+        "type": "listening",
+        "section": "Nghe - Phần 3: Hội thoại",
+        "audioText": "A: Nǐ xǐhuan zuò ma? B: Hěn xǐhuan!",
+        "content": "Nghe hội thoại và chọn hình:",
+        "options": [
+            "[Sit]",
+            "[Very]",
+            "[To be (is/am/are)]"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 15,
+        "type": "listening",
+        "section": "Nghe - Phần 3: Hội thoại",
+        "audioText": "A: Nǐ xǐhuan dōngxi ma? B: Hěn xǐhuan!",
+        "content": "Nghe hội thoại và chọn hình:",
+        "options": [
+            "[Three]",
+            "[Do/Make]",
+            "[Thing]"
+        ],
+        "correct": 2
+    },
+    {
+        "id": 16,
+        "type": "listening",
+        "section": "Nghe - Phần 4: Trả lời câu hỏi",
+        "audioText": "Zhè shì shénme? (Đây là gì?) - Daughter",
+        "content": "Chọn câu trả lời đúng:",
+        "options": [
+            "女儿",
+            "椅子",
+            "狗"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 17,
+        "type": "listening",
+        "section": "Nghe - Phần 4: Trả lời câu hỏi",
+        "audioText": "Zhè shì shénme? (Đây là gì?) - Now",
+        "content": "Chọn câu trả lời đúng:",
+        "options": [
+            "呢",
+            "分钟",
+            "现在"
+        ],
+        "correct": 2
+    },
+    {
+        "id": 18,
+        "type": "listening",
+        "section": "Nghe - Phần 4: Trả lời câu hỏi",
+        "audioText": "Zhè shì shénme? (Đây là gì?) - Month",
+        "content": "Chọn câu trả lời đúng:",
+        "options": [
+            "桌子",
+            "月",
+            "怎么样"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 19,
+        "type": "listening",
+        "section": "Nghe - Phần 4: Trả lời câu hỏi",
+        "audioText": "Zhè shì shénme? (Đây là gì?) - Computer",
+        "content": "Chọn câu trả lời đúng:",
+        "options": [
+            "椅子",
+            "电脑",
+            "太"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 20,
+        "type": "listening",
+        "section": "Nghe - Phần 4: Trả lời câu hỏi",
+        "audioText": "Zhè shì shénme? (Đây là gì?) - How",
+        "content": "Chọn câu trả lời đúng:",
+        "options": [
+            "怎么",
+            "北京",
+            "住"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 21,
+        "type": "reading",
+        "section": "Đọc - Phần 1: Đúng hay Sai?",
+        "content": "回 (huí)",
+        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Return",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 22,
+        "type": "reading",
+        "section": "Đọc - Phần 1: Đúng hay Sai?",
+        "content": "前 (qián)",
+        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Some",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 23,
+        "type": "reading",
+        "section": "Đọc - Phần 1: Đúng hay Sai?",
+        "content": "爸爸 (bàba)",
+        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Dad",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 24,
+        "type": "reading",
+        "section": "Đọc - Phần 1: Đúng hay Sai?",
+        "content": "些 (xiē)",
+        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Movie",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 25,
+        "type": "reading",
+        "section": "Đọc - Phần 1: Đúng hay Sai?",
+        "content": "哪儿 (nǎr)",
+        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Where",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 26,
+        "type": "reading",
+        "section": "Đọc - Phần 2: Chọn hình",
+        "content": "Jiǔ diǎn (9 giờ)",
+        "options": [
+            "[Beijing]",
+            "[Mr./Sir]",
+            "[Nine]"
+        ],
+        "correct": 2
+    },
+    {
+        "id": 27,
+        "type": "reading",
+        "section": "Đọc - Phần 2: Chọn hình",
+        "content": "Yī yuè (Tháng 1)",
+        "options": [
+            "[Chinese language]",
+            "[Weather]",
+            "[Month]"
+        ],
+        "correct": 2
+    },
+    {
+        "id": 28,
+        "type": "reading",
+        "section": "Đọc - Phần 2: Chọn hình",
+        "content": "Shénme shíhou? (Khi nào?)",
+        "options": [
+            "[Sit]",
+            "[Time/Moment]",
+            "[Look/Watch/Read]"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 29,
+        "type": "reading",
+        "section": "Đọc - Phần 2: Chọn hình",
+        "content": "Nǐ jiào shénme? (Bạn tên là gì?)",
+        "options": [
+            "[Like]",
+            "[Call/Name]",
+            "[Cup]"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 30,
+        "type": "reading",
+        "section": "Đọc - Phần 2: Chọn hình",
+        "content": "Èr běn shū (2 quyển sách)",
+        "options": [
+            "[Which]",
+            "[Two]",
+            "[Home/Family]"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 31,
+        "type": "reading",
+        "section": "Đọc - Phần 3: Chọn câu trả lời",
+        "content": "Nǐ jiào shénme míngzi? (Bạn tên gì?)",
+        "options": [
+            "Wǒ jiào David",
+            "Xièxie",
+            "Zàijiàn"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 32,
+        "type": "reading",
+        "section": "Đọc - Phần 3: Chọn câu trả lời",
+        "content": "Nǐ jiào shénme míngzi? (Bạn tên gì?)",
+        "options": [
+            "Wǒ jiào David",
+            "Xièxie",
+            "Zàijiàn"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 33,
+        "type": "reading",
+        "section": "Đọc - Phần 3: Chọn câu trả lời",
+        "content": "Nǐ jiào shénme míngzi? (Bạn tên gì?)",
+        "options": [
+            "Wǒ jiào David",
+            "Xièxie",
+            "Zàijiàn"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 34,
+        "type": "reading",
+        "section": "Đọc - Phần 3: Chọn câu trả lời",
+        "content": "Nǐ jiào shénme míngzi? (Bạn tên gì?)",
+        "options": [
+            "Wǒ jiào David",
+            "Xièxie",
+            "Zàijiàn"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 35,
+        "type": "reading",
+        "section": "Đọc - Phần 3: Chọn câu trả lời",
+        "content": "Nǐ jiào shénme míngzi? (Bạn tên gì?)",
+        "options": [
+            "Wǒ jiào David",
+            "Xièxie",
+            "Zàijiàn"
+        ],
+        "correct": 0
+    },
+    {
+        "id": 36,
+        "type": "reading",
+        "section": "Đọc - Phần 4: Điền từ",
+        "content": "Wǒ ___ 买. (Tôi ... Buy)",
+        "options": [
+            "坐",
+            "东西",
+            "买"
+        ],
+        "correct": 2
+    },
+    {
+        "id": 37,
+        "type": "reading",
+        "section": "Đọc - Phần 4: Điền từ",
+        "content": "Wǒ ___ 猫. (Tôi ... Cat)",
+        "options": [
+            "她",
+            "猫",
+            "怎么样"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 38,
+        "type": "reading",
+        "section": "Đọc - Phần 4: Điền từ",
+        "content": "Wǒ ___ 有. (Tôi ... To have)",
+        "options": [
+            "六",
+            "有",
+            "我"
+        ],
+        "correct": 1
+    },
+    {
+        "id": 39,
+        "type": "reading",
+        "section": "Đọc - Phần 4: Điền từ",
+        "content": "Wǒ ___ 下午. (Tôi ... Afternoon)",
+        "options": [
+            "叫",
+            "多少",
+            "下午"
+        ],
+        "correct": 2
+    },
+    {
+        "id": 40,
+        "type": "reading",
+        "section": "Đọc - Phần 4: Điền từ",
+        "content": "Wǒ ___ 火车站. (Tôi ... Train Station)",
+        "options": [
+            "月",
+            "火车站",
+            "里"
+        ],
+        "correct": 1
+    }
+		];
 
         // HÀM TẠO DỮ LIỆU GIẢ (BẠN SẼ SỬA DỮ LIỆU Ở ĐÂY)
         function generateData() {
