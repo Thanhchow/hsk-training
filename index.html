@@ -54,15 +54,74 @@
             margin: 0 auto 10px auto;
         }
 
-        /* USER BAR */
-        .user-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; }
-        .login-btn { background: #fff; color: #555; border: 1px solid #ddd; padding: 8px 15px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.2s; }
-        .login-btn:hover { background: #f8f9fa; border-color: #ccc; }
-        .user-info { display: none; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 600; }
-        .user-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--accent); }
-        .logout-btn { background: #eee; color: #555; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; margin-left: 5px; }
+        /* --- USER BAR (UI MỚI) --- */
+        .user-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 5px 10px;
+        }
 
-        /* DROPDOWN */
+        /* Nút đăng nhập */
+        .login-btn {
+            background: #fff;
+            color: #555;
+            border: 1px solid #e0e0e0;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            border-color: #d0d0d0;
+        }
+
+        /* User Badge (Viên thuốc) */
+        .user-info {
+            display: none; /* JS sẽ bật lên */
+            align-items: center;
+            background: #fff;
+            padding: 5px 5px 5px 15px; 
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border: 1px solid #f0f0f0;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+        .user-info:hover { box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
+
+        .user-details { display: flex; flex-direction: column; line-height: 1.2; text-align: right; }
+        #user-name { font-weight: 700; font-size: 0.9rem; color: var(--primary); }
+        .user-role { font-size: 0.7rem; color: #999; font-weight: 600; text-transform: uppercase; }
+
+        .user-avatar {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            object-fit: cover;
+        }
+
+        /* Nút Logout Icon */
+        .logout-btn-icon {
+            width: 35px; height: 35px;
+            border-radius: 50%;
+            background: #f5f5f5;
+            border: none;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #666; transition: all 0.2s;
+        }
+        .logout-btn-icon:hover { background: #FFEBEE; color: var(--accent); transform: rotate(90deg); }
+
+        /* --- DROPDOWN --- */
         .custom-dropdown { position: relative; width: 100%; max-width: 350px; margin: 0 auto; font-family: 'Montserrat', sans-serif; }
         .dropdown-trigger { background: #fff; border: 2px solid #eee; border-radius: 50px; padding: 10px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: var(--primary); transition: all 0.3s; }
         .dropdown-trigger:hover { border-color: var(--accent); }
@@ -98,22 +157,8 @@
 
         .stats { display: flex; justify-content: center; gap: 20px; font-size: 0.95rem; color: #7f8c8d; margin-top: 20px; }
 
-        /* NÚT THI THỬ (STYLE MỚI) */
-        .exam-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
-            transition: transform 0.2s;
-            font-family: 'Montserrat', sans-serif;
-            display: flex; justify-content: center; align-items: center; gap: 10px;
-        }
+        /* EXAM BUTTON */
+        .exam-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4); transition: transform 0.2s; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .exam-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(118, 75, 162, 0.6); }
 
         /* AFFILIATE */
@@ -147,16 +192,20 @@
             <img src="HSKPlus-Logo.png" alt="HSK Plus Logo" class="logo-img" onerror="this.style.display='none';">
 
             <button id="login-btn" class="login-btn" onclick="loginGoogle()">
-                <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.637-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.715H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.346l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.159 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+                <svg width="20" height="20" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.637-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.715H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.346l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.159 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
                 Lưu tiến độ
             </button>
 
             <div id="user-info" class="user-info">
-                <img id="user-avatar" src="" class="user-avatar">
-                <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                <div class="user-details">
                     <span id="user-name">User</span>
-                    <button class="logout-btn" onclick="logoutGoogle()">Thoát</button>
+                    <span class="user-role">Học viên</span>
                 </div>
+                <img id="user-avatar" src="" class="user-avatar" alt="Avatar">
+                
+                <button class="logout-btn-icon" onclick="logoutGoogle()" title="Đăng xuất">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                </button>
             </div>
         </div>
 
