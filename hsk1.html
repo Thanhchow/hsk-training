@@ -3,125 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thi thử HSK 1 - HSK Plus</title>
-    
+    <title>Thi thử HSK 1 - Simulation</title>
     <link rel="icon" type="image/png" href="favicon-32x32.png">
-    <meta name="theme-color" content="#ffffff">
-
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
-    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
-        :root { --primary: #2C3E50; --accent: #FF4757; --bg: #F0F2F5; --white: #fff; --success: #2ED573; --warning: #FFA502; }
+        :root { --primary: #2C3E50; --accent: #FF4757; --bg: #F0F2F5; --white: #fff; --success: #2ED573; }
         body { font-family: 'Montserrat', 'Noto Sans SC', sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; color: #333; }
 
         /* HEADER */
-        .header { background: var(--white); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 10; }
-        .logo { font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--primary); }
-        .logo:hover { color: var(--accent); }
+        .header { background: var(--white); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 60px; z-index: 20; }
+        .timer-box { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; }
         
-        .timer-box { 
-            background: var(--primary); color: white; padding: 8px 15px; border-radius: 50px; 
-            font-variant-numeric: tabular-nums; font-weight: bold; font-size: 1rem; 
-            box-shadow: 0 4px 10px rgba(44, 62, 80, 0.2); display: flex; align-items: center; gap: 5px;
-        }
-        
-        /* LAYOUT */
-        .main-container { display: flex; flex: 1; overflow: hidden; }
-        
-        /* CỘT TRÁI: NỘI DUNG CÂU HỎI */
-        .question-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; position: relative; }
-        .question-card { background: white; width: 100%; max-width: 700px; border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); }
-        
-        .section-badge { display: inline-block; background: #FFEBEE; color: var(--accent); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 15px; }
-        .q-text { font-size: 1.3rem; font-weight: 600; margin-bottom: 15px; line-height: 1.4; color: var(--primary); }
-        
-        /* HÌNH ẢNH */
-        .q-image-container { text-align: center; margin: 15px 0; }
-        .q-image { max-width: 100%; height: auto; max-height: 250px; border-radius: 8px; border: 2px solid #eee; }
+        /* START SCREEN */
+        #start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        .start-card { max-width: 500px; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); background: white; border-top: 5px solid var(--accent); }
+        .start-btn { background: var(--accent); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 30px; transition: transform 0.2s; }
+        .start-btn:hover { transform: scale(1.05); }
 
-        /* AUDIO PLAYER */
-        .audio-control { 
-            background: #f8f9fa; padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; 
-            cursor: pointer; transition: 0.2s; border: 1px solid #eee; margin-bottom: 20px; width: fit-content;
-        }
-        .audio-control:hover { background: #eef2f5; border-color: #cbd5e0; }
-        .audio-icon { font-size: 1.5rem; }
-        .audio-label { font-size: 0.9rem; font-weight: 600; color: #555; }
+        /* MAIN LAYOUT */
+        .main-container { display: flex; flex: 1; overflow: hidden; position: relative; }
+        .question-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+        .question-card { background: white; width: 100%; max-width: 800px; border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 80px; transition: all 0.3s; }
+        
+        /* EXAMPLE MODE STYLE */
+        .question-card.example-mode { border: 2px solid #FFC107; background: #FFF9E6; }
+        .example-tag { background: #FFC107; color: #333; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; display: inline-block; }
 
-        /* ĐÁP ÁN */
-        .options-grid { display: grid; gap: 12px; margin-top: 20px; }
-        .option-btn { 
-            padding: 15px 20px; border: 2px solid #f0f0f0; border-radius: 10px; background: white; 
-            cursor: pointer; text-align: left; transition: 0.2s; font-size: 1rem; display: flex; align-items: center; gap: 10px;
-        }
+        .section-badge { display: inline-block; background: #FFEBEE; color: var(--accent); padding: 5px 12px; border-radius: 20px; font-weight: 700; margin-bottom: 15px; font-size: 0.9rem; }
+        .q-text { font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; color: var(--primary); }
+        .q-image-container img { max-height: 200px; border-radius: 8px; border: 2px solid #eee; margin: 10px 0; }
+
+        /* AUDIO */
+        .audio-control { background: #f8f9fa; padding: 12px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px; cursor: pointer; border: 1px solid #eee; margin-bottom: 20px; width: fit-content; transition: 0.2s; }
+        .audio-control:hover { background: #eef2f5; transform: scale(1.02); }
+
+        /* OPTIONS LAYOUT */
+        .options-grid { display: grid; gap: 15px; margin-top: 20px; width: 100%; }
+        
+        /* TEXT OPTION */
+        .option-btn { padding: 15px 20px; border: 2px solid #f0f0f0; border-radius: 12px; background: white; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 15px; transition: 0.2s; }
         .option-btn:hover { border-color: var(--primary); background: #f8fbff; }
-        .option-btn.selected { border-color: var(--accent); background: #FFF0F0; color: var(--accent); font-weight: 700; }
-        .option-key { width: 25px; height: 25px; border-radius: 50%; background: #eee; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; color: #666; }
+        .option-btn.selected { border-color: var(--accent); background: #FFF0F0; font-weight: 700; }
+        .option-key { width: 30px; height: 30px; border-radius: 50%; background: #eee; display: flex; justify-content: center; align-items: center; font-weight: bold; flex-shrink: 0; }
         .option-btn.selected .option-key { background: var(--accent); color: white; }
 
-        /* CỘT PHẢI: ĐIỀU HƯỚNG */
-        .sidebar { width: 280px; background: white; border-left: 1px solid #eee; display: flex; flex-direction: column; z-index: 5; }
-        .sidebar-header { padding: 15px; border-bottom: 1px solid #eee; font-weight: 700; color: var(--primary); text-align: center; }
-        
-        .grid-scroll { flex: 1; overflow-y: auto; padding: 15px; }
-        .q-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-        .q-dot { 
-            aspect-ratio: 1; border-radius: 8px; background: #f5f5f5; color: #666; font-size: 0.85rem; font-weight: 600;
-            display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; border: 1px solid transparent;
-        }
-        .q-dot:hover { background: #e0e0e0; }
-        .q-dot.active { border-color: var(--accent); color: var(--accent); background: #fff; box-shadow: 0 0 0 2px rgba(255, 71, 87, 0.2); }
+        /* IMAGE OPTION (GRID 3 CỘT) */
+        .options-grid.image-mode { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        .option-image-card { border: 2px solid #f0f0f0; border-radius: 12px; cursor: pointer; overflow: hidden; transition: 0.2s; position: relative; }
+        .option-image-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+        .option-image-card.selected { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,71,87,0.2); }
+        .option-image-card img { width: 100%; height: 150px; object-fit: cover; display: block; }
+        .img-key { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+        .option-image-card.selected .img-key { background: var(--accent); }
+
+        /* SIDEBAR */
+        .sidebar { width: 300px; background: white; border-left: 1px solid #eee; display: flex; flex-direction: column; z-index: 10; }
+        .q-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 15px; }
+        .q-dot { aspect-ratio: 1; border-radius: 8px; background: #f5f5f5; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+        .q-dot.active { border: 2px solid var(--accent); background: white; color: var(--accent); }
         .q-dot.answered { background: var(--primary); color: white; }
-
-        /* NAVIGATION BUTTONS */
-        .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; max-width: 700px; width: 100%; }
-        .nav-btn { padding: 10px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: 600; transition: 0.2s; }
-        .btn-prev { background: #eee; color: #555; }
-        .btn-prev:hover { background: #ddd; }
-        .btn-next { background: var(--primary); color: white; }
-        .btn-next:hover { background: #1a252f; }
-
-        .submit-area { padding: 20px; border-top: 1px solid #eee; }
-        .submit-btn { width: 100%; background: var(--accent); color: white; padding: 12px; border-radius: 50px; font-weight: bold; border: none; cursor: pointer; font-size: 1rem; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255, 71, 87, 0.4); }
-
-        /* MODAL */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-content { background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; animation: slideUp 0.3s ease; }
-        .score-display { font-size: 3rem; font-weight: 800; color: var(--accent); margin: 10px 0; }
         
-        @keyframes slideUp { from {transform: translateY(20px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+        /* FOOTER NAV */
+        .nav-buttons { position: fixed; bottom: 0; left: 0; right: 300px; padding: 15px 30px; background: white; border-top: 1px solid #eee; display: flex; justify-content: space-between; }
+        .nav-btn { padding: 10px 30px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; }
+        .submit-btn { width: 90%; margin: 20px auto; display: block; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .sidebar { display: none; position: fixed; top: 0; right: 0; height: 100%; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
-            .sidebar.open { display: flex; }
-            .header { font-size: 0.9rem; }
-            .mobile-menu-btn { display: block; font-size: 1.5rem; cursor: pointer; }
+            .sidebar { display: none; }
+            .nav-buttons { right: 0; }
         }
-        @media (min-width: 769px) { .mobile-menu-btn { display: none; } }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; }
     </style>
 </head>
 <body>
 
+    <div id="start-screen">
+        <div class="start-card">
+            <h1 style="color:var(--primary); margin-bottom:10px;">HSK 1 - MOCK TEST</h1>
+            <p style="color:#666; font-size:1.1rem;">Mô phỏng đề thi thật chuẩn quốc tế</p>
+            <div style="text-align:left; margin: 30px 0; background:#f8f9fa; padding:20px; border-radius:10px;">
+                <p>📝 <b>Số câu hỏi:</b> 40 câu</p>
+                <p>⏱ <b>Thời gian:</b> 40 phút</p>
+                <p>🎧 <b>Kỹ năng:</b> Nghe hiểu & Đọc hiểu</p>
+                <p>💡 <b>Lưu ý:</b> Các câu "Ví dụ" sẽ không tính điểm.</p>
+            </div>
+            <button class="start-btn" onclick="startExam()">BẮT ĐẦU LÀM BÀI</button>
+            <p style="margin-top:20px; font-size:0.9rem; cursor:pointer; color:#999;" onclick="window.location.href='index.html'">Quay lại trang chủ</p>
+        </div>
+    </div>
+
     <div class="header">
-        <div class="logo" onclick="window.location.href='index.html'">
-            <span>⬅ Quay lại</span>
-        </div>
-        <div class="timer-box">
-            <span>⏱</span> <span id="timer">40:00</span>
-        </div>
-        <div class="mobile-menu-btn" onclick="toggleSidebar()">☰</div>
+        <div style="font-weight:700; cursor:pointer" onclick="if(confirm('Thoát bài thi?')) window.location.href='index.html'">⬅ Thoát</div>
+        <div class="timer-box">⏱ <span id="timer">40:00</span></div>
+        <div style="font-weight:700">HSK 1</div>
     </div>
 
     <div class="main-container">
         <div class="question-area">
-            <div class="question-card">
-                <div class="section-badge" id="section-badge">Phần 1</div>
+            <div class="question-card" id="q-card">
+                <div id="example-tag" style="display:none;" class="example-tag">VÍ DỤ MẪU (EXAMPLE)</div>
+                <div class="section-badge" id="section-badge">Phần thi</div>
                 
                 <div class="audio-control" id="audio-control" onclick="playAudio()">
-                    <span class="audio-icon">🔊</span>
-                    <div class="audio-label" id="audio-text">Bấm vào đây để nghe</div>
+                    <span style="font-size:1.5rem">🔊</span> <span id="audio-text">Nghe câu hỏi</span>
                 </div>
 
                 <div id="question-content"></div>
@@ -130,24 +119,20 @@
             </div>
 
             <div class="nav-buttons">
-                <button class="nav-btn btn-prev" onclick="prevQuestion()">Câu trước</button>
-                <button class="nav-btn btn-next" onclick="nextQuestion()">Câu tiếp theo</button>
+                <button class="nav-btn" style="background:#eee" onclick="prevQuestion()">Câu trước</button>
+                <button class="nav-btn" style="background:var(--primary); color:white" onclick="nextQuestion()">Câu tiếp theo</button>
             </div>
         </div>
 
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                Bảng Câu Hỏi (40)
-                <span style="float:right; cursor:pointer; font-size:1.2rem" class="mobile-menu-btn" onclick="toggleSidebar()">×</span>
-            </div>
-            <div class="grid-scroll">
-                <div style="margin-bottom:10px; font-weight:bold; font-size:0.8rem; color:#999;">PHẦN NGHE (1-20)</div>
+        <div class="sidebar">
+            <div style="padding:15px; border-bottom:1px solid #eee; font-weight:bold; text-align:center">DANH SÁCH CÂU HỎI</div>
+            <div style="flex:1; overflow-y:auto; padding:10px;">
+                <div style="font-size:0.8rem; color:#999; margin:10px 0 5px 10px;">LISTENING</div>
                 <div class="q-grid" id="grid-listening"></div>
-                
-                <div style="margin-top:20px; margin-bottom:10px; font-weight:bold; font-size:0.8rem; color:#999;">PHẦN ĐỌC (21-40)</div>
+                <div style="font-size:0.8rem; color:#999; margin:20px 0 5px 10px;">READING</div>
                 <div class="q-grid" id="grid-reading"></div>
             </div>
-            <div class="submit-area">
+            <div style="padding:20px; border-top:1px solid #eee;">
                 <button class="submit-btn" onclick="submitTest()">NỘP BÀI</button>
             </div>
         </div>
@@ -155,15 +140,12 @@
 
     <div id="resultModal" class="modal">
         <div class="modal-content">
-            <h2 style="margin:0; color:var(--primary)">Kết Quả Thi</h2>
-            <div style="font-size:0.9rem; color:#666; margin-top:5px">HSK 1 - Mock Test</div>
-            
-            <div class="score-display" id="final-score">0</div>
-            <div style="font-weight:bold; color:#555">/ 200 Điểm</div>
-            
-            <p id="pass-msg" style="font-weight:600; margin: 20px 0;"></p>
-            
-            <button class="submit-btn" onclick="window.location.href='index.html'">Về trang chủ</button>
+            <h2 style="color:var(--primary)">KẾT QUẢ</h2>
+            <div style="width:120px; height:120px; border-radius:50%; border:6px solid var(--accent); margin:20px auto; display:flex; justify-content:center; align-items:center; font-size:2.5rem; font-weight:800; color:var(--accent);">
+                <span id="final-score">0</span>
+            </div>
+            <p id="pass-msg" style="font-weight:bold; font-size:1.1rem"></p>
+            <button class="submit-btn" onclick="window.location.href='index.html'">Về Trang Chủ</button>
         </div>
     </div>
 
@@ -187,570 +169,72 @@
         const db = getFirestore(app);
         let currentUser = null;
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) currentUser = user;
-            else { alert("Vui lòng đăng nhập để lưu kết quả!"); window.location.href = 'index.html'; }
-        });
+        onAuthStateChanged(auth, (user) => currentUser = user);
 
-        window.saveTestResult = async function(score) {
+        window.saveTestResult = async function(score, total) {
             if (!currentUser) return;
             const userRef = doc(db, "users", currentUser.uid);
-            const resultData = {
-                testName: "HSK 1 Mock Test",
-                score: score,
-                total: 200,
-                date: new Date().toISOString(),
-                pass: score >= 120
-            };
             try {
                 const docSnap = await getDoc(userRef);
-                if (!docSnap.exists()) await setDoc(userRef, { testHistory: [resultData] });
-                else await updateDoc(userRef, { testHistory: arrayUnion(resultData) });
+                const data = { testName: "HSK 1 Mock", score, total, date: new Date().toISOString(), pass: score >= 120 };
+                if (!docSnap.exists()) await setDoc(userRef, { testHistory: [data] });
+                else await updateDoc(userRef, { testHistory: arrayUnion(data) });
             } catch (e) { console.error(e); }
         }
     </script>
 
     <script>
-        // --- DỮ LIỆU ĐỀ THI 40 CÂU (CHUẨN CẤU TRÚC HSK 1) ---
-        // Lưu ý: Ảnh đang dùng Placeholder (Ảnh giữ chỗ). Bạn hãy thay bằng link ảnh thật.
-        
-        const examData = [
-		{
-        "id": 1,
-        "type": "listening",
-        "section": "Nghe - Phần 1: Đúng hay Sai?",
-        "audioText": "日",
-        "content": "日 (Day/Sun)",
-        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Day/Sun",
-        "options": [
-            "Đúng (True)",
-            "Sai (False)"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 2,
-        "type": "listening",
-        "section": "Nghe - Phần 1: Đúng hay Sai?",
-        "audioText": "我们",
-        "content": "我们 (We/Us)",
-        "image": "https://placehold.co/600x400/2C3E50/FFF?text=How+many/much",
-        "options": [
-            "Đúng (True)",
-            "Sai (False)"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 3,
-        "type": "listening",
-        "section": "Nghe - Phần 1: Đúng hay Sai?",
-        "audioText": "少",
-        "content": "少 (Few/Little)",
-        "image": "https://placehold.co/600x400/2C3E50/FFF?text=No/Not",
-        "options": [
-            "Đúng (True)",
-            "Sai (False)"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 4,
-        "type": "listening",
-        "section": "Nghe - Phần 1: Đúng hay Sai?",
-        "audioText": "人",
-        "content": "人 (Person)",
-        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Person",
-        "options": [
-            "Đúng (True)",
-            "Sai (False)"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 5,
-        "type": "listening",
-        "section": "Nghe - Phần 1: Đúng hay Sai?",
-        "audioText": "狗",
-        "content": "狗 (Dog)",
-        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Know/Meet",
-        "options": [
-            "Đúng (True)",
-            "Sai (False)"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 6,
-        "type": "listening",
-        "section": "Nghe - Phần 2: Chọn hình đúng",
-        "audioText": "Wǒ huì shuō Hànyǔ (Tôi biết nói tiếng Trung)",
-        "content": "Nghe câu và chọn hình tương ứng:",
-        "options": [
-            "[Dad]",
-            "[Can]",
-            "[Book]"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 7,
-        "type": "listening",
-        "section": "Nghe - Phần 2: Chọn hình đúng",
-        "audioText": "Wǒ qù xuéxiào (Tôi đến trường)",
-        "content": "Nghe câu và chọn hình tương ứng:",
-        "options": [
-            "[Student]",
-            "[School]",
-            "[Beautiful]"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 8,
-        "type": "listening",
-        "section": "Nghe - Phần 2: Chọn hình đúng",
-        "audioText": "Tā hěn piàoliang (Cô ấy rất đẹp)",
-        "content": "Nghe câu và chọn hình tương ứng:",
-        "options": [
-            "[Beautiful]",
-            "[Beijing]",
-            "[This]"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 9,
-        "type": "listening",
-        "section": "Nghe - Phần 2: Chọn hình đúng",
-        "audioText": "Wǒ jiào chūzūchē (Tôi gọi taxi)",
-        "content": "Nghe câu và chọn hình tương ứng:",
-        "options": [
-            "[Taxi]",
-            "[Work]",
-            "[Buy]"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 10,
-        "type": "listening",
-        "section": "Nghe - Phần 2: Chọn hình đúng",
-        "audioText": "Yǐzi xià (Dưới ghế)",
-        "content": "Nghe câu và chọn hình tương ứng:",
-        "options": [
-            "[See (result)]",
-            "[He/Him]",
-            "[Down/Under]"
-        ],
-        "correct": 2
-    },
-    {
-        "id": 11,
-        "type": "listening",
-        "section": "Nghe - Phần 3: Hội thoại",
-        "audioText": "A: Nǐ xǐhuan diǎn ma? B: Hěn xǐhuan!",
-        "content": "Nghe hội thoại và chọn hình:",
-        "options": [
-            "[I/Me]",
-            "[O'clock/Dot]",
-            "[Come]"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 12,
-        "type": "listening",
-        "section": "Nghe - Phần 3: Hội thoại",
-        "audioText": "A: Nǐ xǐhuan kāi ma? B: Hěn xǐhuan!",
-        "content": "Nghe hội thoại và chọn hình:",
-        "options": [
-            "[No (past/have)]",
-            "[Where]",
-            "[Open/Drive]"
-        ],
-        "correct": 2
-    },
-    {
-        "id": 13,
-        "type": "listening",
-        "section": "Nghe - Phần 3: Hội thoại",
-        "audioText": "A: Nǐ xǐhuan péngyou ma? B: Hěn xǐhuan!",
-        "content": "Nghe hội thoại và chọn hình:",
-        "options": [
-            "[Computer]",
-            "[Friend]",
-            "[Read]"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 14,
-        "type": "listening",
-        "section": "Nghe - Phần 3: Hội thoại",
-        "audioText": "A: Nǐ xǐhuan zuò ma? B: Hěn xǐhuan!",
-        "content": "Nghe hội thoại và chọn hình:",
-        "options": [
-            "[Sit]",
-            "[Very]",
-            "[To be (is/am/are)]"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 15,
-        "type": "listening",
-        "section": "Nghe - Phần 3: Hội thoại",
-        "audioText": "A: Nǐ xǐhuan dōngxi ma? B: Hěn xǐhuan!",
-        "content": "Nghe hội thoại và chọn hình:",
-        "options": [
-            "[Three]",
-            "[Do/Make]",
-            "[Thing]"
-        ],
-        "correct": 2
-    },
-    {
-        "id": 16,
-        "type": "listening",
-        "section": "Nghe - Phần 4: Trả lời câu hỏi",
-        "audioText": "Zhè shì shénme? (Đây là gì?) - Daughter",
-        "content": "Chọn câu trả lời đúng:",
-        "options": [
-            "女儿",
-            "椅子",
-            "狗"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 17,
-        "type": "listening",
-        "section": "Nghe - Phần 4: Trả lời câu hỏi",
-        "audioText": "Zhè shì shénme? (Đây là gì?) - Now",
-        "content": "Chọn câu trả lời đúng:",
-        "options": [
-            "呢",
-            "分钟",
-            "现在"
-        ],
-        "correct": 2
-    },
-    {
-        "id": 18,
-        "type": "listening",
-        "section": "Nghe - Phần 4: Trả lời câu hỏi",
-        "audioText": "Zhè shì shénme? (Đây là gì?) - Month",
-        "content": "Chọn câu trả lời đúng:",
-        "options": [
-            "桌子",
-            "月",
-            "怎么样"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 19,
-        "type": "listening",
-        "section": "Nghe - Phần 4: Trả lời câu hỏi",
-        "audioText": "Zhè shì shénme? (Đây là gì?) - Computer",
-        "content": "Chọn câu trả lời đúng:",
-        "options": [
-            "椅子",
-            "电脑",
-            "太"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 20,
-        "type": "listening",
-        "section": "Nghe - Phần 4: Trả lời câu hỏi",
-        "audioText": "Zhè shì shénme? (Đây là gì?) - How",
-        "content": "Chọn câu trả lời đúng:",
-        "options": [
-            "怎么",
-            "北京",
-            "住"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 21,
-        "type": "reading",
-        "section": "Đọc - Phần 1: Đúng hay Sai?",
-        "content": "回 (huí)",
-        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Return",
-        "options": [
-            "Đúng",
-            "Sai"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 22,
-        "type": "reading",
-        "section": "Đọc - Phần 1: Đúng hay Sai?",
-        "content": "前 (qián)",
-        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Some",
-        "options": [
-            "Đúng",
-            "Sai"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 23,
-        "type": "reading",
-        "section": "Đọc - Phần 1: Đúng hay Sai?",
-        "content": "爸爸 (bàba)",
-        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Dad",
-        "options": [
-            "Đúng",
-            "Sai"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 24,
-        "type": "reading",
-        "section": "Đọc - Phần 1: Đúng hay Sai?",
-        "content": "些 (xiē)",
-        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Movie",
-        "options": [
-            "Đúng",
-            "Sai"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 25,
-        "type": "reading",
-        "section": "Đọc - Phần 1: Đúng hay Sai?",
-        "content": "哪儿 (nǎr)",
-        "image": "https://placehold.co/600x400/2C3E50/FFF?text=Where",
-        "options": [
-            "Đúng",
-            "Sai"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 26,
-        "type": "reading",
-        "section": "Đọc - Phần 2: Chọn hình",
-        "content": "Jiǔ diǎn (9 giờ)",
-        "options": [
-            "[Beijing]",
-            "[Mr./Sir]",
-            "[Nine]"
-        ],
-        "correct": 2
-    },
-    {
-        "id": 27,
-        "type": "reading",
-        "section": "Đọc - Phần 2: Chọn hình",
-        "content": "Yī yuè (Tháng 1)",
-        "options": [
-            "[Chinese language]",
-            "[Weather]",
-            "[Month]"
-        ],
-        "correct": 2
-    },
-    {
-        "id": 28,
-        "type": "reading",
-        "section": "Đọc - Phần 2: Chọn hình",
-        "content": "Shénme shíhou? (Khi nào?)",
-        "options": [
-            "[Sit]",
-            "[Time/Moment]",
-            "[Look/Watch/Read]"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 29,
-        "type": "reading",
-        "section": "Đọc - Phần 2: Chọn hình",
-        "content": "Nǐ jiào shénme? (Bạn tên là gì?)",
-        "options": [
-            "[Like]",
-            "[Call/Name]",
-            "[Cup]"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 30,
-        "type": "reading",
-        "section": "Đọc - Phần 2: Chọn hình",
-        "content": "Èr běn shū (2 quyển sách)",
-        "options": [
-            "[Which]",
-            "[Two]",
-            "[Home/Family]"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 31,
-        "type": "reading",
-        "section": "Đọc - Phần 3: Chọn câu trả lời",
-        "content": "Nǐ jiào shénme míngzi? (Bạn tên gì?)",
-        "options": [
-            "Wǒ jiào David",
-            "Xièxie",
-            "Zàijiàn"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 32,
-        "type": "reading",
-        "section": "Đọc - Phần 3: Chọn câu trả lời",
-        "content": "Nǐ jiào shénme míngzi? (Bạn tên gì?)",
-        "options": [
-            "Wǒ jiào David",
-            "Xièxie",
-            "Zàijiàn"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 33,
-        "type": "reading",
-        "section": "Đọc - Phần 3: Chọn câu trả lời",
-        "content": "Nǐ jiào shénme míngzi? (Bạn tên gì?)",
-        "options": [
-            "Wǒ jiào David",
-            "Xièxie",
-            "Zàijiàn"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 34,
-        "type": "reading",
-        "section": "Đọc - Phần 3: Chọn câu trả lời",
-        "content": "Nǐ jiào shénme míngzi? (Bạn tên gì?)",
-        "options": [
-            "Wǒ jiào David",
-            "Xièxie",
-            "Zàijiàn"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 35,
-        "type": "reading",
-        "section": "Đọc - Phần 3: Chọn câu trả lời",
-        "content": "Nǐ jiào shénme míngzi? (Bạn tên gì?)",
-        "options": [
-            "Wǒ jiào David",
-            "Xièxie",
-            "Zàijiàn"
-        ],
-        "correct": 0
-    },
-    {
-        "id": 36,
-        "type": "reading",
-        "section": "Đọc - Phần 4: Điền từ",
-        "content": "Wǒ ___ 买. (Tôi ... Buy)",
-        "options": [
-            "坐",
-            "东西",
-            "买"
-        ],
-        "correct": 2
-    },
-    {
-        "id": 37,
-        "type": "reading",
-        "section": "Đọc - Phần 4: Điền từ",
-        "content": "Wǒ ___ 猫. (Tôi ... Cat)",
-        "options": [
-            "她",
-            "猫",
-            "怎么样"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 38,
-        "type": "reading",
-        "section": "Đọc - Phần 4: Điền từ",
-        "content": "Wǒ ___ 有. (Tôi ... To have)",
-        "options": [
-            "六",
-            "有",
-            "我"
-        ],
-        "correct": 1
-    },
-    {
-        "id": 39,
-        "type": "reading",
-        "section": "Đọc - Phần 4: Điền từ",
-        "content": "Wǒ ___ 下午. (Tôi ... Afternoon)",
-        "options": [
-            "叫",
-            "多少",
-            "下午"
-        ],
-        "correct": 2
-    },
-    {
-        "id": 40,
-        "type": "reading",
-        "section": "Đọc - Phần 4: Điền từ",
-        "content": "Wǒ ___ 火车站. (Tôi ... Train Station)",
-        "options": [
-            "月",
-            "火车站",
-            "里"
-        ],
-        "correct": 1
-    }
-		];
-
-        // --- CORE LOGIC ---
+        let examData = [];
         let currentIdx = 0;
-        let userAnswers = new Array(40).fill(null);
-        let timeLeft = 40 * 60; // 40 phút
+        let userAnswers = []; // Sẽ khởi tạo lại khi load data
+        let timeLeft = 40 * 60;
         let timerInterval;
 
-        function init() {
+        // Chỉ tải dữ liệu, chưa chạy đồng hồ
+        fetch('exam_data.json')
+            .then(res => res.json())
+            .then(data => {
+                examData = data;
+                // Lọc ra các câu KHÔNG PHẢI VÍ DỤ để tạo bảng trả lời
+                const realQuestionsCount = examData.filter(q => !q.isExample).length;
+                // Mảng câu trả lời phải map theo ID thực tế, ở đây dùng simple map
+                // Lưu ý: examData có cả ví dụ xen kẽ.
+                userAnswers = new Array(examData.length).fill(null);
+                console.log("Data loaded. Waiting for start.");
+            })
+            .catch(err => alert("Lỗi tải đề thi! (Cần chạy trên Server)"));
+
+        function startExam() {
+            if (examData.length === 0) { alert("Đang tải dữ liệu, vui lòng đợi..."); return; }
+            document.getElementById('start-screen').style.display = 'none';
             renderSidebar();
             loadQuestion(0);
-            startTimer();
-        }
-
-        function startTimer() {
+            
             timerInterval = setInterval(() => {
                 timeLeft--;
                 const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
                 const s = (timeLeft % 60).toString().padStart(2, '0');
                 document.getElementById('timer').innerText = `${m}:${s}`;
-                if (timeLeft <= 0) { clearInterval(timerInterval); alert("Hết giờ!"); submitTest(); }
+                if (timeLeft <= 0) { clearInterval(timerInterval); submitTest(); }
             }, 1000);
         }
 
         function renderSidebar() {
             const listGrid = document.getElementById('grid-listening');
             const readGrid = document.getElementById('grid-reading');
-            
+            listGrid.innerHTML = ""; readGrid.innerHTML = "";
+
             examData.forEach((q, idx) => {
+                // Không hiển thị câu ví dụ trên sidebar
+                if (q.isExample) return;
+
                 const div = document.createElement('div');
-                div.className = `q-dot`;
-                div.innerText = idx + 1;
+                div.className = 'q-dot';
+                div.innerText = q.id; // Hiển thị ID câu hỏi thực tế
                 div.id = `dot-${idx}`;
-                div.onclick = () => { loadQuestion(idx); if(window.innerWidth<=768) toggleSidebar(); };
+                div.onclick = () => loadQuestion(idx);
                 
-                if (idx < 20) listGrid.appendChild(div);
+                if (q.type === 'listening') listGrid.appendChild(div);
                 else readGrid.appendChild(div);
             });
         }
@@ -759,43 +243,74 @@
             currentIdx = idx;
             const q = examData[idx];
             
-            // Cập nhật UI
+            // Xử lý giao diện Ví dụ
+            const card = document.getElementById('q-card');
+            const exTag = document.getElementById('example-tag');
+            
+            if (q.isExample) {
+                card.classList.add('example-mode');
+                exTag.style.display = 'inline-block';
+            } else {
+                card.classList.remove('example-mode');
+                exTag.style.display = 'none';
+                
+                // Highlight sidebar (chỉ highlight câu thật)
+                document.querySelectorAll('.q-dot').forEach(d => d.classList.remove('active'));
+                const dot = document.getElementById(`dot-${idx}`);
+                if (dot) dot.classList.add('active');
+            }
+
             document.getElementById('section-badge').innerText = q.section;
             document.getElementById('audio-control').style.display = q.type === 'listening' ? 'flex' : 'none';
-            
-            // Highlight sidebar
-            document.querySelectorAll('.q-dot').forEach(d => d.classList.remove('active'));
-            document.getElementById(`dot-${idx}`).classList.add('active');
 
-            // Render Nội dung
-            let contentHtml = `<div class="q-text">${q.content}</div>`;
-            if (q.image) contentHtml += `<div class="q-image-container"><img src="${q.image}" class="q-image" alt="Question Image"></div>`;
-            document.getElementById('question-content').innerHTML = contentHtml;
+            // Content
+            let html = `<div class="q-text">${q.content}</div>`;
+            if (q.image) html += `<div class="q-image-container"><img src="${q.image}"></div>`;
+            document.getElementById('question-content').innerHTML = html;
 
-            // Render Đáp án
-            const optsContainer = document.getElementById('options-container');
-            optsContainer.innerHTML = "";
+            // Options
+            const container = document.getElementById('options-container');
+            container.innerHTML = "";
             const letters = ['A', 'B', 'C', 'D'];
-            
-            q.options.forEach((opt, optIdx) => {
-                const btn = document.createElement('div');
-                btn.className = `option-btn ${userAnswers[idx] === optIdx ? 'selected' : ''}`;
-                // Nếu option là Đúng/Sai thì không cần A,B,C
-                const key = (q.options.length === 2) ? (optIdx === 0 ? '✔' : '✘') : letters[optIdx];
-                
-                btn.innerHTML = `<div class="option-key">${key}</div> <div>${opt}</div>`;
-                btn.onclick = () => selectAnswer(idx, optIdx);
-                optsContainer.appendChild(btn);
-            });
+
+            // Kiểm tra loại hiển thị đáp án (Image Grid hay Text List)
+            if (q.optionType === 'image') {
+                container.className = "options-grid image-mode"; // Chuyển sang Grid 3 cột
+                q.options.forEach((optImg, i) => {
+                    const div = document.createElement('div');
+                    div.className = `option-image-card ${userAnswers[idx] === i ? 'selected' : ''}`;
+                    div.innerHTML = `<img src="${optImg}"><div class="img-key">${letters[i]}</div>`;
+                    div.onclick = () => selectAnswer(idx, i);
+                    container.appendChild(div);
+                });
+            } else {
+                container.className = "options-grid"; // Text List dọc
+                q.options.forEach((optText, i) => {
+                    const div = document.createElement('div');
+                    div.className = `option-btn ${userAnswers[idx] === i ? 'selected' : ''}`;
+                    
+                    // Logic hiển thị A/B/C hay tích/chéo
+                    let key = letters[i];
+                    if (q.options.length === 2) key = (i === 0) ? '✔' : '✘'; // Đúng/Sai
+                    
+                    div.innerHTML = `<div class="option-key">${key}</div><div>${optText}</div>`;
+                    div.onclick = () => selectAnswer(idx, i);
+                    container.appendChild(div);
+                });
+            }
         }
 
         function selectAnswer(qIdx, ansIdx) {
+            // Nếu là ví dụ thì không cho chọn (hoặc chọn chơi thôi không lưu)
+            if (examData[qIdx].isExample) return;
+
             userAnswers[qIdx] = ansIdx;
-            loadQuestion(qIdx); // Re-render để hiện màu xanh
-            document.getElementById(`dot-${qIdx}`).classList.add('answered');
+            loadQuestion(qIdx); // Re-render
+            const dot = document.getElementById(`dot-${qIdx}`);
+            if(dot) dot.classList.add('answered');
         }
 
-        function nextQuestion() { if (currentIdx < 39) loadQuestion(currentIdx + 1); }
+        function nextQuestion() { if (currentIdx < examData.length - 1) loadQuestion(currentIdx + 1); }
         function prevQuestion() { if (currentIdx > 0) loadQuestion(currentIdx - 1); }
 
         function playAudio() {
@@ -807,43 +322,37 @@
         }
 
         function submitTest() {
-            if(!confirm("Bạn có chắc chắn muốn nộp bài không?")) return;
+            if(!confirm("Nộp bài ngay?")) return;
             clearInterval(timerInterval);
             
-            let score = 0;
-            // Mỗi câu 5 điểm (Tổng 200)
+            let correctCount = 0;
+            let realQuestions = 0;
+
             examData.forEach((q, idx) => {
-                if (userAnswers[idx] === q.correct) score += 5;
+                if (!q.isExample) {
+                    realQuestions++;
+                    if (userAnswers[idx] === q.correct) correctCount++;
+                }
             });
 
+            // Tính điểm (Thang 200)
+            const score = Math.round((correctCount / realQuestions) * 200);
+            
             document.getElementById('resultModal').style.display = 'flex';
             document.getElementById('final-score').innerText = score;
             
             const msg = document.getElementById('pass-msg');
             if (score >= 120) {
-                msg.innerText = "🎉 CHÚC MỪNG! BẠN ĐÃ ĐẬU HSK 1";
+                msg.innerText = "🎉 ĐẬU RỒI! (PASS)";
                 msg.style.color = "var(--success)";
-                triggerConfetti();
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             } else {
-                msg.innerText = "Chia buồn! Bạn cần ôn tập thêm (Cần 120đ).";
-                msg.style.color = "var(--warning)";
+                msg.innerText = "CẦN CỐ GẮNG HƠN (FAIL)";
+                msg.style.color = "var(--accent)";
             }
 
-            if (window.saveTestResult) window.saveTestResult(score);
+            if(window.saveTestResult) window.saveTestResult(score, 200);
         }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
-        function triggerConfetti() {
-            const script = document.createElement('script');
-            script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
-            script.onload = () => confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            document.body.appendChild(script);
-        }
-
-        init();
     </script>
 </body>
 </html>

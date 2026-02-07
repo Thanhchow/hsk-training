@@ -1,0 +1,758 @@
+[
+    {
+        "id": 1,
+        "isExample": true,
+        "type": "listening",
+        "section": "Nghe P1: Đúng/Sai",
+        "content": "Wǒ hěn gāoxìng (Vui vẻ)",
+        "audioText": "Wǒ hěn gāoxìng",
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Happy",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 0
+    },
+    {
+        "id": 1,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P1: Đúng/Sai",
+        "content": "下雨 (Rain)",
+        "audioText": "下雨",
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=He/Him",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 2,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P1: Đúng/Sai",
+        "content": "来 (Come)",
+        "audioText": "来",
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Measure+word",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 3,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P1: Đúng/Sai",
+        "content": "菜 (Dish/Vegetable)",
+        "audioText": "菜",
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Chair",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 4,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P1: Đúng/Sai",
+        "content": "本 (Measure word (book))",
+        "audioText": "本",
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Up/On",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 5,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P1: Đúng/Sai",
+        "content": "吗 (Question particle)",
+        "audioText": "吗",
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Question+particle",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 0
+    },
+    {
+        "id": 6,
+        "isExample": true,
+        "type": "listening",
+        "section": "Nghe P2: Chọn hình",
+        "content": "Nghe và chọn hình đúng:",
+        "audioText": "Zhè shì shū (Đây là sách)",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Book",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Dog",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Car"
+        ],
+        "optionType": "image",
+        "correct": 0
+    },
+    {
+        "id": 6,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P2: Chọn hình",
+        "content": "Nghe câu và chọn bức tranh tương ứng:",
+        "audioText": "Tā shì wǒ tóngxué (Cô ấy là bạn học của tôi)",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Classmate",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Chair",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Train+Station"
+        ],
+        "optionType": "image",
+        "correct": 0
+    },
+    {
+        "id": 7,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P2: Chọn hình",
+        "content": "Nghe câu và chọn bức tranh tương ứng:",
+        "audioText": "Tā hěn piàoliang (Cô ấy rất đẹp)",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Years+old",
+            "https://placehold.co/400x300/2C3E50/FFF?text=No+(past/have)",
+            "https://placehold.co/400x300/2C3E50/FFF?text=She/Her"
+        ],
+        "optionType": "image",
+        "correct": 2
+    },
+    {
+        "id": 8,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P2: Chọn hình",
+        "content": "Nghe câu và chọn bức tranh tương ứng:",
+        "audioText": "Wǒ xǐhuan chī (Tôi thích ăn)",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Like",
+            "https://placehold.co/400x300/2C3E50/FFF?text=All",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Nine"
+        ],
+        "optionType": "image",
+        "correct": 0
+    },
+    {
+        "id": 9,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P2: Chọn hình",
+        "content": "Nghe câu và chọn bức tranh tương ứng:",
+        "audioText": "Fángzi hěn dà (Nhà rất to)",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Chinese+language",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Big",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Miss"
+        ],
+        "optionType": "image",
+        "correct": 1
+    },
+    {
+        "id": 10,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P2: Chọn hình",
+        "content": "Nghe câu và chọn bức tranh tương ứng:",
+        "audioText": "Xīngqī yī (Thứ hai)",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Week",
+            "https://placehold.co/400x300/2C3E50/FFF?text=No+(past/have)",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Rain"
+        ],
+        "optionType": "image",
+        "correct": 0
+    },
+    {
+        "id": 11,
+        "isExample": true,
+        "type": "listening",
+        "section": "Nghe P3: Hội thoại",
+        "content": "Nghe hội thoại chọn hình:",
+        "audioText": "A: Nǐ hǎo! B: Nǐ hǎo!",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Hello",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Bye",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Eat"
+        ],
+        "optionType": "image",
+        "correct": 0
+    },
+    {
+        "id": 11,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P3: Hội thoại",
+        "content": "Nghe hội thoại và chọn hình:",
+        "audioText": "A: Nǐ xǐhuan shénme ma? \n B: Hěn xǐhuan!",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=At/In",
+            "https://placehold.co/400x300/2C3E50/FFF?text=What",
+            "https://placehold.co/400x300/2C3E50/FFF?text=No+(past/have)"
+        ],
+        "optionType": "image",
+        "correct": 1
+    },
+    {
+        "id": 12,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P3: Hội thoại",
+        "content": "Nghe hội thoại và chọn hình:",
+        "audioText": "A: Nǐ xǐhuan yīshēng ma? \n B: Hěn xǐhuan!",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Write",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Son",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Doctor"
+        ],
+        "optionType": "image",
+        "correct": 2
+    },
+    {
+        "id": 13,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P3: Hội thoại",
+        "content": "Nghe hội thoại và chọn hình:",
+        "audioText": "A: Nǐ xǐhuan sì ma? \n B: Hěn xǐhuan!",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=You",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Shop/Store",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Four"
+        ],
+        "optionType": "image",
+        "correct": 2
+    },
+    {
+        "id": 14,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P3: Hội thoại",
+        "content": "Nghe hội thoại và chọn hình:",
+        "audioText": "A: Nǐ xǐhuan māo ma? \n B: Hěn xǐhuan!",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Cat",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Doctor",
+            "https://placehold.co/400x300/2C3E50/FFF?text=How"
+        ],
+        "optionType": "image",
+        "correct": 0
+    },
+    {
+        "id": 15,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P3: Hội thoại",
+        "content": "Nghe hội thoại và chọn hình:",
+        "audioText": "A: Nǐ xǐhuan suì ma? \n B: Hěn xǐhuan!",
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Some",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Morning",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Years+old"
+        ],
+        "optionType": "image",
+        "correct": 2
+    },
+    {
+        "id": 16,
+        "isExample": true,
+        "type": "listening",
+        "section": "Nghe P4: Chọn đáp án",
+        "content": "Chọn câu trả lời đúng:",
+        "audioText": "Tā zài nǎr? (Cô ấy đâu?)",
+        "image": null,
+        "options": [
+            "Zài jiā (Ở nhà)",
+            "Chī fàn (Ăn cơm)",
+            "Xuéxiào (Trường)"
+        ],
+        "optionType": "text",
+        "correct": 0
+    },
+    {
+        "id": 16,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P4: Chọn đáp án",
+        "content": "Nghe câu hỏi và chọn đáp án:",
+        "audioText": "Zhè shì shénme? (Đây là gì?) - This",
+        "image": null,
+        "options": [
+            "这",
+            "开",
+            "点"
+        ],
+        "optionType": "text",
+        "correct": 0
+    },
+    {
+        "id": 17,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P4: Chọn đáp án",
+        "content": "Nghe câu hỏi và chọn đáp án:",
+        "audioText": "Zhè shì shénme? (Đây là gì?) - Tea",
+        "image": null,
+        "options": [
+            "北京",
+            "茶",
+            "今天"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 18,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P4: Chọn đáp án",
+        "content": "Nghe câu hỏi và chọn đáp án:",
+        "audioText": "Zhè shì shénme? (Đây là gì?) - Train Station",
+        "image": null,
+        "options": [
+            "火车站",
+            "什么",
+            "小"
+        ],
+        "optionType": "text",
+        "correct": 0
+    },
+    {
+        "id": 19,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P4: Chọn đáp án",
+        "content": "Nghe câu hỏi và chọn đáp án:",
+        "audioText": "Zhè shì shénme? (Đây là gì?) - Teacher",
+        "image": null,
+        "options": [
+            "说",
+            "杯子",
+            "老师"
+        ],
+        "optionType": "text",
+        "correct": 2
+    },
+    {
+        "id": 20,
+        "isExample": false,
+        "type": "listening",
+        "section": "Nghe P4: Chọn đáp án",
+        "content": "Nghe câu hỏi và chọn đáp án:",
+        "audioText": "Zhè shì shénme? (Đây là gì?) - Chinese language",
+        "image": null,
+        "options": [
+            "来",
+            "米饭",
+            "汉语"
+        ],
+        "optionType": "text",
+        "correct": 2
+    },
+    {
+        "id": 21,
+        "isExample": true,
+        "type": "reading",
+        "section": "Đọc P1: Đúng/Sai",
+        "content": "Diànnǎo (Máy tính)",
+        "audioText": null,
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Computer",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 0
+    },
+    {
+        "id": 21,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P1: Đúng/Sai",
+        "content": "吃 (chī)",
+        "audioText": null,
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Now",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 22,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P1: Đúng/Sai",
+        "content": "菜 (cài)",
+        "audioText": null,
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Too/Extremely",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 23,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P1: Đúng/Sai",
+        "content": "没关系 (méi guānxi)",
+        "audioText": null,
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Sit",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 24,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P1: Đúng/Sai",
+        "content": "有 (yǒu)",
+        "audioText": null,
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Morning",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 25,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P1: Đúng/Sai",
+        "content": "回 (huí)",
+        "audioText": null,
+        "image": "https://placehold.co/400x300/2C3E50/FFF?text=Doctor",
+        "options": [
+            "Đúng",
+            "Sai"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 26,
+        "isExample": true,
+        "type": "reading",
+        "section": "Đọc P2: Chọn hình",
+        "content": "Wǒ hē chá.",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Tea",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Rice",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Water"
+        ],
+        "optionType": "image",
+        "correct": 0
+    },
+    {
+        "id": 26,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P2: Chọn hình",
+        "content": "Zhuōzi shàng (Trên bàn)",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Years+old",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Up/On",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Cat"
+        ],
+        "optionType": "image",
+        "correct": 1
+    },
+    {
+        "id": 27,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P2: Chọn hình",
+        "content": "Zhège píngguǒ hěn dà (Quả táo này rất to)",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Apple",
+            "https://placehold.co/400x300/2C3E50/FFF?text=See+(result)",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Home/Family"
+        ],
+        "optionType": "image",
+        "correct": 0
+    },
+    {
+        "id": 28,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P2: Chọn hình",
+        "content": "Wǒ méi yǒu (Tôi không có)",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=No+(past/have)",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Fruit",
+            "https://placehold.co/400x300/2C3E50/FFF?text=You"
+        ],
+        "optionType": "image",
+        "correct": 0
+    },
+    {
+        "id": 29,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P2: Chọn hình",
+        "content": "Wèi, nǐ hǎo (Alo, xin chào)",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Hello+(phone)",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Television",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Hot"
+        ],
+        "optionType": "image",
+        "correct": 0
+    },
+    {
+        "id": 30,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P2: Chọn hình",
+        "content": "Wǒ xǐhuan chī (Tôi thích ăn)",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "https://placehold.co/400x300/2C3E50/FFF?text=Weather",
+            "https://placehold.co/400x300/2C3E50/FFF?text=Like",
+            "https://placehold.co/400x300/2C3E50/FFF?text=No+problem"
+        ],
+        "optionType": "image",
+        "correct": 1
+    },
+    {
+        "id": 31,
+        "isExample": true,
+        "type": "reading",
+        "section": "Đọc P3: Hỏi Đáp",
+        "content": "Nǐ hǎo ma?",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "Hěn hǎo",
+            "Xièxie",
+            "Duìbuqǐ"
+        ],
+        "optionType": "text",
+        "correct": 0
+    },
+    {
+        "id": 31,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P3: Hỏi Đáp",
+        "content": "Zàijiàn!",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "Huí jiā",
+            "Wǒ bù chī",
+            "Míngtiān jiàn"
+        ],
+        "optionType": "text",
+        "correct": 2
+    },
+    {
+        "id": 32,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P3: Hỏi Đáp",
+        "content": "Jīntiān jǐ hào?",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "Míngtiān jiàn",
+            "Bā hào",
+            "Wǒ hěn hǎo"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 33,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P3: Hỏi Đáp",
+        "content": "Xièxie!",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "Wǒ bù chī",
+            "Bú kèqi",
+            "Wǒ lǎoshī"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 34,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P3: Hỏi Đáp",
+        "content": "Xiànzài jǐ diǎn?",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "Wǒ hěn hǎo",
+            "Sān diǎn",
+            "Wǔ kuài"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 35,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P3: Hỏi Đáp",
+        "content": "Nǐ chī fàn ma?",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "Míngtiān jiàn",
+            "Bā hào",
+            "Wǒ bù chī"
+        ],
+        "optionType": "text",
+        "correct": 2
+    },
+    {
+        "id": 36,
+        "isExample": true,
+        "type": "reading",
+        "section": "Đọc P4: Điền từ",
+        "content": "Wǒ ___ xuéshēng (Tôi là HS).",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "shì",
+            "bù",
+            "hǎo"
+        ],
+        "optionType": "text",
+        "correct": 0
+    },
+    {
+        "id": 36,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P4: Điền từ",
+        "content": "Wǒ ___ 中国.",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "几",
+            "中国",
+            "电视"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 37,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P4: Điền từ",
+        "content": "Wǒ ___ 分钟.",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "下",
+            "小姐",
+            "分钟"
+        ],
+        "optionType": "text",
+        "correct": 2
+    },
+    {
+        "id": 38,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P4: Điền từ",
+        "content": "Wǒ ___ 你.",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "你",
+            "下雨",
+            "对不起"
+        ],
+        "optionType": "text",
+        "correct": 0
+    },
+    {
+        "id": 39,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P4: Điền từ",
+        "content": "Wǒ ___ 昨天.",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "三",
+            "昨天",
+            "这"
+        ],
+        "optionType": "text",
+        "correct": 1
+    },
+    {
+        "id": 40,
+        "isExample": false,
+        "type": "reading",
+        "section": "Đọc P4: Điền từ",
+        "content": "Wǒ ___ 朋友.",
+        "audioText": null,
+        "image": null,
+        "options": [
+            "朋友",
+            "喜欢",
+            "写"
+        ],
+        "optionType": "text",
+        "correct": 0
+    }
+]
