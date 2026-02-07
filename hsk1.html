@@ -3,53 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thi thử HSK 1 - Simulation</title>
+    <title>HSK 1 - Mock Test (Auto Generated)</title>
     <link rel="icon" type="image/png" href="favicon-32x32.png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
+        /* CSS GIỮ NGUYÊN NHƯ CŨ - CHỈ COPY LẠI ĐỂ ĐẢM BẢO CHẠY ĐƯỢC */
         :root { --primary: #2C3E50; --accent: #FF4757; --bg: #F0F2F5; --white: #fff; --success: #2ED573; }
         body { font-family: 'Montserrat', 'Noto Sans SC', sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; color: #333; }
-
-        /* HEADER */
         .header { background: var(--white); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 60px; z-index: 20; }
         .timer-box { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; }
-        
-        /* START SCREEN */
         #start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         .start-card { max-width: 500px; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); background: white; border-top: 5px solid var(--accent); }
         .start-btn { background: var(--accent); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 30px; transition: transform 0.2s; }
         .start-btn:hover { transform: scale(1.05); }
-
-        /* MAIN LAYOUT */
         .main-container { display: flex; flex: 1; overflow: hidden; position: relative; }
         .question-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
         .question-card { background: white; width: 100%; max-width: 800px; border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 80px; transition: all 0.3s; }
-        
-        /* EXAMPLE MODE STYLE */
         .question-card.example-mode { border: 2px solid #FFC107; background: #FFF9E6; }
         .example-tag { background: #FFC107; color: #333; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; display: inline-block; }
-
         .section-badge { display: inline-block; background: #FFEBEE; color: var(--accent); padding: 5px 12px; border-radius: 20px; font-weight: 700; margin-bottom: 15px; font-size: 0.9rem; }
         .q-text { font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; color: var(--primary); }
         .q-image-container img { max-height: 200px; border-radius: 8px; border: 2px solid #eee; margin: 10px 0; }
-
-        /* AUDIO */
         .audio-control { background: #f8f9fa; padding: 12px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px; cursor: pointer; border: 1px solid #eee; margin-bottom: 20px; width: fit-content; transition: 0.2s; }
         .audio-control:hover { background: #eef2f5; transform: scale(1.02); }
-
-        /* OPTIONS LAYOUT */
         .options-grid { display: grid; gap: 15px; margin-top: 20px; width: 100%; }
-        
-        /* TEXT OPTION */
         .option-btn { padding: 15px 20px; border: 2px solid #f0f0f0; border-radius: 12px; background: white; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 15px; transition: 0.2s; }
         .option-btn:hover { border-color: var(--primary); background: #f8fbff; }
         .option-btn.selected { border-color: var(--accent); background: #FFF0F0; font-weight: 700; }
         .option-key { width: 30px; height: 30px; border-radius: 50%; background: #eee; display: flex; justify-content: center; align-items: center; font-weight: bold; flex-shrink: 0; }
         .option-btn.selected .option-key { background: var(--accent); color: white; }
-
-        /* IMAGE OPTION (GRID 3 CỘT) */
         .options-grid.image-mode { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
         .option-image-card { border: 2px solid #f0f0f0; border-radius: 12px; cursor: pointer; overflow: hidden; transition: 0.2s; position: relative; }
         .option-image-card:hover { border-color: var(--primary); transform: translateY(-3px); }
@@ -57,25 +41,15 @@
         .option-image-card img { width: 100%; height: 150px; object-fit: cover; display: block; }
         .img-key { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; }
         .option-image-card.selected .img-key { background: var(--accent); }
-
-        /* SIDEBAR */
         .sidebar { width: 300px; background: white; border-left: 1px solid #eee; display: flex; flex-direction: column; z-index: 10; }
         .q-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 15px; }
         .q-dot { aspect-ratio: 1; border-radius: 8px; background: #f5f5f5; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
         .q-dot.active { border: 2px solid var(--accent); background: white; color: var(--accent); }
         .q-dot.answered { background: var(--primary); color: white; }
-        
-        /* FOOTER NAV */
         .nav-buttons { position: fixed; bottom: 0; left: 0; right: 300px; padding: 15px 30px; background: white; border-top: 1px solid #eee; display: flex; justify-content: space-between; }
         .nav-btn { padding: 10px 30px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; }
         .submit-btn { width: 90%; margin: 20px auto; display: block; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .nav-buttons { right: 0; }
-        }
-        
+        @media (max-width: 768px) { .sidebar { display: none; } .nav-buttons { right: 0; } }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
         .modal-content { background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; }
     </style>
@@ -85,12 +59,11 @@
     <div id="start-screen">
         <div class="start-card">
             <h1 style="color:var(--primary); margin-bottom:10px;">HSK 1 - MOCK TEST</h1>
-            <p style="color:#666; font-size:1.1rem;">Mô phỏng đề thi thật chuẩn quốc tế</p>
+            <p style="color:#666; font-size:1.1rem;">Đề thi được tạo ngẫu nhiên mỗi lần thi</p>
             <div style="text-align:left; margin: 30px 0; background:#f8f9fa; padding:20px; border-radius:10px;">
                 <p>📝 <b>Số câu hỏi:</b> 40 câu</p>
                 <p>⏱ <b>Thời gian:</b> 40 phút</p>
-                <p>🎧 <b>Kỹ năng:</b> Nghe hiểu & Đọc hiểu</p>
-                <p>💡 <b>Lưu ý:</b> Các câu "Ví dụ" sẽ không tính điểm.</p>
+                <p>🎲 <b>Trạng thái:</b> Đã sinh đề mới thành công!</p>
             </div>
             <button class="start-btn" onclick="startExam()">BẮT ĐẦU LÀM BÀI</button>
             <p style="margin-top:20px; font-size:0.9rem; cursor:pointer; color:#999;" onclick="window.location.href='index.html'">Quay lại trang chủ</p>
@@ -114,7 +87,6 @@
                 </div>
 
                 <div id="question-content"></div>
-
                 <div class="options-grid" id="options-container"></div>
             </div>
 
@@ -145,7 +117,8 @@
                 <span id="final-score">0</span>
             </div>
             <p id="pass-msg" style="font-weight:bold; font-size:1.1rem"></p>
-            <button class="submit-btn" onclick="window.location.href='index.html'">Về Trang Chủ</button>
+            <button class="submit-btn" onclick="location.reload()">Làm Đề Khác</button>
+            <button class="submit-btn" style="background:white; color:#333; border:1px solid #eee; margin-top:10px;" onclick="window.location.href='index.html'">Về Trang Chủ</button>
         </div>
     </div>
 
@@ -153,30 +126,18 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
         import { getFirestore, doc, updateDoc, arrayUnion, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBgc-OYf_lq9bTu_lQv46XbYtnEp4SBynY",
-            authDomain: "hsk-plus-web.firebaseapp.com",
-            projectId: "hsk-plus-web",
-            storageBucket: "hsk-plus-web.firebasestorage.app",
-            messagingSenderId: "757004452643",
-            appId: "1:757004452643:web:cbef488f9d7699ac034296",
-            measurementId: "G-8XVEFW19DQ"
-        };
-
+        const firebaseConfig = { apiKey: "AIzaSyBgc-OYf_lq9bTu_lQv46XbYtnEp4SBynY", authDomain: "hsk-plus-web.firebaseapp.com", projectId: "hsk-plus-web", storageBucket: "hsk-plus-web.firebasestorage.app", messagingSenderId: "757004452643", appId: "1:757004452643:web:cbef488f9d7699ac034296", measurementId: "G-8XVEFW19DQ" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         let currentUser = null;
-
         onAuthStateChanged(auth, (user) => currentUser = user);
-
         window.saveTestResult = async function(score, total) {
             if (!currentUser) return;
             const userRef = doc(db, "users", currentUser.uid);
             try {
                 const docSnap = await getDoc(userRef);
-                const data = { testName: "HSK 1 Mock", score, total, date: new Date().toISOString(), pass: score >= 120 };
+                const data = { testName: "HSK 1 Mock (Random)", score, total, date: new Date().toISOString(), pass: score >= 120 };
                 if (!docSnap.exists()) await setDoc(userRef, { testHistory: [data] });
                 else await updateDoc(userRef, { testHistory: arrayUnion(data) });
             } catch (e) { console.error(e); }
@@ -184,32 +145,409 @@
     </script>
 
     <script>
-        let examData = [];
-        let currentIdx = 0;
-        let userAnswers = []; // Sẽ khởi tạo lại khi load data
-        let timeLeft = 40 * 60;
-        let timerInterval;
+        // --- 1. NGÂN HÀNG TỪ VỰNG (ĐÃ CHUYỂN TỪ PYTHON SANG JS) ---
+        const hsk1_vocab = [
+            # --- DANH TỪ (Con người) ---
+    {"word": "我", "pinyin": "wǒ", "meaning": "I/Me", "sentence": "Wǒ shì xuéshēng (Tôi là học sinh)",
+     "category": "pronoun"},
+    {"word": "我们", "pinyin": "wǒmen", "meaning": "We/Us", "sentence": "Wǒmen qù xuéxiào (Chúng tôi đi trường học)",
+     "category": "pronoun"},
+    {"word": "你", "pinyin": "nǐ", "meaning": "You", "sentence": "Nǐ hǎo ma? (Bạn khỏe không?)", "category": "pronoun"},
+    {"word": "他", "pinyin": "tā", "meaning": "He/Him", "sentence": "Tā shì wǒ péngyou (Anh ấy là bạn tôi)",
+     "category": "pronoun"},
+    {"word": "她", "pinyin": "tā", "meaning": "She/Her", "sentence": "Tā hěn piàoliang (Cô ấy rất đẹp)",
+     "category": "pronoun"},
+    {"word": "爸爸", "pinyin": "bàba", "meaning": "Dad", "sentence": "Wǒ bàba shì yīshēng (Bố tôi là bác sĩ)",
+     "category": "noun"},
+    {"word": "妈妈", "pinyin": "māma", "meaning": "Mom", "sentence": "Wǒ ài māma (Tôi yêu mẹ)", "category": "noun"},
+    {"word": "儿子", "pinyin": "érzi", "meaning": "Son", "sentence": "Tā yǒu yī ge érzi (Anh ấy có 1 con trai)",
+     "category": "noun"},
+    {"word": "女儿", "pinyin": "nǚ'ér", "meaning": "Daughter", "sentence": "Zhè shì wǒ nǚ'ér (Đây là con gái tôi)",
+     "category": "noun"},
+    {"word": "老师", "pinyin": "lǎoshī", "meaning": "Teacher", "sentence": "Lǎoshī hǎo (Chào thầy/cô)",
+     "category": "noun"},
+    {"word": "学生", "pinyin": "xuéshēng", "meaning": "Student",
+     "sentence": "Wǒmen shì xuéshēng (Chúng tôi là học sinh)", "category": "noun"},
+    {"word": "同学", "pinyin": "tóngxué", "meaning": "Classmate",
+     "sentence": "Tā shì wǒ tóngxué (Cô ấy là bạn học của tôi)", "category": "noun"},
+    {"word": "朋友", "pinyin": "péngyou", "meaning": "Friend",
+     "sentence": "Nǐ shì wǒ de hǎo péngyou (Bạn là bạn tốt của tôi)", "category": "noun"},
+    {"word": "医生", "pinyin": "yīshēng", "meaning": "Doctor", "sentence": "Wǒ qù kàn yīshēng (Tôi đi khám bác sĩ)",
+     "category": "noun"},
+    {"word": "先生", "pinyin": "xiānsheng", "meaning": "Mr./Sir",
+     "sentence": "Wáng xiānsheng zài ma? (Ông Vương có đó không?)", "category": "noun"},
+    {"word": "小姐", "pinyin": "xiǎojiě", "meaning": "Miss", "sentence": "Lǐ xiǎojiě hěn gāoxìng (Cô Lý rất vui)",
+     "category": "noun"},
+    {"word": "人", "pinyin": "rén", "meaning": "Person", "sentence": "Zhōngguó rén (Người Trung Quốc)",
+     "category": "noun"},
+    {"word": "名字", "pinyin": "míngzi", "meaning": "Name", "sentence": "Nǐ jiào shénme míngzi? (Bạn tên là gì?)",
+     "category": "noun"},
 
-        // Chỉ tải dữ liệu, chưa chạy đồng hồ
-        fetch('exam_data.json')
-            .then(res => res.json())
-            .then(data => {
-                examData = data;
-                // Lọc ra các câu KHÔNG PHẢI VÍ DỤ để tạo bảng trả lời
-                const realQuestionsCount = examData.filter(q => !q.isExample).length;
-                // Mảng câu trả lời phải map theo ID thực tế, ở đây dùng simple map
-                // Lưu ý: examData có cả ví dụ xen kẽ.
-                userAnswers = new Array(examData.length).fill(null);
-                console.log("Data loaded. Waiting for start.");
-            })
-            .catch(err => alert("Lỗi tải đề thi! (Cần chạy trên Server)"));
+    # --- DANH TỪ (Đồ vật / Nơi chốn) ---
+    {"word": "书", "pinyin": "shū", "meaning": "Book", "sentence": "Wǒ kàn shū (Tôi đọc sách)", "category": "noun"},
+    {"word": "椅子", "pinyin": "yǐzi", "meaning": "Chair", "sentence": "Zhè shì shéi de yǐzi? (Đây là ghế của ai?)",
+     "category": "noun"},
+    {"word": "桌子", "pinyin": "zhuōzi", "meaning": "Table", "sentence": "Shū zài zhuōzi shàng (Sách ở trên bàn)",
+     "category": "noun"},
+    {"word": "杯子", "pinyin": "bēizi", "meaning": "Cup", "sentence": "Yī ge bēizi (Một cái cốc)", "category": "noun"},
+    {"word": "电脑", "pinyin": "diànnǎo", "meaning": "Computer", "sentence": "Wǒ mǎi diànnǎo (Tôi mua máy tính)",
+     "category": "noun"},
+    {"word": "电视", "pinyin": "diànshì", "meaning": "Television", "sentence": "Kàn diànshì (Xem TV)",
+     "category": "noun"},
+    {"word": "电影", "pinyin": "diànyǐng", "meaning": "Movie", "sentence": "Qù kàn diànyǐng (Đi xem phim)",
+     "category": "noun"},
+    {"word": "飞机", "pinyin": "fēijī", "meaning": "Airplane", "sentence": "Wǒ zuò fēijī (Tôi ngồi máy bay)",
+     "category": "noun"},
+    {"word": "出租车", "pinyin": "chūzūchē", "meaning": "Taxi", "sentence": "Wǒ jiào chūzūchē (Tôi gọi taxi)",
+     "category": "noun"},
+    {"word": "家", "pinyin": "jiā", "meaning": "Home/Family", "sentence": "Wǒ huí jiā (Tôi về nhà)",
+     "category": "noun"},
+    {"word": "学校", "pinyin": "xuéxiào", "meaning": "School", "sentence": "Wǒ qù xuéxiào (Tôi đến trường)",
+     "category": "noun"},
+    {"word": "饭店", "pinyin": "fàndiàn", "meaning": "Restaurant/Hotel",
+     "sentence": "Qù fàndiàn chī fàn (Đi nhà hàng ăn cơm)", "category": "noun"},
+    {"word": "商店", "pinyin": "shāngdiàn", "meaning": "Shop/Store",
+     "sentence": "Tā zài shāngdiàn mǎi dōngxi (Cô ấy mua đồ ở cửa hàng)", "category": "noun"},
+    {"word": "医院", "pinyin": "yīyuàn", "meaning": "Hospital", "sentence": "Yīyuàn zài nǎr? (Bệnh viện ở đâu?)",
+     "category": "noun"},
+    {"word": "火车站", "pinyin": "huǒchēzhàn", "meaning": "Train Station",
+     "sentence": "Wǒ qù huǒchēzhàn (Tôi đi ga tàu hỏa)", "category": "noun"},
+    {"word": "中国", "pinyin": "Zhōngguó", "meaning": "China", "sentence": "Wǒ ài Zhōngguó (Tôi yêu Trung Quốc)",
+     "category": "noun"},
+    {"word": "北京", "pinyin": "Běijīng", "meaning": "Beijing", "sentence": "Wǒ zhù zài Běijīng (Tôi sống ở Bắc Kinh)",
+     "category": "noun"},
+    {"word": "东西", "pinyin": "dōngxi", "meaning": "Thing", "sentence": "Mǎi dōngxi (Mua đồ)", "category": "noun"},
+    {"word": "钱", "pinyin": "qián", "meaning": "Money", "sentence": "Duōshǎo qián? (Bao nhiêu tiền?)",
+     "category": "noun"},
+    {"word": "水", "pinyin": "shuǐ", "meaning": "Water", "sentence": "Hē shuǐ (Uống nước)", "category": "noun"},
+    {"word": "茶", "pinyin": "chá", "meaning": "Tea", "sentence": "Hē chá (Uống trà)", "category": "noun"},
+    {"word": "米饭", "pinyin": "mǐfàn", "meaning": "Rice", "sentence": "Chī mǐfàn (Ăn cơm)", "category": "noun"},
+    {"word": "菜", "pinyin": "cài", "meaning": "Dish/Vegetable", "sentence": "Hǎochī de cài (Món ăn ngon)",
+     "category": "noun"},
+    {"word": "水果", "pinyin": "shuǐguǒ", "meaning": "Fruit", "sentence": "Chī shuǐguǒ (Ăn trái cây)",
+     "category": "noun"},
+    {"word": "苹果", "pinyin": "píngguǒ", "meaning": "Apple", "sentence": "Zhège píngguǒ hěn dà (Quả táo này rất to)",
+     "category": "noun"},
+    {"word": "猫", "pinyin": "māo", "meaning": "Cat", "sentence": "Wǒ xǐhuan māo (Tôi thích mèo)", "category": "noun"},
+    {"word": "狗", "pinyin": "gǒu", "meaning": "Dog", "sentence": "Nà shì wǒ de gǒu (Đó là chó của tôi)",
+     "category": "noun"},
+    {"word": "衣服", "pinyin": "yīfu", "meaning": "Clothes", "sentence": "Piàoliang de yīfu (Quần áo đẹp)",
+     "category": "noun"},
+    {"word": "天气", "pinyin": "tiānqì", "meaning": "Weather", "sentence": "Tiānqì hěn hǎo (Thời tiết rất tốt)",
+     "category": "noun"},
+    {"word": "字", "pinyin": "zì", "meaning": "Character", "sentence": "Hànzì (Chữ Hán)", "category": "noun"},
+    {"word": "汉语", "pinyin": "Hànyǔ", "meaning": "Chinese language", "sentence": "Wǒ xué Hànyǔ (Tôi học tiếng Trung)",
+     "category": "noun"},
+
+    # --- SỐ ĐẾM & THỜI GIAN ---
+    {"word": "一", "pinyin": "yī", "meaning": "One", "sentence": "Yī ge rén (1 người)", "category": "number"},
+    {"word": "二", "pinyin": "èr", "meaning": "Two", "sentence": "Èr běn shū (2 quyển sách)", "category": "number"},
+    {"word": "三", "pinyin": "sān", "meaning": "Three", "sentence": "Sān ge (3 cái)", "category": "number"},
+    {"word": "四", "pinyin": "sì", "meaning": "Four", "sentence": "Sì diǎn (4 giờ)", "category": "number"},
+    {"word": "五", "pinyin": "wǔ", "meaning": "Five", "sentence": "Wǔ tiān (5 ngày)", "category": "number"},
+    {"word": "六", "pinyin": "liù", "meaning": "Six", "sentence": "Liù ge (6 cái)", "category": "number"},
+    {"word": "七", "pinyin": "qī", "meaning": "Seven", "sentence": "Qī yuè (Tháng 7)", "category": "number"},
+    {"word": "八", "pinyin": "bā", "meaning": "Eight", "sentence": "Bā ge (8 cái)", "category": "number"},
+    {"word": "九", "pinyin": "jiǔ", "meaning": "Nine", "sentence": "Jiǔ diǎn (9 giờ)", "category": "number"},
+    {"word": "十", "pinyin": "shí", "meaning": "Ten", "sentence": "Shí ge (10 cái)", "category": "number"},
+    {"word": "零", "pinyin": "líng", "meaning": "Zero", "sentence": "Èr líng èr liù (2026)", "category": "number"},
+    {"word": "点", "pinyin": "diǎn", "meaning": "O'clock/Dot", "sentence": "Bā diǎn (8 giờ)", "category": "time"},
+    {"word": "分钟", "pinyin": "fēnzhōng", "meaning": "Minute", "sentence": "Sānshí fēnzhōng (30 phút)",
+     "category": "time"},
+    {"word": "现在", "pinyin": "xiànzài", "meaning": "Now", "sentence": "Xiànzài jǐ diǎn? (Bây giờ mấy giờ?)",
+     "category": "time"},
+    {"word": "时候", "pinyin": "shíhou", "meaning": "Time/Moment", "sentence": "Shénme shíhou? (Khi nào?)",
+     "category": "time"},
+    {"word": "今天", "pinyin": "jīntiān", "meaning": "Today", "sentence": "Jīntiān hěn rè (Hôm nay rất nóng)",
+     "category": "time"},
+    {"word": "明天", "pinyin": "míngtiān", "meaning": "Tomorrow", "sentence": "Míngtiān jiàn (Mai gặp lại)",
+     "category": "time"},
+    {"word": "昨天", "pinyin": "zuótiān", "meaning": "Yesterday",
+     "sentence": "Zuótiān wǒ méi qù (Hôm qua tôi không đi)", "category": "time"},
+    {"word": "上午", "pinyin": "shàngwǔ", "meaning": "Morning", "sentence": "Shàngwǔ hǎo (Chào buổi sáng)",
+     "category": "time"},
+    {"word": "中午", "pinyin": "zhōngwǔ", "meaning": "Noon", "sentence": "Zhōngwǔ chī shénme? (Trưa ăn gì?)",
+     "category": "time"},
+    {"word": "下午", "pinyin": "xiàwǔ", "meaning": "Afternoon", "sentence": "Xiàwǔ sān diǎn (3 giờ chiều)",
+     "category": "time"},
+    {"word": "年", "pinyin": "nián", "meaning": "Year", "sentence": "Jīnnián (Năm nay)", "category": "time"},
+    {"word": "月", "pinyin": "yuè", "meaning": "Month", "sentence": "Yī yuè (Tháng 1)", "category": "time"},
+    {"word": "日", "pinyin": "rì", "meaning": "Day/Sun", "sentence": "Sān rì (Ngày 3)", "category": "time"},
+    {"word": "星期", "pinyin": "xīngqī", "meaning": "Week", "sentence": "Xīngqī yī (Thứ hai)", "category": "time"},
+
+    # --- ĐỘNG TỪ ---
+    {"word": "是", "pinyin": "shì", "meaning": "To be (is/am/are)", "sentence": "Wǒ shì xuéshēng (Tôi là học sinh)",
+     "category": "verb"},
+    {"word": "有", "pinyin": "yǒu", "meaning": "To have", "sentence": "Wǒ yǒu qián (Tôi có tiền)", "category": "verb"},
+    {"word": "看", "pinyin": "kàn", "meaning": "Look/Watch/Read", "sentence": "Kàn shū (Đọc sách)", "category": "verb"},
+    {"word": "听", "pinyin": "tīng", "meaning": "Listen", "sentence": "Tīng yīnyuè (Nghe nhạc)", "category": "verb"},
+    {"word": "说", "pinyin": "shuō", "meaning": "Speak/Say", "sentence": "Shuō Hànyǔ (Nói tiếng Trung)",
+     "category": "verb"},
+    {"word": "读", "pinyin": "dú", "meaning": "Read", "sentence": "Dú shū (Đọc sách)", "category": "verb"},
+    {"word": "写", "pinyin": "xiě", "meaning": "Write", "sentence": "Xiě zì (Viết chữ)", "category": "verb"},
+    {"word": "看见", "pinyin": "kànjiàn", "meaning": "See (result)",
+     "sentence": "Wǒ kànjiàn tā le (Tôi nhìn thấy anh ấy rồi)", "category": "verb"},
+    {"word": "叫", "pinyin": "jiào", "meaning": "Call/Name", "sentence": "Nǐ jiào shénme? (Bạn tên là gì?)",
+     "category": "verb"},
+    {"word": "来", "pinyin": "lái", "meaning": "Come", "sentence": "Tā lái le ma? (Anh ấy đến chưa?)",
+     "category": "verb"},
+    {"word": "回", "pinyin": "huí", "meaning": "Return", "sentence": "Huí jiā (Về nhà)", "category": "verb"},
+    {"word": "去", "pinyin": "qù", "meaning": "Go", "sentence": "Qù xuéxiào (Đi học)", "category": "verb"},
+    {"word": "吃", "pinyin": "chī", "meaning": "Eat", "sentence": "Chī fàn (Ăn cơm)", "category": "verb"},
+    {"word": "喝", "pinyin": "hē", "meaning": "Drink", "sentence": "Hē shuǐ (Uống nước)", "category": "verb"},
+    {"word": "睡觉", "pinyin": "shuìjiào", "meaning": "Sleep", "sentence": "Wǒ yào shuìjiào (Tôi muốn ngủ)",
+     "category": "verb"},
+    {"word": "打电话", "pinyin": "dǎ diànhuà", "meaning": "Call phone",
+     "sentence": "Gěi māma dǎ diànhuà (Gọi điện cho mẹ)", "category": "verb"},
+    {"word": "做", "pinyin": "zuò", "meaning": "Do/Make", "sentence": "Zuò fàn (Nấu cơm)", "category": "verb"},
+    {"word": "买", "pinyin": "mǎi", "meaning": "Buy", "sentence": "Mǎi dōngxi (Mua đồ)", "category": "verb"},
+    {"word": "开", "pinyin": "kāi", "meaning": "Open/Drive", "sentence": "Kāi chē (Lái xe)", "category": "verb"},
+    {"word": "坐", "pinyin": "zuò", "meaning": "Sit", "sentence": "Qǐng zuò (Mời ngồi)", "category": "verb"},
+    {"word": "住", "pinyin": "zhù", "meaning": "Live", "sentence": "Nǐ zhù zài nǎr? (Bạn sống ở đâu?)",
+     "category": "verb"},
+    {"word": "学习", "pinyin": "xuéxí", "meaning": "Study", "sentence": "Xuéxí Hànyǔ (Học tiếng Trung)",
+     "category": "verb"},
+    {"word": "工作", "pinyin": "gōngzuò", "meaning": "Work", "sentence": "Wǒ zài gōngzuò (Tôi đang làm việc)",
+     "category": "verb"},
+    {"word": "下雨", "pinyin": "xià yǔ", "meaning": "Rain", "sentence": "Jīntiān xià yǔ (Hôm nay trời mưa)",
+     "category": "verb"},
+    {"word": "爱", "pinyin": "ài", "meaning": "Love", "sentence": "Wǒ ài nǐ (Tôi yêu bạn)", "category": "verb"},
+    {"word": "喜欢", "pinyin": "xǐhuan", "meaning": "Like", "sentence": "Wǒ xǐhuan chī (Tôi thích ăn)",
+     "category": "verb"},
+    {"word": "想", "pinyin": "xiǎng", "meaning": "Want/Think", "sentence": "Wǒ xiǎng qù (Tôi muốn đi)",
+     "category": "verb"},
+    {"word": "认识", "pinyin": "rènshi", "meaning": "Know/Meet",
+     "sentence": "Rènshi nǐ hěn gāoxìng (Rất vui được quen bạn)", "category": "verb"},
+    {"word": "会", "pinyin": "huì", "meaning": "Can", "sentence": "Wǒ huì shuō Hànyǔ (Tôi biết nói tiếng Trung)",
+     "category": "verb"},
+    {"word": "能", "pinyin": "néng", "meaning": "Can/Able to", "sentence": "Wǒ néng zuò (Tôi có thể làm)",
+     "category": "verb"},
+
+    # --- TÍNH TỪ ---
+    {"word": "好", "pinyin": "hǎo", "meaning": "Good", "sentence": "Nǐ hǎo (Chào bạn)", "category": "adjective"},
+    {"word": "多", "pinyin": "duō", "meaning": "Many/Much", "sentence": "Hěn duō (Rất nhiều)", "category": "adjective"},
+    {"word": "少", "pinyin": "shǎo", "meaning": "Few/Little", "sentence": "Hěn shǎo (Rất ít)", "category": "adjective"},
+    {"word": "冷", "pinyin": "lěng", "meaning": "Cold", "sentence": "Jīntiān hěn lěng (Hôm nay rất lạnh)",
+     "category": "adjective"},
+    {"word": "热", "pinyin": "rè", "meaning": "Hot", "sentence": "Tiānqì hěn rè (Thời tiết rất nóng)",
+     "category": "adjective"},
+    {"word": "高兴", "pinyin": "gāoxìng", "meaning": "Happy", "sentence": "Hěn gāoxìng (Rất vui)",
+     "category": "adjective"},
+    {"word": "漂亮", "pinyin": "piàoliang", "meaning": "Beautiful", "sentence": "Tā hěn piàoliang (Cô ấy rất đẹp)",
+     "category": "adjective"},
+    {"word": "大", "pinyin": "dà", "meaning": "Big", "sentence": "Fángzi hěn dà (Nhà rất to)", "category": "adjective"},
+    {"word": "小", "pinyin": "xiǎo", "meaning": "Small", "sentence": "Gǒu hěn xiǎo (Chó rất nhỏ)",
+     "category": "adjective"},
+
+    # --- PHÓ TỪ & KHÁC ---
+    {"word": "不", "pinyin": "bù", "meaning": "No/Not", "sentence": "Bù hǎo (Không tốt)", "category": "adverb"},
+    {"word": "没", "pinyin": "méi", "meaning": "No (past/have)", "sentence": "Wǒ méi yǒu (Tôi không có)",
+     "category": "adverb"},
+    {"word": "很", "pinyin": "hěn", "meaning": "Very", "sentence": "Hěn hǎo (Rất tốt)", "category": "adverb"},
+    {"word": "太", "pinyin": "tài", "meaning": "Too/Extremely", "sentence": "Tài dà le (To quá)", "category": "adverb"},
+    {"word": "都", "pinyin": "dōu", "meaning": "All", "sentence": "Wǒmen dōu qù (Chúng tôi đều đi)",
+     "category": "adverb"},
+    {"word": "和", "pinyin": "hé", "meaning": "And", "sentence": "Wǒ hé nǐ (Tôi và bạn)", "category": "conjunction"},
+    {"word": "在", "pinyin": "zài", "meaning": "At/In", "sentence": "Zài jiā (Ở nhà)", "category": "preposition"},
+    {"word": "里", "pinyin": "lǐ", "meaning": "Inside", "sentence": "Xuéxiào lǐ (Trong trường)",
+     "category": "position"},
+    {"word": "上", "pinyin": "shàng", "meaning": "Up/On", "sentence": "Zhuōzi shàng (Trên bàn)",
+     "category": "position"},
+    {"word": "下", "pinyin": "xià", "meaning": "Down/Under", "sentence": "Yǐzi xià (Dưới ghế)", "category": "position"},
+    {"word": "前", "pinyin": "qián", "meaning": "Front", "sentence": "Qiánmiàn (Phía trước)", "category": "position"},
+    {"word": "后", "pinyin": "hòu", "meaning": "Back", "sentence": "Hòumiàn (Phía sau)", "category": "position"},
+    {"word": "这", "pinyin": "zhè", "meaning": "This", "sentence": "Zhè shì shénme? (Đây là gì?)",
+     "category": "pronoun"},
+    {"word": "那", "pinyin": "nà", "meaning": "That", "sentence": "Nà shì shū (Đó là sách)", "category": "pronoun"},
+    {"word": "哪", "pinyin": "nǎ", "meaning": "Which", "sentence": "Nǎ ge? (Cái nào?)", "category": "pronoun"},
+    {"word": "哪儿", "pinyin": "nǎr", "meaning": "Where", "sentence": "Nǐ zài nǎr? (Bạn ở đâu?)",
+     "category": "pronoun"},
+    {"word": "谁", "pinyin": "shéi", "meaning": "Who", "sentence": "Tā shì shéi? (Anh ấy là ai?)",
+     "category": "pronoun"},
+    {"word": "什么", "pinyin": "shénme", "meaning": "What", "sentence": "Shénme dōngxi? (Cái gì?)",
+     "category": "pronoun"},
+    {"word": "多少", "pinyin": "duōshao", "meaning": "How many/much", "sentence": "Duōshǎo qián? (Bao nhiêu tiền?)",
+     "category": "pronoun"},
+    {"word": "几", "pinyin": "jǐ", "meaning": "How many (<10)", "sentence": "Jǐ ge rén? (Mấy người?)",
+     "category": "pronoun"},
+    {"word": "怎么", "pinyin": "zěnme", "meaning": "How", "sentence": "Zěnme qù? (Đi thế nào?)", "category": "pronoun"},
+    {"word": "怎么样", "pinyin": "zěnmeyàng", "meaning": "How about",
+     "sentence": "Tiānqì zěnmeyàng? (Thời tiết thế nào?)", "category": "pronoun"},
+    {"word": "的", "pinyin": "de", "meaning": "Of (possessive)", "sentence": "Wǒ de shū (Sách của tôi)",
+     "category": "particle"},
+    {"word": "了", "pinyin": "le", "meaning": "Past tense marker", "sentence": "Tā lái le (Anh ấy đến rồi)",
+     "category": "particle"},
+    {"word": "吗", "pinyin": "ma", "meaning": "Question particle", "sentence": "Hǎo ma? (Được không?)",
+     "category": "particle"},
+    {"word": "呢", "pinyin": "ne", "meaning": "Question particle", "sentence": "Nǐ ne? (Còn bạn?)",
+     "category": "particle"},
+    {"word": "喂", "pinyin": "wèi", "meaning": "Hello (phone)", "sentence": "Wèi, nǐ hǎo (Alo, xin chào)",
+     "category": "interjection"},
+    {"word": "谢谢", "pinyin": "xièxie", "meaning": "Thanks", "sentence": "Xièxie nǐ (Cảm ơn bạn)",
+     "category": "phrase"},
+    {"word": "不客气", "pinyin": "bú kèqi", "meaning": "You're welcome", "sentence": "Bú kèqi (Không có chi)",
+     "category": "phrase"},
+    {"word": "再见", "pinyin": "zàijiàn", "meaning": "Goodbye", "sentence": "Míngtiān jiàn (Mai gặp)",
+     "category": "phrase"},
+    {"word": "对不起", "pinyin": "duìbuqǐ", "meaning": "Sorry", "sentence": "Duìbuqǐ (Xin lỗi)", "category": "phrase"},
+    {"word": "没关系", "pinyin": "méi guānxi", "meaning": "No problem", "sentence": "Méi guānxi (Không sao đâu)",
+     "category": "phrase"},
+    {"word": "个", "pinyin": "gè", "meaning": "Measure word", "sentence": "Yī ge rén (1 người)", "category": "measure"},
+    {"word": "本", "pinyin": "běn", "meaning": "Measure word (book)", "sentence": "Yī běn shū (1 quyển sách)",
+     "category": "measure"},
+    {"word": "些", "pinyin": "xiē", "meaning": "Some", "sentence": "Zhèxiē (Những cái này)", "category": "measure"},
+    {"word": "块", "pinyin": "kuài", "meaning": "Piece/Yuan", "sentence": "Yī kuài qián (1 đồng)",
+     "category": "measure"},
+    {"word": "岁", "pinyin": "suì", "meaning": "Years old", "sentence": "Wǒ bā suì (Tôi 8 tuổi)", "category": "measure"}
+        ];
+
+        const qa_pairs = [
+            {"q": "Nǐ jiào shénme?", "a": "Wǒ jiào David"},
+            {"q": "Xièxie!", "a": "Bú kèqi"},
+            {"q": "Zàijiàn!", "a": "Míngtiān jiàn"},
+            {"q": "Duōshǎo qián?", "a": "Wǔ kuài"},
+            {"q": "Nǐ qù nǎr?", "a": "Huí jiā"},
+            {"q": "Jīntiān jǐ hào?", "a": "Bā hào"},
+            {"q": "Tā shì shéi?", "a": "Wǒ lǎoshī"}
+        ];
+
+        // --- 2. HÀM HỖ TRỢ (TƯƠNG TỰ PYTHON) ---
+        function getImg(text) {
+            return `https://placehold.co/400x300/2C3E50/FFF?text=${text.replace(/ /g, '+')}`;
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getDistractors(target, count) {
+            const pool = hsk1_vocab.filter(x => x !== target);
+            return shuffle(pool).slice(0, count);
+        }
+
+        function getRandomItem() {
+            return hsk1_vocab[Math.floor(Math.random() * hsk1_vocab.length)];
+        }
+
+        // --- 3. HÀM SINH ĐỀ THI (CHẠY KHI VÀO TRANG) ---
+        let examData = [];
+        let globalId = 1;
+
+        function addQ(type, section, content, audio, img, opts, correct, optType='text', isExample=false) {
+            examData.push({
+                id: globalId,
+                isExample, type, section, content, audioText: audio, image: img,
+                options: opts, optionType: optType, correct
+            });
+            if (!isExample) globalId++;
+        }
+
+        function generateExam() {
+            examData = [];
+            globalId = 1;
+
+            // --- LISTENING ---
+            // Part 1: Đúng/Sai
+            addQ("listening", "Nghe P1: Đúng/Sai", "Wǒ hěn gāoxìng (Vui vẻ)", "Wǒ hěn gāoxìng", getImg("Happy"), ["Đúng", "Sai"], 0, "text", true);
+            for(let i=0; i<5; i++) {
+                const item = getRandomItem();
+                const isTrue = Math.random() < 0.5;
+                const display = isTrue ? item : getRandomItem();
+                addQ("listening", "Nghe P1: Đúng/Sai", `${item.word} (${item.meaning})`, item.word, getImg(display.meaning), ["Đúng", "Sai"], isTrue ? 0 : 1);
+            }
+
+            // Part 2: Chọn Hình
+            addQ("listening", "Nghe P2: Chọn hình", "Nghe và chọn hình:", "Zhè shì shū", null, [getImg("Book"), getImg("Dog"), getImg("Car")], 0, "image", true);
+            for(let i=0; i<5; i++) {
+                const target = getRandomItem();
+                const dist = getDistractors(target, 2);
+                let opts = [target, ...dist];
+                opts = shuffle(opts);
+                const imgOpts = opts.map(x => getImg(x.meaning));
+                addQ("listening", "Nghe P2: Chọn hình", "Nghe câu và chọn hình:", target.sentence, null, imgOpts, opts.indexOf(target), "image");
+            }
+
+            // Part 3: Hội thoại
+            addQ("listening", "Nghe P3: Hội thoại", "Nghe hội thoại chọn hình:", "A: Nǐ hǎo! B: Nǐ hǎo!", null, [getImg("Hello"), getImg("Bye"), getImg("Eat")], 0, "image", true);
+            for(let i=0; i<5; i++) {
+                const target = getRandomItem();
+                const dist = getDistractors(target, 2);
+                let opts = [target, ...dist];
+                opts = shuffle(opts);
+                const imgOpts = opts.map(x => getImg(x.meaning));
+                addQ("listening", "Nghe P3: Hội thoại", "Nghe hội thoại và chọn hình:", `A: Nǐ xǐhuan ${target.pinyin} ma? \n B: Hěn xǐhuan!`, null, imgOpts, opts.indexOf(target), "image");
+            }
+
+            // Part 4: Chọn Text
+            addQ("listening", "Nghe P4: Chọn đáp án", "Chọn câu trả lời:", "Tā zài nǎr?", null, ["Zài jiā", "Chī fàn", "Xuéxiào"], 0, "text", true);
+            for(let i=0; i<5; i++) {
+                const target = getRandomItem();
+                const dist = getDistractors(target, 2);
+                let opts = [target.word, dist[0].word, dist[1].word];
+                opts = shuffle(opts);
+                addQ("listening", "Nghe P4: Chọn đáp án", `Zhè shì shénme? - ${target.meaning}`, null, null, opts, opts.indexOf(target.word), "text");
+            }
+
+            // --- READING ---
+            // Part 1: Đúng/Sai
+            addQ("reading", "Đọc P1: Đúng/Sai", "Diànnǎo (Máy tính)", null, getImg("Computer"), ["Đúng", "Sai"], 0, "text", true);
+            for(let i=0; i<5; i++) {
+                const item = getRandomItem();
+                const isTrue = Math.random() < 0.5;
+                const display = isTrue ? item : getRandomItem();
+                addQ("reading", "Đọc P1: Đúng/Sai", `${item.word} (${item.pinyin})`, null, getImg(display.meaning), ["Đúng", "Sai"], isTrue ? 0 : 1);
+            }
+
+            // Part 2: Chọn Hình
+            addQ("reading", "Đọc P2: Chọn hình", "Wǒ hē chá.", null, null, [getImg("Tea"), getImg("Rice"), getImg("Water")], 0, "image", true);
+            for(let i=0; i<5; i++) {
+                const target = getRandomItem();
+                const dist = getDistractors(target, 2);
+                let opts = [target, ...dist];
+                opts = shuffle(opts);
+                const imgOpts = opts.map(x => getImg(x.meaning));
+                addQ("reading", "Đọc P2: Chọn hình", target.sentence, null, null, imgOpts, opts.indexOf(target), "image");
+            }
+
+            // Part 3: Hỏi Đáp
+            addQ("reading", "Đọc P3: Hỏi Đáp", "Nǐ hǎo ma?", null, null, ["Hěn hǎo", "Xièxie", "Duìbuqǐ"], 0, "text", true);
+            const pairs = shuffle([...qa_pairs]).slice(0, 5);
+            for(let p of pairs) {
+                const target = p.a;
+                const others = qa_pairs.filter(x => x.a !== target).map(x => x.a);
+                const dist = shuffle(others).slice(0, 2);
+                let opts = shuffle([target, ...dist]);
+                addQ("reading", "Đọc P3: Hỏi Đáp", p.q, null, null, opts, opts.indexOf(target));
+            }
+
+            // Part 4: Điền từ
+            addQ("reading", "Đọc P4: Điền từ", "Wǒ ___ xuéshēng (Tôi là HS).", null, null, ["shì", "bù", "hǎo"], 0, "text", true);
+            for(let i=0; i<5; i++) {
+                const target = getRandomItem();
+                const dist = getDistractors(target, 2);
+                let opts = shuffle([target.word, dist[0].word, dist[1].word]);
+                addQ("reading", "Đọc P4: Điền từ", `Wǒ ___ ${target.word}.`, null, null, opts, opts.indexOf(target.word));
+            }
+        }
+
+        // --- LOGIC GIAO DIỆN (VIEW) ---
+        let currentIdx = 0;
+        let userAnswers = [];
+        let timerInterval;
+        let timeLeft = 40 * 60;
+
+        // TẠO ĐỀ NGAY LẬP TỨC
+        generateExam();
+        userAnswers = new Array(examData.length).fill(null);
 
         function startExam() {
-            if (examData.length === 0) { alert("Đang tải dữ liệu, vui lòng đợi..."); return; }
             document.getElementById('start-screen').style.display = 'none';
             renderSidebar();
             loadQuestion(0);
-            
             timerInterval = setInterval(() => {
                 timeLeft--;
                 const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
@@ -225,15 +563,12 @@
             listGrid.innerHTML = ""; readGrid.innerHTML = "";
 
             examData.forEach((q, idx) => {
-                // Không hiển thị câu ví dụ trên sidebar
                 if (q.isExample) return;
-
                 const div = document.createElement('div');
                 div.className = 'q-dot';
-                div.innerText = q.id; // Hiển thị ID câu hỏi thực tế
+                div.innerText = q.id;
                 div.id = `dot-${idx}`;
                 div.onclick = () => loadQuestion(idx);
-                
                 if (q.type === 'listening') listGrid.appendChild(div);
                 else readGrid.appendChild(div);
             });
@@ -242,8 +577,6 @@
         function loadQuestion(idx) {
             currentIdx = idx;
             const q = examData[idx];
-            
-            // Xử lý giao diện Ví dụ
             const card = document.getElementById('q-card');
             const exTag = document.getElementById('example-tag');
             
@@ -253,8 +586,6 @@
             } else {
                 card.classList.remove('example-mode');
                 exTag.style.display = 'none';
-                
-                // Highlight sidebar (chỉ highlight câu thật)
                 document.querySelectorAll('.q-dot').forEach(d => d.classList.remove('active'));
                 const dot = document.getElementById(`dot-${idx}`);
                 if (dot) dot.classList.add('active');
@@ -263,19 +594,16 @@
             document.getElementById('section-badge').innerText = q.section;
             document.getElementById('audio-control').style.display = q.type === 'listening' ? 'flex' : 'none';
 
-            // Content
             let html = `<div class="q-text">${q.content}</div>`;
             if (q.image) html += `<div class="q-image-container"><img src="${q.image}"></div>`;
             document.getElementById('question-content').innerHTML = html;
 
-            // Options
             const container = document.getElementById('options-container');
             container.innerHTML = "";
             const letters = ['A', 'B', 'C', 'D'];
 
-            // Kiểm tra loại hiển thị đáp án (Image Grid hay Text List)
             if (q.optionType === 'image') {
-                container.className = "options-grid image-mode"; // Chuyển sang Grid 3 cột
+                container.className = "options-grid image-mode";
                 q.options.forEach((optImg, i) => {
                     const div = document.createElement('div');
                     div.className = `option-image-card ${userAnswers[idx] === i ? 'selected' : ''}`;
@@ -284,15 +612,12 @@
                     container.appendChild(div);
                 });
             } else {
-                container.className = "options-grid"; // Text List dọc
+                container.className = "options-grid";
                 q.options.forEach((optText, i) => {
                     const div = document.createElement('div');
                     div.className = `option-btn ${userAnswers[idx] === i ? 'selected' : ''}`;
-                    
-                    // Logic hiển thị A/B/C hay tích/chéo
                     let key = letters[i];
-                    if (q.options.length === 2) key = (i === 0) ? '✔' : '✘'; // Đúng/Sai
-                    
+                    if (q.options.length === 2) key = (i === 0) ? '✔' : '✘';
                     div.innerHTML = `<div class="option-key">${key}</div><div>${optText}</div>`;
                     div.onclick = () => selectAnswer(idx, i);
                     container.appendChild(div);
@@ -301,22 +626,18 @@
         }
 
         function selectAnswer(qIdx, ansIdx) {
-            // Nếu là ví dụ thì không cho chọn (hoặc chọn chơi thôi không lưu)
             if (examData[qIdx].isExample) return;
-
             userAnswers[qIdx] = ansIdx;
-            loadQuestion(qIdx); // Re-render
+            loadQuestion(qIdx);
             const dot = document.getElementById(`dot-${qIdx}`);
             if(dot) dot.classList.add('answered');
         }
 
         function nextQuestion() { if (currentIdx < examData.length - 1) loadQuestion(currentIdx + 1); }
         function prevQuestion() { if (currentIdx > 0) loadQuestion(currentIdx - 1); }
-
         function playAudio() {
-            const text = examData[currentIdx].audioText;
-            if (!text) return;
-            const u = new SpeechSynthesisUtterance(text);
+            if (!examData[currentIdx].audioText) return;
+            const u = new SpeechSynthesisUtterance(examData[currentIdx].audioText);
             u.lang = 'zh-CN'; u.rate = 0.8;
             window.speechSynthesis.speak(u);
         }
@@ -324,23 +645,17 @@
         function submitTest() {
             if(!confirm("Nộp bài ngay?")) return;
             clearInterval(timerInterval);
-            
             let correctCount = 0;
             let realQuestions = 0;
-
             examData.forEach((q, idx) => {
                 if (!q.isExample) {
                     realQuestions++;
                     if (userAnswers[idx] === q.correct) correctCount++;
                 }
             });
-
-            // Tính điểm (Thang 200)
             const score = Math.round((correctCount / realQuestions) * 200);
-            
             document.getElementById('resultModal').style.display = 'flex';
             document.getElementById('final-score').innerText = score;
-            
             const msg = document.getElementById('pass-msg');
             if (score >= 120) {
                 msg.innerText = "🎉 ĐẬU RỒI! (PASS)";
@@ -350,7 +665,6 @@
                 msg.innerText = "CẦN CỐ GẮNG HƠN (FAIL)";
                 msg.style.color = "var(--accent)";
             }
-
             if(window.saveTestResult) window.saveTestResult(score, 200);
         }
     </script>
